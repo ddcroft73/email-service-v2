@@ -1,13 +1,13 @@
 ### Email Micro Service V2
 
-Its pretty much the same service as before but a bit cleaner. I changed the file structure and this time I opted to use a docker-compose setup instead of a venv and 2 shell files to start it all up. THis way I just list all my services in the YAML file and build\run it and they just spin up like magic. This will be a service that I use on all my web projectst to send emails. It will be used to send plain text as well as HTML Emails. The main purpose will be verify Email emails, reset password emails, and anything pertaining to the apps core function. I'm going to use fastAPI to build the server, and I will also use CElery.
+Its pretty much the same service as before but a bit cleaner. I changed the file structure and this time I opted to use a docker-compose setup instead of a venv and 2 shell files to start it all up. THis way I just list all my services in the YAML file and build\run it and they just spin up like magic. This will be a service that I use on all my web projectst to send emails. It will be used to send plain text as well as HTML Emails. The main purpose will be verify Email emails, reset password emails, and anything pertaining to the apps core function. 
 
 #### Tech Stack:
-fastAPI<br>
-Celery<br>
-Redis<br>
-Docke Compose<br>
-Celert Flower
+[fastAPI](https://fastapi.tiangolo.com)<br>
+[Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)<br>
+[Redis](https://redis.io) <br>
+[Docker Compose](https://docs.docker.com/compose/) <br>
+[Celery Flower](https://flower.readthedocs.io/en/latest/index.html)
 
 SMTP Email functionality built using python email wrapped in a simple class.
 
@@ -52,6 +52,7 @@ This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
 Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). <br>
 
 #### Run Service:
+
 - `$ git clone https://github.com/ddcroft73/email-service-v2.git`
 - `cd into da repo`
 - `$ docker-compose up`
