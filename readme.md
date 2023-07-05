@@ -47,14 +47,14 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
 4. A response is sent back to the client with the task ID confirming that the email is being processed.
 5. The email is then dispatched on a FIFO basis.
 
-Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). 
-This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). 
-Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). 
+Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). <br>
+This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
+Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). <br>
 
 #### Run Service:
-- clone the repo
-- cd into da repo
-- $ docker-compose up
+- `$ git clone https://github.com/ddcroft73/email-service-v2.git`
+- `cd into da repo`
+- `$ docker-compose up`
 
 #### TODO:
 - Get the Celery portion, `tasks` finalized:
