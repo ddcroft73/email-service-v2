@@ -1,4 +1,4 @@
 __pycache__
 .env
 snippets.txt
-logs/*.log
+app/logs/*.log
