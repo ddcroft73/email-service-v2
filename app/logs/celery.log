@@ -1,0 +1,236 @@
+[2023-07-04 18:24:03,603: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:24:03,621: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:24:04,262: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:24:04,263: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:24:04,267: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:24:04,268: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:24:04,694: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:24:04,720: INFO/MainProcess] celery@2d01901b27e1 ready.
+[2023-07-04 18:24:05,282: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:24:05,283: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:24:05,343: INFO/MainProcess] celery@dfe8685e1d60 ready.
+[2023-07-04 18:24:05,346: INFO/MainProcess] celery@6eee980bbc3c ready.
+[2023-07-04 18:24:16,188: INFO/MainProcess] Task send_email_task[bc5d37b3-2814-4581-af8e-84dbb93cf0bc] received
+[2023-07-04 18:24:16,921: INFO/MainProcess] Task send_email_task[29c773a9-bfcc-41ba-8d70-ce2a635fa05d] received
+[2023-07-04 18:24:17,608: INFO/MainProcess] Task send_email_task[9cf146db-ce66-414e-b238-dd623227d5a7] received
+[2023-07-04 18:24:18,343: INFO/MainProcess] Task send_email_task[8675beb1-fee4-4fce-a006-87edaa185eae] received
+[2023-07-04 18:24:19,263: INFO/MainProcess] Task send_email_task[3817d789-3237-40c0-a13c-4d81ffec9ac8] received
+[2023-07-04 18:24:20,057: INFO/MainProcess] Task send_email_task[58c6755b-1b3e-41bb-a56e-babaa7b08fda] received
+[2023-07-04 18:24:20,939: INFO/MainProcess] Task send_email_task[4bb1f3c9-6bf3-44b1-b9a5-2ae9e682f17c] received
+[2023-07-04 18:24:21,830: INFO/MainProcess] Task send_email_task[3e49f5f0-e2f1-467f-8ff3-d6ebf54627d8] received
+[2023-07-04 18:24:22,482: INFO/MainProcess] Task send_email_task[564823f6-dc3c-4cf3-bb4e-c6191940f37f] received
+[2023-07-04 18:24:22,690: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:22,695: INFO/ForkPoolWorker-1] send_email_task[9cf146db-ce66-414e-b238-dd623227d5a7]: sent
+[2023-07-04 18:24:22,734: INFO/ForkPoolWorker-1] Task send_email_task[9cf146db-ce66-414e-b238-dd623227d5a7] succeeded in 5.086886566998146s: True
+[2023-07-04 18:24:23,183: INFO/MainProcess] Task send_email_task[d3df3d98-aba6-451e-9d35-48764ea61d4c] received
+[2023-07-04 18:24:23,394: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:23,395: INFO/ForkPoolWorker-1] send_email_task[8675beb1-fee4-4fce-a006-87edaa185eae]: sent
+[2023-07-04 18:24:23,426: INFO/ForkPoolWorker-1] Task send_email_task[8675beb1-fee4-4fce-a006-87edaa185eae] succeeded in 5.037254613998812s: True
+[2023-07-04 18:24:23,874: INFO/MainProcess] Task send_email_task[48b56157-ab46-4f70-a118-b77777df488c] received
+[2023-07-04 18:24:24,272: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:24,272: INFO/ForkPoolWorker-2] send_email_task[3817d789-3237-40c0-a13c-4d81ffec9ac8]: sent
+[2023-07-04 18:24:24,293: INFO/ForkPoolWorker-2] Task send_email_task[3817d789-3237-40c0-a13c-4d81ffec9ac8] succeeded in 5.027742826001486s: True
+[2023-07-04 18:24:28,429: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:28,430: INFO/ForkPoolWorker-1] send_email_task[58c6755b-1b3e-41bb-a56e-babaa7b08fda]: sent
+[2023-07-04 18:24:28,431: INFO/ForkPoolWorker-1] Task send_email_task[58c6755b-1b3e-41bb-a56e-babaa7b08fda] succeeded in 5.003502019011648s: True
+[2023-07-04 18:24:30,204: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:30,225: INFO/ForkPoolWorker-1] send_email_task[bc5d37b3-2814-4581-af8e-84dbb93cf0bc]: sent
+[2023-07-04 18:24:30,260: INFO/ForkPoolWorker-1] Task send_email_task[bc5d37b3-2814-4581-af8e-84dbb93cf0bc] succeeded in 14.06451067099988s: True
+[2023-07-04 18:24:30,961: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:30,962: INFO/ForkPoolWorker-2] send_email_task[29c773a9-bfcc-41ba-8d70-ce2a635fa05d]: sent
+[2023-07-04 18:24:30,977: INFO/ForkPoolWorker-2] Task send_email_task[29c773a9-bfcc-41ba-8d70-ce2a635fa05d] succeeded in 14.053820121000172s: True
+[2023-07-04 18:24:35,298: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:35,299: INFO/ForkPoolWorker-2] send_email_task[48b56157-ab46-4f70-a118-b77777df488c]: sent
+[2023-07-04 18:24:35,301: INFO/ForkPoolWorker-2] Task send_email_task[48b56157-ab46-4f70-a118-b77777df488c] succeeded in 11.00428702699719s: True
+[2023-07-04 18:24:37,523: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:37,523: INFO/ForkPoolWorker-2] send_email_task[564823f6-dc3c-4cf3-bb4e-c6191940f37f]: sent
+[2023-07-04 18:24:37,577: INFO/ForkPoolWorker-2] Task send_email_task[564823f6-dc3c-4cf3-bb4e-c6191940f37f] succeeded in 15.05805526599579s: True
+[2023-07-04 18:24:38,186: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:38,187: INFO/ForkPoolWorker-1] send_email_task[d3df3d98-aba6-451e-9d35-48764ea61d4c]: sent
+[2023-07-04 18:24:38,189: INFO/ForkPoolWorker-1] Task send_email_task[d3df3d98-aba6-451e-9d35-48764ea61d4c] succeeded in 15.005008488005842s: True
+[2023-07-04 18:24:43,264: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:43,264: INFO/ForkPoolWorker-1] send_email_task[4bb1f3c9-6bf3-44b1-b9a5-2ae9e682f17c]: sent
+[2023-07-04 18:24:43,267: INFO/ForkPoolWorker-1] Task send_email_task[4bb1f3c9-6bf3-44b1-b9a5-2ae9e682f17c] succeeded in 13.004590416996507s: True
+[2023-07-04 18:24:44,980: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:24:44,980: INFO/ForkPoolWorker-2] send_email_task[3e49f5f0-e2f1-467f-8ff3-d6ebf54627d8]: sent
+[2023-07-04 18:24:44,982: INFO/ForkPoolWorker-2] Task send_email_task[3e49f5f0-e2f1-467f-8ff3-d6ebf54627d8] succeeded in 14.003268176005804s: True
+[2023-07-04 18:25:31,366: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:25:31,372: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:25:32,393: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:25:32,406: INFO/MainProcess] celery@68d6c71654fa ready.
+[2023-07-04 18:25:43,118: INFO/MainProcess] Task send_email_task[1a3d2b37-0418-4725-b2c9-130a3554aab9] received
+[2023-07-04 18:25:44,159: INFO/MainProcess] Task send_email_task[b3f6c384-6a5e-41c9-991d-cd1a2317d260] received
+[2023-07-04 18:25:45,185: INFO/MainProcess] Task send_email_task[1ff7bb0e-c59c-4d7a-aa41-76755ba8b3cc] received
+[2023-07-04 18:25:45,965: INFO/MainProcess] Task send_email_task[4b0961d3-7b90-430f-ba95-a38b2495b403] received
+[2023-07-04 18:25:46,746: INFO/MainProcess] Task send_email_task[2277e061-c3d5-42e2-9dc2-64dea256130c] received
+[2023-07-04 18:25:47,554: INFO/MainProcess] Task send_email_task[0a22cda5-3dce-409b-b5fc-feeca3cd9de1] received
+[2023-07-04 18:25:48,374: INFO/MainProcess] Task send_email_task[be4f461d-b3ef-493e-ad47-b2ab32dbc39b] received
+[2023-07-04 18:25:49,063: INFO/MainProcess] Task send_email_task[2f4f0a14-b907-434b-8282-d2e02cc3b67f] received
+[2023-07-04 18:25:49,164: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:25:49,164: INFO/ForkPoolWorker-2] send_email_task[b3f6c384-6a5e-41c9-991d-cd1a2317d260]: sent
+[2023-07-04 18:25:49,191: INFO/ForkPoolWorker-2] Task send_email_task[b3f6c384-6a5e-41c9-991d-cd1a2317d260] succeeded in 5.031006289995275s: True
+[2023-07-04 18:25:49,768: INFO/MainProcess] Task send_email_task[87d5fe47-d27e-401d-8da8-6c4caf760255] received
+[2023-07-04 18:25:57,123: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:25:57,124: INFO/ForkPoolWorker-1] send_email_task[1a3d2b37-0418-4725-b2c9-130a3554aab9]: sent
+[2023-07-04 18:25:57,149: INFO/ForkPoolWorker-1] Task send_email_task[1a3d2b37-0418-4725-b2c9-130a3554aab9] succeeded in 14.028550560004078s: True
+[2023-07-04 18:25:57,200: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:25:57,200: INFO/ForkPoolWorker-2] send_email_task[1ff7bb0e-c59c-4d7a-aa41-76755ba8b3cc]: sent
+[2023-07-04 18:25:57,202: INFO/ForkPoolWorker-2] Task send_email_task[1ff7bb0e-c59c-4d7a-aa41-76755ba8b3cc] succeeded in 8.003107576005277s: True
+[2023-07-04 18:26:04,206: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:04,207: INFO/ForkPoolWorker-2] send_email_task[2277e061-c3d5-42e2-9dc2-64dea256130c]: sent
+[2023-07-04 18:26:04,209: INFO/ForkPoolWorker-2] Task send_email_task[2277e061-c3d5-42e2-9dc2-64dea256130c] succeeded in 7.004299880005419s: True
+[2023-07-04 18:26:09,151: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:09,152: INFO/ForkPoolWorker-1] send_email_task[4b0961d3-7b90-430f-ba95-a38b2495b403]: sent
+[2023-07-04 18:26:09,155: INFO/ForkPoolWorker-1] Task send_email_task[4b0961d3-7b90-430f-ba95-a38b2495b403] succeeded in 12.00474781099183s: True
+[2023-07-04 18:26:15,215: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:15,216: INFO/ForkPoolWorker-2] send_email_task[0a22cda5-3dce-409b-b5fc-feeca3cd9de1]: sent
+[2023-07-04 18:26:15,219: INFO/ForkPoolWorker-2] Task send_email_task[0a22cda5-3dce-409b-b5fc-feeca3cd9de1] succeeded in 11.007175738006481s: True
+[2023-07-04 18:26:19,161: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:19,161: INFO/ForkPoolWorker-1] send_email_task[be4f461d-b3ef-493e-ad47-b2ab32dbc39b]: sent
+[2023-07-04 18:26:19,164: INFO/ForkPoolWorker-1] Task send_email_task[be4f461d-b3ef-493e-ad47-b2ab32dbc39b] succeeded in 10.006778695998946s: True
+[2023-07-04 18:26:23,227: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:23,227: INFO/ForkPoolWorker-2] send_email_task[2f4f0a14-b907-434b-8282-d2e02cc3b67f]: sent
+[2023-07-04 18:26:23,230: INFO/ForkPoolWorker-2] Task send_email_task[2f4f0a14-b907-434b-8282-d2e02cc3b67f] succeeded in 8.009020220997627s: True
+[2023-07-04 18:26:25,171: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 18:26:25,171: INFO/ForkPoolWorker-1] send_email_task[87d5fe47-d27e-401d-8da8-6c4caf760255]: sent
+[2023-07-04 18:26:25,175: INFO/ForkPoolWorker-1] Task send_email_task[87d5fe47-d27e-401d-8da8-6c4caf760255] succeeded in 6.008418565994361s: True
+[2023-07-04 18:43:02,737: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:43:02,744: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:43:03,794: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:43:03,811: INFO/MainProcess] celery@d49d8b832f93 ready.
+[2023-07-04 18:44:55,501: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:44:55,507: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:44:56,526: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:44:56,583: INFO/MainProcess] celery@ee911680d2eb ready.
+[2023-07-04 18:45:00,154: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 18:49:37,055: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:49:37,068: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:49:38,081: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:49:38,121: INFO/MainProcess] celery@8da121773235 ready.
+[2023-07-04 18:49:41,664: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 18:54:09,072: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 18:54:09,076: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 18:54:10,087: INFO/MainProcess] mingle: all alone
+[2023-07-04 18:54:10,102: INFO/MainProcess] celery@1b2be401ca02 ready.
+[2023-07-04 18:54:13,766: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 22:55:39,361: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 22:55:39,374: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 22:55:40,396: INFO/MainProcess] mingle: all alone
+[2023-07-04 22:55:40,418: INFO/MainProcess] celery@0b053eb36c3f ready.
+[2023-07-04 22:55:44,749: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 22:58:32,925: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 22:58:32,930: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 22:58:33,942: INFO/MainProcess] mingle: all alone
+[2023-07-04 22:58:33,962: INFO/MainProcess] celery@62a3b2d3ddc6 ready.
+[2023-07-04 22:58:38,577: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 23:02:48,480: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 23:02:48,485: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 23:02:49,498: INFO/MainProcess] mingle: all alone
+[2023-07-04 23:02:49,523: INFO/MainProcess] celery@ab680ff688cb ready.
+[2023-07-04 23:04:32,790: INFO/MainProcess] Task send_email_task[8371ed50-52d1-4759-aef8-db49a43d9329] received
+[2023-07-04 23:04:41,889: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:04:41,897: INFO/ForkPoolWorker-1] send_email_task[8371ed50-52d1-4759-aef8-db49a43d9329]: sent
+[2023-07-04 23:04:41,912: INFO/ForkPoolWorker-1] Task send_email_task[8371ed50-52d1-4759-aef8-db49a43d9329] succeeded in 9.119345965998946s: True
+[2023-07-04 23:32:02,822: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 23:32:02,838: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 23:32:03,853: INFO/MainProcess] mingle: all alone
+[2023-07-04 23:32:03,870: INFO/MainProcess] celery@aa99a681ed32 ready.
+[2023-07-04 23:32:07,614: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 23:32:55,829: INFO/MainProcess] Task send_email_task[bb438ece-1c8a-47f6-bdee-db9ffbd43ef8] received
+[2023-07-04 23:32:56,904: INFO/MainProcess] Task send_email_task[61504e91-6edc-4da8-9246-c81bedebe0ec] received
+[2023-07-04 23:32:57,671: INFO/MainProcess] Task send_email_task[92af6a68-d67b-4a8c-8354-3526f316fc4d] received
+[2023-07-04 23:32:58,757: INFO/MainProcess] Task send_email_task[77c13a17-ae3e-41dc-9acc-ea0233f836a1] received
+[2023-07-04 23:32:59,526: INFO/MainProcess] Task send_email_task[948bb9dd-0bdf-4055-a166-a84dc02ac661] received
+[2023-07-04 23:33:00,230: INFO/MainProcess] Task send_email_task[8f866ed3-d013-4125-91e6-7138da70c34e] received
+[2023-07-04 23:33:00,925: INFO/MainProcess] Task send_email_task[95a46b52-e4ed-4599-bcd6-85cfaeafb95b] received
+[2023-07-04 23:33:01,603: INFO/MainProcess] Task send_email_task[9be60a33-b1df-4434-9590-15a4cb8c377f] received
+[2023-07-04 23:33:06,951: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:06,955: INFO/ForkPoolWorker-2] send_email_task[61504e91-6edc-4da8-9246-c81bedebe0ec]: sent
+[2023-07-04 23:33:06,961: INFO/ForkPoolWorker-2] Task send_email_task[61504e91-6edc-4da8-9246-c81bedebe0ec] succeeded in 10.05200874998991s: True
+[2023-07-04 23:33:09,926: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:09,932: INFO/ForkPoolWorker-1] send_email_task[bb438ece-1c8a-47f6-bdee-db9ffbd43ef8]: sent
+[2023-07-04 23:33:09,955: INFO/ForkPoolWorker-1] Task send_email_task[bb438ece-1c8a-47f6-bdee-db9ffbd43ef8] succeeded in 14.10769541299669s: True
+[2023-07-04 23:33:20,965: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:20,965: INFO/ForkPoolWorker-2] send_email_task[92af6a68-d67b-4a8c-8354-3526f316fc4d]: sent
+[2023-07-04 23:33:20,968: INFO/ForkPoolWorker-2] Task send_email_task[92af6a68-d67b-4a8c-8354-3526f316fc4d] succeeded in 14.005251253009192s: True
+[2023-07-04 23:33:21,963: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:21,964: INFO/ForkPoolWorker-1] send_email_task[77c13a17-ae3e-41dc-9acc-ea0233f836a1]: sent
+[2023-07-04 23:33:21,967: INFO/ForkPoolWorker-1] Task send_email_task[77c13a17-ae3e-41dc-9acc-ea0233f836a1] succeeded in 12.00508064799942s: True
+[2023-07-04 23:33:26,976: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:26,977: INFO/ForkPoolWorker-1] send_email_task[8f866ed3-d013-4125-91e6-7138da70c34e]: sent
+[2023-07-04 23:33:26,980: INFO/ForkPoolWorker-1] Task send_email_task[8f866ed3-d013-4125-91e6-7138da70c34e] succeeded in 5.007752905992675s: True
+[2023-07-04 23:33:31,977: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:31,977: INFO/ForkPoolWorker-2] send_email_task[948bb9dd-0bdf-4055-a166-a84dc02ac661]: sent
+[2023-07-04 23:33:31,979: INFO/ForkPoolWorker-2] Task send_email_task[948bb9dd-0bdf-4055-a166-a84dc02ac661] succeeded in 11.005733550991863s: True
+[2023-07-04 23:33:31,988: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:31,989: INFO/ForkPoolWorker-1] send_email_task[95a46b52-e4ed-4599-bcd6-85cfaeafb95b]: sent
+[2023-07-04 23:33:31,990: INFO/ForkPoolWorker-1] Task send_email_task[95a46b52-e4ed-4599-bcd6-85cfaeafb95b] succeeded in 5.005597643001238s: True
+[2023-07-04 23:33:45,982: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:33:45,982: INFO/ForkPoolWorker-2] send_email_task[9be60a33-b1df-4434-9590-15a4cb8c377f]: sent
+[2023-07-04 23:33:45,984: INFO/ForkPoolWorker-2] Task send_email_task[9be60a33-b1df-4434-9590-15a4cb8c377f] succeeded in 14.002832983998815s: True
+[2023-07-04 23:37:40,566: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 23:37:40,592: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 23:37:40,824: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 23:37:40,853: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 23:37:41,623: INFO/MainProcess] mingle: all alone
+[2023-07-04 23:37:41,683: INFO/MainProcess] celery@db77ca0ab7cb ready.
+[2023-07-04 23:37:41,913: INFO/MainProcess] mingle: all alone
+[2023-07-04 23:37:41,958: INFO/MainProcess] celery@46aa56d5b42a ready.
+[2023-07-04 23:37:42,385: INFO/MainProcess] Connected to redis://redis:6379/0
+[2023-07-04 23:37:42,393: INFO/MainProcess] mingle: searching for neighbors
+[2023-07-04 23:37:42,401: INFO/MainProcess] sync with celery@667d19c05cac
+[2023-07-04 23:37:42,402: INFO/MainProcess] sync with celery@667d19c05cac
+[2023-07-04 23:37:43,408: INFO/MainProcess] mingle: sync with 2 nodes
+[2023-07-04 23:37:43,408: INFO/MainProcess] mingle: sync complete
+[2023-07-04 23:37:43,425: INFO/MainProcess] celery@667d19c05cac ready.
+[2023-07-04 23:37:46,988: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 23:37:46,988: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 23:37:46,989: INFO/MainProcess] Events of group {task} enabled by remote.
+[2023-07-04 23:38:03,032: INFO/MainProcess] Task send_email_task[d36411c7-1793-4461-abdc-057e6e0d93a7] received
+[2023-07-04 23:38:04,283: INFO/MainProcess] Task send_email_task[b6c28698-2628-4cfc-b177-5021803a1168] received
+[2023-07-04 23:38:05,237: INFO/MainProcess] Task send_email_task[2857e1fe-8510-4ccd-97cc-092262e7bb2c] received
+[2023-07-04 23:38:06,208: INFO/MainProcess] Task send_email_task[ad8c5071-db77-4047-90f1-1e82123f322a] received
+[2023-07-04 23:38:07,040: INFO/MainProcess] Task send_email_task[9fa02f73-b77f-4155-b572-a7d31c0d1168] received
+[2023-07-04 23:38:07,872: INFO/MainProcess] Task send_email_task[e5b23e71-38c5-489f-92ef-1e442d67db10] received
+[2023-07-04 23:38:08,817: INFO/MainProcess] Task send_email_task[4a86c571-2fdd-4419-8a70-bad0f79fa656] received
+[2023-07-04 23:38:09,616: INFO/MainProcess] Task send_email_task[5ddcf7ee-dc10-4f5a-8a81-d8ea355d1755] received
+[2023-07-04 23:38:10,134: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:10,143: INFO/ForkPoolWorker-1] send_email_task[d36411c7-1793-4461-abdc-057e6e0d93a7]: sent
+[2023-07-04 23:38:10,185: INFO/ForkPoolWorker-1] Task send_email_task[d36411c7-1793-4461-abdc-057e6e0d93a7] succeeded in 7.130679223992047s: True
+[2023-07-04 23:38:10,889: INFO/MainProcess] Task send_email_task[6c3e3bc9-cd45-4b84-8403-2563374194e3] received
+[2023-07-04 23:38:11,582: INFO/MainProcess] Task send_email_task[e777fcc9-b06a-4570-82cf-66087d87b6cf] received
+[2023-07-04 23:38:12,345: INFO/MainProcess] Task send_email_task[b39e984c-8bea-4ce7-83f0-11bea48b3902] received
+[2023-07-04 23:38:13,058: INFO/MainProcess] Task send_email_task[143dcc75-7dd0-48ea-aa3c-29f0c417fe9f] received
+[2023-07-04 23:38:13,353: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:13,361: INFO/ForkPoolWorker-1] send_email_task[b6c28698-2628-4cfc-b177-5021803a1168]: sent
+[2023-07-04 23:38:13,382: INFO/ForkPoolWorker-1] Task send_email_task[b6c28698-2628-4cfc-b177-5021803a1168] succeeded in 9.086289526007022s: True
+[2023-07-04 23:38:14,244: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:14,244: INFO/ForkPoolWorker-2] send_email_task[2857e1fe-8510-4ccd-97cc-092262e7bb2c]: sent
+[2023-07-04 23:38:14,249: INFO/ForkPoolWorker-2] Task send_email_task[2857e1fe-8510-4ccd-97cc-092262e7bb2c] succeeded in 9.008023052010685s: True
+[2023-07-04 23:38:19,870: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:19,872: INFO/ForkPoolWorker-2] send_email_task[4a86c571-2fdd-4419-8a70-bad0f79fa656]: sent
+[2023-07-04 23:38:19,882: INFO/ForkPoolWorker-2] Task send_email_task[4a86c571-2fdd-4419-8a70-bad0f79fa656] succeeded in 11.056821675010724s: True
+[2023-07-04 23:38:20,933: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:20,934: INFO/ForkPoolWorker-1] send_email_task[6c3e3bc9-cd45-4b84-8403-2563374194e3]: sent
+[2023-07-04 23:38:20,935: INFO/ForkPoolWorker-1] Task send_email_task[6c3e3bc9-cd45-4b84-8403-2563374194e3] succeeded in 10.004014874997665s: True
+[2023-07-04 23:38:21,024: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:21,033: INFO/ForkPoolWorker-1] send_email_task[e5b23e71-38c5-489f-92ef-1e442d67db10]: sent
+[2023-07-04 23:38:21,067: INFO/ForkPoolWorker-1] Task send_email_task[e5b23e71-38c5-489f-92ef-1e442d67db10] succeeded in 13.137562614007038s: True
+[2023-07-04 23:38:21,087: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:21,088: INFO/ForkPoolWorker-2] send_email_task[9fa02f73-b77f-4155-b572-a7d31c0d1168]: sent
+[2023-07-04 23:38:21,092: INFO/ForkPoolWorker-2] Task send_email_task[9fa02f73-b77f-4155-b572-a7d31c0d1168] succeeded in 14.008107763991575s: True
+[2023-07-04 23:38:21,387: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:21,388: INFO/ForkPoolWorker-1] send_email_task[ad8c5071-db77-4047-90f1-1e82123f322a]: sent
+[2023-07-04 23:38:21,391: INFO/ForkPoolWorker-1] Task send_email_task[ad8c5071-db77-4047-90f1-1e82123f322a] succeeded in 8.005591662004008s: True
+[2023-07-04 23:38:22,253: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:22,253: INFO/ForkPoolWorker-2] send_email_task[143dcc75-7dd0-48ea-aa3c-29f0c417fe9f]: sent
+[2023-07-04 23:38:22,255: INFO/ForkPoolWorker-2] Task send_email_task[143dcc75-7dd0-48ea-aa3c-29f0c417fe9f] succeeded in 8.003425306989811s: True
+[2023-07-04 23:38:30,887: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:30,887: INFO/ForkPoolWorker-2] send_email_task[5ddcf7ee-dc10-4f5a-8a81-d8ea355d1755]: sent
+[2023-07-04 23:38:30,890: INFO/ForkPoolWorker-2] Task send_email_task[5ddcf7ee-dc10-4f5a-8a81-d8ea355d1755] succeeded in 11.005162108995137s: True
+[2023-07-04 23:38:36,075: INFO/ForkPoolWorker-1] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:36,075: INFO/ForkPoolWorker-1] send_email_task[e777fcc9-b06a-4570-82cf-66087d87b6cf]: sent
+[2023-07-04 23:38:36,077: INFO/ForkPoolWorker-1] Task send_email_task[e777fcc9-b06a-4570-82cf-66087d87b6cf] succeeded in 15.00302990298951s: True
+[2023-07-04 23:38:43,899: INFO/ForkPoolWorker-2] Email: Sent to: croftdanny1973@gmail.com
+[2023-07-04 23:38:43,899: INFO/ForkPoolWorker-2] send_email_task[b39e984c-8bea-4ce7-83f0-11bea48b3902]: sent
+[2023-07-04 23:38:43,900: INFO/ForkPoolWorker-2] Task send_email_task[b39e984c-8bea-4ce7-83f0-11bea48b3902] succeeded in 13.004054740013089s: True
