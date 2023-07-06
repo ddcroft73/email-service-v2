@@ -4,13 +4,181 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Your Page Title</title>
-  <!-- CSS stylesheets 
-  <link rel="stylesheet" href="path/to/stylesheet.css">-->
+  <title>Email Service v2</title>
+  
+  <link rel="stylesheet" href="style.css">
+
 </head>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+
 <body>
-  Email Service v2:<br>
-  <a href="/docs">fastAPI Docs</a>
+<div id="root"></div>
+
+
+<script type="text/babel">
+
+
+const MainContainer = ({ children }) => {
+     
+  const styles = {
+      main: {
+        maxWidth: '1024px',
+        minWidth: '375px',
+        //width: '1024px',
+        height: 'auto',
+        border: '1px solid navy',
+        borderRadius: '8px',
+        color: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: 20,
+      }
+  };
+  
+  return (
+      <div style={styles.main}>
+          {children}
+      </div>  
+  );
+};
+
+const Heading = ( {size, hr, children} ) => {
+    
+    return (
+        <div style={{
+                width: '100%',
+                height: 'auto',
+                paddingBottom: 8,
+                fontSize: size,
+                fontWeight: 'bolder',
+                borderBottom: hr ? '1px solid #555555' : '0px solid #555555',
+             }}
+        >
+           {children}
+        </div>
+    );
+};
+
+const P = ( {children} ) => {
+    
+   return (
+      <div style={{
+             paddingTop: 15,
+             paddingBottom: 15,
+             paddingLeft: 5,
+             width: '100%', 
+             height: 'auto',
+             fontSize: 16,
+             fontWeight: 'light',
+           }}
+      >
+          {children}
+      </div>
+   );
+};
+
+// Handles links as such:  link|link text,
+const List = ( {children} ) => {
+    const styles = {
+         
+    };
+    const items = children.split(',');    
+
+    const renderLink = (item) => {
+        if (item.slice(0, 4) === 'http') {
+           const link = item.split('|')[0];
+           const text = item.split('|')[1];
+           return (
+              <a style={{color: 'orange', textDecoration: 'none' }} href={link}>{text}</a>
+           );   
+        }
+          return item;
+    };
+    
+    return (
+        <ul style={{listStyleType: 'circle', paddingLeft: 25}}>
+           {items.map((item, index) => (
+            <li key={index}> {renderLink(item)} </li>
+           ))}
+        </ul>
+    );
+    
+};
+
+const Hl = ( {children} ) => {
+    
+  return (
+     <div style={{
+              padding: 3,
+              paddingTop: 5,
+              backgroundColor: '#555555',
+              display: 'inline',
+              borderRadius: 3,
+          }}
+     >
+        {children}
+     </div>
+  );
+};
+
+const Code = ( {children} ) => {
+    
+    return (
+        <div>
+           <div>
+            <pre>
+                <code>
+                  {children}
+                </code>
+            </pre>
+           </div>
+        </div>
+    );
+}
+// THis is sort of a github MarkDown emulator. 
+const App = () => {  
+  return (
+    <div>
+       <MainContainer>
+           <Heading size={24} hr={true}>Email Service v.2</Heading>
+           <P>
+              It's pretty much the same service as before but a bit cleaner. I changed the file structure and this 
+              time I opted to use a docker-compose setup instead of a venv and 2 shell files to start it all up. THis way I 
+              just list all my services in the YAML file and build\run it and they just spin up like magic. This will be 
+              a service that I use on all my web projectst to send emails. It will be used to send plain text as well as HTML
+               Emails. The main purpose will be verify Email emails, reset password emails, and anything pertaining to the apps 
+               core function.
+          </P>
+          <Heading size={21} hr={0}> Tech Stack:</Heading>
+          <List>
+            https://fastapi.tiangolo.com|fastAPI,https://docs.celeryq.dev/en/stable/getting-started/introduction.html|Celery,https://redis.io|Redis,https://docs.docker.com/compose/|Docker Compose,https://flower.readthedocs.io/en/latest/index.html|Celery Flower
+          </List>
+          <P>SMTP Email functionality built using the built in Python  <Hl>email</Hl> module. I wrapped it in a simple class.</P>
+          <Heading size={21} hr={0}>Purpose:</Heading>
+          <P>Send Emails. Thats it. It will have one endpoint. I may 
+            need to add another/others when I totally figure out exactly what I am doing.
+          </P>  
+          <Heading size={21} hr={0}>End Point:</Heading>
+          <P>/send-mail/</P>
+          <Heading size={21} hr={0}>Request Model:</Heading>
+       </MainContainer>
+    </div>
+  );
+};
+
+// Celery,Redis,Docker Compose,Celery Flower
+ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+);
+
+
+</script>
+
   <!-- JavaScript scripts 
   <script src="path/to/script.js"></script>-->
 </body>

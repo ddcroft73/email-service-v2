@@ -15,7 +15,7 @@ services:
       environment:
         - CELERY_BROKER_URL=redis://redis:6379/0
         - CELERY_RESULT_BACKEND=redis://redis:6379/0
-   #     - TZ=US/Eastern
+        - TZ=US/Eastern
       depends_on:
         - redis
 
@@ -27,7 +27,7 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-   #   - TZ=US/Eastern
+      - TZ=US/Eastern
     depends_on:
       - web
       - redis  
@@ -40,10 +40,9 @@ services:
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
-     # - TZ=US/Eastern
+      - TZ=US/Eastern
     depends_on:
       - web
       - redis
       - worker   
 
-      

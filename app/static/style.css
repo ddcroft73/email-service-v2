@@ -1,0 +1,24 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family:'Franklin Gothic Medium', Arial, sans-serif;
+    background-color: #333333;
+}
+
+#root {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: auto;
+    padding: 20px;
+}
+
+
+a:link {
+    color: orange;
+}
