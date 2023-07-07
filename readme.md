@@ -70,7 +70,7 @@ Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](h
 ### TODO:
 - Get the Celery portion, `tasks` finalized:
   It works fine for what it is, and what I need. Decide if the class is worth it or just keep the function. 
-- Add my own custom Logger. Iam seriously tired of trying to getPythons Logger to work. I'll use [https://github.com/ddcroft73/Responder/blob/master/logger_class.py](one) I made a while back. Or variation thereof.
+- Add my own custom Logger. Iam seriously tired of trying to getPythons Logger to work. I'll use ['https://github.com/ddcroft73/Responder/blob/master/logger_class.py'](one) I made a while back. Or variation thereof.
 - write to file!!   
 - Build the Info Web Page.
 - Make sure the error handling is up to snuff. As is I really only know about `try: except:`. 
