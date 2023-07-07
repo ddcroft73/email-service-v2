@@ -1,9 +1,8 @@
-
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from routes import router as app_router
+from routes import router
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(app_router)
+app.include_router(router)
