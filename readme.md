@@ -1,6 +1,16 @@
 ## Email Micro Service V2
 
-Its pretty much the same service as before but a bit cleaner. I changed the file structure and this time I opted to use a docker-compose setup instead of a venv and 2 shell files to start it all up. THis way I just list all my services in the YAML file and build\run it and they just spin up like magic. This will be a service that I use on all my web projectst to send emails. It will be used to send plain text as well as HTML Emails. The main purpose will be verify Email emails, reset password emails, and anything pertaining to the apps core function. 
+<p>
+  This is a straightforward and no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. This is the second iteration of the service.
+</p>
+
+<p>
+  I developed this service to run within a <a href="https://www.docker.com/">Docker</a> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose.
+</p>
+
+<p>
+  The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing, although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of <a href="https://fastapi.tiangolo.com/">FastAPI</a>, and I must acknowledge the brilliance of FastAPI's design, not my own.
+</p>
 
 ### Tech Stack:
 [fastAPI](https://fastapi.tiangolo.com)<br>
@@ -51,17 +61,17 @@ Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). <br>
 This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
 Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). <br>
 
-### Run Service:
+### Run Service: 
 
 - `$ git clone https://github.com/ddcroft73/email-service-v2.git`
-- `cd into da repo`
+- `$ cd intoDirectoryClonedInto`
 - `$ docker-compose up`
 
 ### TODO:
 - Get the Celery portion, `tasks` finalized:
-  It works fine forwhat it is, and what I need. Decide if the class is worth it or just keep the function. 
-- For gods sake figure out logger!! Like why the hell does it only ever halfway work!? Maybe it's got something to do with
-  how the modules are loading as to why Only info works and not error, vice versa, and why I can't ever get it to consistently write to file!!   
+  It works fine for what it is, and what I need. Decide if the class is worth it or just keep the function. 
+- Add my own custom Logger. Iam seriously tired of trying to getPythons Logger to work. I'll use [https://github.com/ddcroft73/Responder/blob/master/logger_class.py](one) I made a while back. Or variation thereof.
+- write to file!!   
 - Build the Info Web Page.
 - Make sure the error handling is up to snuff. As is I really only know about `try: except:`. 
 - Make the tests hard core. I currently only have one that fires requests at the endpoint.

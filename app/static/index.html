@@ -7,6 +7,10 @@
   <title>Email Service v2</title>
   
   <link rel="stylesheet" href="style.css">
+  <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/react-syntax-highlighter/dist/esm/styles/prism/prism.min.css"
+    />
 
 </head>
   <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
@@ -14,6 +18,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/16.14.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.14.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-syntax-highlighter/dist/esm/prism.min.js"></script>
+
+    
 
 <body>
 <div id="root"></div>
@@ -21,14 +28,13 @@
 
 <script type="text/babel">
 
-
-const MainContainer = ({ children }) => {
-     
+  // Talk about OverKill... I realize this could have been just as easy with HTML and CSS. I do now anyway.
+  
+const MainContainer = ({ children }) => {     
   const styles = {
       main: {
         maxWidth: '1024px',
         minWidth: '375px',
-        //width: '1024px',
         height: 'auto',
         border: '1px solid navy',
         borderRadius: '8px',
@@ -46,8 +52,7 @@ const MainContainer = ({ children }) => {
   );
 };
 
-const Heading = ( {size, hr, children} ) => {
-    
+const Heading = ( {size, hr, children} ) => {    
     return (
         <div style={{
                 width: '100%',
@@ -63,8 +68,7 @@ const Heading = ( {size, hr, children} ) => {
     );
 };
 
-const P = ( {children} ) => {
-    
+const P = ( {children} ) => {    
    return (
       <div style={{
              paddingTop: 15,
@@ -81,12 +85,12 @@ const P = ( {children} ) => {
    );
 };
 
-// Handles links as such:  link|link text,
+// Handles links as such:  link|link text,,
 const List = ( {children} ) => {
     const styles = {
          
     };
-    const items = children.split(',');    
+    const items = children.split(',,');    
 
     const renderLink = (item) => {
         if (item.slice(0, 4) === 'http') {
@@ -109,15 +113,16 @@ const List = ( {children} ) => {
     
 };
 
-const Hl = ( {children} ) => {
-    
+const Hl = ( {children} ) => {    
   return (
      <div style={{
-              padding: 3,
-              paddingTop: 5,
-              backgroundColor: '#555555',
+              padding: 4,
+              backgroundColor: '#222',
+              color: '#b1bdbf',
               display: 'inline',
               borderRadius: 3,
+              fontSize: 14,
+              fontFamily: "'Courier New', Courier, monospace "
           }}
      >
         {children}
@@ -125,20 +130,73 @@ const Hl = ( {children} ) => {
   );
 };
 
-const Code = ( {children} ) => {
-    
+// This will be a WIP.
+const Code = ({ whichCode }) => {
+  const codeRequest = `
+  {
+    email_to: "string",
+    email_from: "string",
+    subject: "string",
+    message: {
+      text: "string",
+      html: "string"
+    }
+  }
+  `;
+
+  const codeResponse = `
+  {
+    result: "string"
+  }
+  `;
+
+  const styles = {
+    container: {
+      width: '100%',
+      height: 'auto',
+      color: 'aliciablue',
+      backgroundColor: '#444444',
+      borderRadius: 8,
+      padding: 6,
+      marginBottom: 15,
+    },
+  };
+
+  const selectedCode = whichCode ? codeResponse : codeRequest;
+
+  return (
+    <div style={styles.container}>      
+        <pre>
+          {selectedCode}
+        </pre>      
+    </div>
+  );
+};
+
+
+const Link = ({children, linkText}) => {    
+    // lol. THis is a clusterfuck.. Ill fix it later.
+    // example: 
+    // <Link linkText="Docker">https://www.docker.com/</Link>
+    // This is not easy.. it's stupid. Originally made for a certain purpose
+    // but its clearly not multipurpose.
+    if (linkText === undefined || linkText === "") {
+      linkText = children;
+    } 
     return (
-        <div>
-           <div>
-            <pre>
-                <code>
-                  {children}
-                </code>
-            </pre>
-           </div>
+        <div style={{display: 'inline'}}>
+          <a style={{color: 'orange', textDecoration: 'none' }} href={children}>{linkText}</a>
         </div>
     );
-}
+};
+
+function Sp({ht}) {
+    return (
+       <div style={{height:ht}}>
+      </div>
+    );
+};
+
 // THis is sort of a github MarkDown emulator. 
 const App = () => {  
   return (
@@ -146,25 +204,68 @@ const App = () => {
        <MainContainer>
            <Heading size={24} hr={true}>Email Service v.2</Heading>
            <P>
-              It's pretty much the same service as before but a bit cleaner. I changed the file structure and this 
-              time I opted to use a docker-compose setup instead of a venv and 2 shell files to start it all up. THis way I 
-              just list all my services in the YAML file and build\run it and they just spin up like magic. This will be 
-              a service that I use on all my web projectst to send emails. It will be used to send plain text as well as HTML
-               Emails. The main purpose will be verify Email emails, reset password emails, and anything pertaining to the apps 
-               core function.
-          </P>
+              
+            <p>
+              This is a straightforward and no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. This is the second iteration of the service.
+            </p>
+
+            <p>
+              I developed this service to run within a <Link linkText="Docker">https://www.docker.com/</Link> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose.
+            </p>
+
+            <p>
+              The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing, although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of <a href="https://fastapi.tiangolo.com/">FastAPI</a>, and I must acknowledge the brilliance of FastAPI's design, not my own.
+            </p>
+         </P>
           <Heading size={21} hr={0}> Tech Stack:</Heading>
           <List>
-            https://fastapi.tiangolo.com|fastAPI,https://docs.celeryq.dev/en/stable/getting-started/introduction.html|Celery,https://redis.io|Redis,https://docs.docker.com/compose/|Docker Compose,https://flower.readthedocs.io/en/latest/index.html|Celery Flower
+            https://fastapi.tiangolo.com|FastAPI,,https://docs.celeryq.dev/en/stable/getting-started/introduction.html|Celery,,https://redis.io|Redis,,https://docs.docker.com/compose/|Docker Compose,,https://flower.readthedocs.io/en/latest/index.html|Celery Flower
           </List>
-          <P>SMTP Email functionality built using the built in Python  <Hl>email</Hl> module. I wrapped it in a simple class.</P>
+          <P>SMTP Email functionality built using the built in Python <Hl>email</Hl> module. I wrapped it in a simple class.</P>
+          <Sp ht={25} />
           <Heading size={21} hr={0}>Purpose:</Heading>
-          <P>Send Emails. Thats it. It will have one endpoint. I may 
+          <P>
+            Send Emails. Thats it. It will have one endpoint. I may 
             need to add another/others when I totally figure out exactly what I am doing.
-          </P>  
+          </P> 
+          <Sp ht={25} /> 
           <Heading size={21} hr={0}>End Point:</Heading>
           <P>/send-mail/</P>
+          
+           <Sp ht={30}/>
+
           <Heading size={21} hr={0}>Request Model:</Heading>
+          <Code whichCode={0} />
+
+          <Heading size={21} hr={0}>Response Model:</Heading>
+          <Code whichCode={1} />
+
+          <Heading size={21} hr={0}>Workflow:</Heading>
+          <List>
+            A request is sent to the server along with an dictionary carrying all the nedded info.,,The server verifies the clients credentials via dependencies; the data within will have been validated before it ever leaves the client as to limit the amount of work this service has to do.,,The email dictionary is seralized into an object, and passed to the Celery task predefined to handle sending emails.,,A response is sent back to the client with the task ID confirming that the email is being processed.,,The email is then dispatched on a FIFO basis.
+          </List>
+          <Heading size={0} hr={1}></Heading>
+          <P>
+            <Link linkText="Celery">https://docs.celeryq.dev/en/stable/getting-started/introduction.html</Link> can be monitored at: <Hl><Link>http://127.0.0.1:5556/</Link></Hl>. <br/>
+            This file can be viewed at: <Hl><Link>http://127.0.0.1:8014/</Link></Hl>. <br/>
+            Documentation on the API Schema can be found at: <Hl><Link>http://127.0.0.1:8014/docs/</Link></Hl>. <br />
+          </P>
+          <Heading size={0} hr={1}></Heading>
+
+          <P/>
+
+          <Heading size={21} hr={0}>Run The Service:</Heading>
+          <Hl>$ git clone https://github.com/ddcroft73/email-service-v2.git</Hl>
+          <Sp ht={5}/>
+          <Hl>$ cd directoryYouClonedInto</Hl>
+          <Sp ht={5}/>
+          <Hl>$ docker-compose up</Hl>
+
+          <Sp ht={35} />
+          <Heading size={21} hr={0}>TODO:</Heading>
+          <List>
+            Get the Celery portion, tasks finalized: It works fine forwhat it is, and what I need. Decide if the class is worth it or just keep the function.,,Since I can't eber get the damn logger to work when and how I want. Make my own simple log to file class and use that. Look in the Respnder repo.,,Make the tests hard core. I currently only have one that fires requests at the endpoint.   
+           </List> 
        </MainContainer>
     </div>
   );
