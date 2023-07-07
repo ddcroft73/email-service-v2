@@ -1,0 +1,5 @@
+#
+#
+# Custom simple Logger class.
+#
+# 
