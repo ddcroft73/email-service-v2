@@ -1,11 +1,12 @@
 ## Email Micro Service V2
 
 <p>
-  This is a straightforward and no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. This is the second iteration of the service.
+  This is a straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. It's the second iteration of the service.
 </p>
 
 <p>
-  I developed this service to run within a <a href="https://www.docker.com/">Docker</a> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose.
+  I developed it to run within a <a href="https://www.docker.com/">Docker</a> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose, and in the meantime have become a bit facsinated with it. {I believe I can create
+  separate apis, in the same root directory (Different directories for each app, ofcourse), add them as services in my docker-compose YAML and run an entire backend of microservices from one location. Sounds to good to be true and I'm likely wrong about this at least in some aspect of my understanding. So I sally forth! And continue to learn.}
 </p>
 
 <p>
