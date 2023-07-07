@@ -72,7 +72,5 @@ Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](h
 - Get the Celery portion, `tasks` finalized:
   It works fine for what it is, and what I need. Decide if the class is worth it or just keep the function. 
 - Add my own custom Logger. I am seriously tired of trying to get Pythons' Logger to work. I'm currently writing my own.
-
-- Build the Info Web Page.
-- Make sure the error handling is up to snuff. As is I really only know about `try: except:`. 
+- Make sure the error handling is up to snuff. 
 - Make the tests hard core. I currently only have one that fires requests at the endpoint.
