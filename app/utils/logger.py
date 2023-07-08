@@ -1,3 +1,7 @@
+from pathlib import Path
+from datetime import datetime
+from datetime import time
+from config.settings import settings
 #
 # Custom simple Logger class.
 #
@@ -30,99 +34,179 @@ for different modules or components), or log filtering based on specific criteri
 
 Remember to consider the specific needs of your application or project and determine if any additional information 
 or configurations are required for your logger class.
+
+Add the ability to rchive logs once they reach a certain size. 
+Add a method so the user can set the archive directory.
+Make sure there is a default for this
 """
 
 
-class Logger:
-    """
-    Handles all logging issues. Logs to Screen, file, or both. Can log each type of message to it's own
-    file, or log them all to one.
-    """
+class Logger:    
+    # Need to define out theprefix and or suffix for each message type.
+    INFO_PRE: str = 'INFO: '
+    DEBUG_PRE: str = 'DEBUG: '
+    ERROR_PRE: str = 'ERROR: '
+    WARN_PRE: str = 'WARNING: '
 
     FILE: int = 0
     SCREEN: int = 1
     BOTH: int = 2
 
-    INFO: int = 0
-    ERROR: int = 1
-    DEBUG: int = 2
-    WARN: int = 3
-
-    log_file_size: str
-    timestamp: bool
+    INFO: int = 10
+    DEBUG: int = 20
+    ERROR: int = 30
+    WARN: int = 40
+    LOG_FILE_MAX_SIZE: int = 1000 #lines
+    LOG_ARCHIVE_DIRECTORY: str = './log-archives'
+    # set up a default file location incase the user doesnt enter a file loation for any log type,
+    # but they select FILE. All logs will go to a common file in the root directory.        
+    DEFAULT_LOG_FILE: str = f'./{settings.PROJECT_NAME}'
+    
+    timestamp: bool = True
+    log_file_size: str 
     error_file_lifespan: int
+    start_time: str
+    start_date: str
+
 
     def __init__(
         self,
         info_filename: str = None,
         error_filename: str = None,
         warning_filename: str = None,
-        default_filename: str = None,  # File if all in one.
-        write_seperate_files: bool = False,  # User can opt to write each type of error in its own file, or all in one.
+        debug_filename: str = None, 
         output_destination: str = FILE,
         debug_mode: bool = False,
     ):
         self.info_filename = info_filename
         self.error_filename = error_filename
         self.warning_filename = warning_filename
-        self.default_filename = default_filename
-        self.write_seperate_files = write_seperate_files
+        self.debug_filename = debug_filename
         self.output_destination = output_destination
         self.debug_mode = debug_mode
-
+        
+        # setup the files that will be written to.        
         if self.output_destination == self.FILE or self.output_destination == self.BOTH:
             if self.info_filename:
-                self.set_info_filename(self.info_filename)
+                self.__set_filename(self.info_filename)
+
             if self.error_filename:
-                self.set_error_filename(self.error_filename)
+                self.__set_filename(self.error_filename)
+
             if self.warning_filename:
-                self.set_warning_filename(self.warning_filename)
-            if self.default_filename:
-                self.set_default_filename(self.default_filename)
+                self.__set_filename(self.warning_filename)
 
-    def __log(self, level: int, message: str):
-        # All messages will be written from here.  EX. user invokes logger.info()
-        # logger.info() in turnwill call this method that then sends the message to screen, or file or both
-        pass
+            if self.debug_filename:
+                self.__set_filename(self.debug_filename)
 
-    def __write(self, msg: str, filename: str):
-        # Handle writing to disk
-        pass
+            # This will allow a user toinstatntiate the class with minimal args, 
+            # and still have output ported to a file. If any one is missing then that info
+            # goes DEAFULT
+            if self.output_destination == self.FILE:
+                if (
+                    self.info_filename == None or 
+                    self.error_filename == None or 
+                    self.warning_filename == None or
+                    self.debug_filename == None
+                ):
+                    self.__set_filename(self.DEFAULT_LOG_FILE)
 
-    def __write_screen(self, msg: str):
-        pass
-    def __set_info_filename(self, info_filename: str):
-        pass
+        # Grab the start time and Date to be inserted at the top of any logfile on creation.
+        self.start_date, self.start_date = self.date_time_now()
+        
+        
+    def __write_disk(self, msg: str, level: int):
 
-    def __set_error_filename(self, error_filename: str):
-        pass
+        def __write_msg(msg: str, fname: str):            
+            try:
+              with open(fname, 'a') as f:                
+                 f.write(msg)  
 
-    def __set_warning_filename(sefl, warning_filename: str):
-        pass
+            except FileNotFoundError as err:
+                print(f"Some how {fname} did not get created.\n{err}")                
+            except:
+                print(f"ERROR: There was an error attempting a write action on:  {fname}")                
 
-    def __set_default_filename(sefl, default_filename: str):
-        pass
+        if level == self.INFO:
+            fname = self.info_filename
 
+        elif level == self.WARN:
+            fname = self.warning_filename
 
+        elif level == self.DEBUG:
+            fname = self.debug_filename
+
+        elif level == self.ERROR:
+            fname = self.error_filename
+        else:
+            # if no file name is entered then write the file to the root directory
+            if fname == "": fname == self.DEFAULT_LOG_FILE
+
+        __write_msg(msg, fname)
+                
+
+    def __print_screen(self, msg: str):
+        print(msg)       
+    
+
+    def __route_output(self, msg: str, level: int):
+        ''' Whenever a log message is invoked, this method will route the output to the proper direction(s)
+        '''
+        if self.output_destination == self.FILE and self.output_destination != self.BOTH:
+           self.__write_disk(msg, level)
+
+        if self.output_destination == self.SCREEN:
+            self.__print_screen(msg)
+
+        if self.output_destination == self.BOTH:
+            self.__print_screen(msg)
+            self.__write_disk(msg, level)
+    
+
+    def __set_filename(self, filename: str):
+       ''' This method creates the initial file. If a file already exists, it does nada.
+       '''       
+       msg: str = f' [ {filename} ] created on {self.start_date} @ {self.start_time}\n\n'
+
+       if Path(filename).exists:
+           return       
+       with open(filename, 'w') as f:
+           f.write(msg)
+       
+
+    
+    def date_time_now(self) -> tuple[str]:
+        ''' returns the formatted date andtimein a tuple
+        '''
+        current_time: time = datetime.now()
+        formatted_time: str = current_time.strftime("%Y-%m-%d %H:%M:%S")
+        _date: str = formatted_time.split()[0]
+        _time: str = formatted_time.split()[1]
+        return (_date, _time)
+        
 
     # logging methods
     def error(self, msg: str):
-        # Write error logs
-        pass
+        self.__route_output(msg, self.error_filename, self.ERROR)
 
-    def info(self, msg: str):
-        # take the message, decide where it goes, and then send it to its home
-
-        # write info logs
-        pass
+    def info(self, msg: str):        
+        self.__route_output(msg, self.info_filename, self.INFO)
 
     def warning(self, msg: str):
-        pass
-        # will wipe the files contents before it writes
+        self.__route_output(msg, self.warning_filename, self.WARN)
 
     def debug(self, msg: str, wipe_before_log: bool = False):
+        self.__route_output(msg, self.debug_filename), self.DEBUG
+
+    def archive(self, level:int) -> None:
+        ''''''
+        pass
+    def set_archive(self, directory: str) -> bool:
+        ''''''
         pass
 
+
+    '''
     def purge(self):
         # Purge the log files of info.
         pass
@@ -130,5 +214,5 @@ class Logger:
     def backup(self):   # Do I need this??
         # backup info and error logs, or both
         pass
-
+    '''
     

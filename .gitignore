@@ -3,3 +3,4 @@ __pycache__
 snippets.txt
 app/logs/*.log
 .vscode
+tests/code_test.py

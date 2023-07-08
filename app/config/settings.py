@@ -3,6 +3,8 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     API_KEY: str = getenv("API_KEY")
+    PROJECT_NAME: str = 'email-service-v2'
+    LOG_ARCHIVE_DIRECTORY: str = 'app/logs/archive'
     SMTP_PORT: int = 465
     SMTP_SERVER: str = "smtp.gmail.com"
     EMAIL_FOR_SENDING: str = "ddc.dev.python@gmail.com"
