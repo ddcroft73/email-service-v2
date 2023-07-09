@@ -1,6 +1,7 @@
 from os import getenv
 from pydantic import BaseSettings
 
+
 class Settings(BaseSettings):
     API_KEY: str = getenv("API_KEY")
     PROJECT_NAME: str = 'email-service-v2'

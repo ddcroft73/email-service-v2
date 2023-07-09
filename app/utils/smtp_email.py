@@ -8,7 +8,7 @@ from datetime import datetime
 from time import sleep
 import random, os
 
-
+from .logger import logger
 
 class SmtpEmail():
     def __init__(self, smtp_host: str, smtp_port: int, username: str, password: str):
@@ -64,7 +64,7 @@ class SmtpEmail():
            return False               
 """
        
-
+        logger.info("Email sent", timestamp=True)
         return True
 
 
