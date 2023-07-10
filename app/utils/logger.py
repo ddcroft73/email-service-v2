@@ -151,8 +151,11 @@ class Logger:
 
            
 
-    def __write_disk(
-        self, msg: str, level: int, timestamp: bool
+    def __write_to_disk(
+        self, 
+        msg: str, 
+        level: int, 
+        timestamp: bool
     ) -> None:                
         
         fname: str|None = None
@@ -204,7 +207,11 @@ class Logger:
             )
 
 
-        def commit_message(msg: str, fname: str) -> None:
+        def commit_message(
+            msg: str, 
+            fname: str
+        ) -> None:
+            
             try:
                 with open(fname, "a") as f:
                     f.write(msg)
@@ -228,7 +235,11 @@ class Logger:
         
 
 
-    def __print_screen(self, msg: str, level: int) -> None:
+    def __print_screen(
+        self, 
+        msg: str, 
+        level: int
+    ) -> None:
         """two guesses..."""
         msg_prefix: str
         if level == self.INFO:
@@ -241,23 +252,27 @@ class Logger:
             msg_prefix = self.DEBUG_PRE
 
         elif level == self.ERROR:
-            msg_prefix = self.ERROR_PRE
-        else:
-             raise ValueError(f"Invalid log level: {level}")
+            msg_prefix = self.ERROR_PRE            
 
         print(msg_prefix, msg)
 
-    def __route_output(self, msg: str, level: int, timestamp: bool = False):
+
+    def __route_output(
+        self, 
+        msg: str, 
+        level: int, 
+        timestamp: bool = False
+    ) -> None:
         """Whenever a log message is invoked, this method will route the output to the proper direction(s)"""
         if self.output_destination == self.FILE:
-            self.__write_disk(msg, level, timestamp)
+            self.__write_to_disk(msg, level, timestamp)
 
         if self.output_destination == self.SCREEN:
             self.__print_screen(msg)
 
         if self.output_destination == self.BOTH:
             self.__print_screen(msg, level)
-            self.__write_disk(msg, level, timestamp)
+            self.__write_to_disk(msg, level, timestamp)
 
 
     def error(self, msg: str, timestamp: bool = False) -> None:
@@ -273,7 +288,12 @@ class Logger:
     def debug(self, msg: str, wipe_before_log: bool = False, timestamp: bool = False) -> None:
         self.__route_output(msg, self.DEBUG, timestamp)
 
-    def __set_log_filename(self, filename: str) -> None:
+
+
+    def __set_log_filename(
+        self, 
+        filename: str
+    ) -> None:
         """This method creates the initial file. If a file already exists, it does nada."""
         msg: str = ""f" [ {filename} ] created on {self.start_date} @ {self.start_time}\n\n"
 
