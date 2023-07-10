@@ -65,6 +65,7 @@ class SmtpEmail():
 """
        
         logger.info("Email sent", timestamp=True)
+        logger.debug("Sample Debug code.")
         return True
 
 
