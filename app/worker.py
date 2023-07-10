@@ -1,6 +1,9 @@
 from schema import Email
 from utils.smtp_email import smtp_email
 from config.settings import settings
+from utils.logger import logger
+
+from datetime import timedelta
 
 from celery import Celery
 from celery import Task
@@ -11,6 +14,14 @@ celery.conf.broker_url = settings.CELERY_BROKER_URL
 celery.conf.result_backend = settings.CELERY_RESULT_BACKEND
 
 
+CELERYBEAT_SCHEDULE = {
+    'run-every-12-hours': {
+        'task': 'worker.check_logfiles_size',  # Replace with your task function
+        'schedule': timedelta(seconds=30),
+    },
+}
+#CELERY_TIMEZONE = 'US/Eastern'
+
 # Experimenting with This setup... it may be more troublethan its worth.. lol
 class EmailTask(Task):
     def on_success(self, retval, task_id, args, kwargs):
@@ -18,6 +29,7 @@ class EmailTask(Task):
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         pass
+
 
 @celery.task(
     name="send_email_task",
@@ -42,3 +54,8 @@ def send_email_task(self, email_dict: dict[str, str]):
         raise self.retry(exc=exc, hook=on_retry)
 
     self.request.on_timeout = on_timeout
+
+
+@celery.task(name="check_logfiles_size", bind=True,)    
+def check_logfiles_size(self) -> None:
+    logger.info("Checking Archives....")

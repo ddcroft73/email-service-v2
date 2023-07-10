@@ -31,6 +31,19 @@ services:
     depends_on:
       - web
       - redis  
+      
+  beat:
+    build: ./app
+    command: celery -A worker.celery beat 
+    volumes:
+      - ./app:/usr/src/app
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0   
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+      - TZ=US/Eastern
+    depends_on:
+      - web
+      - redis  
 
   dashboard:
     build: ./app

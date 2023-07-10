@@ -105,8 +105,6 @@ class Logger:
     LOG_ARCHIVE_DIRECTORY: str = f"{LOG_DIRECTORY}/log-archives"
     DEFAULT_LOG_FILE: str = f"{LOG_DIRECTORY}/app-logs.log"
 
-    archive: Archive
-    dandT: DateTime
 
     def __init__(
         self,
@@ -120,10 +118,10 @@ class Logger:
     ) -> None:
         
         self.archive = self.Archive()
-        self.dandT = self.DateTime()
+        self.d_and_t = self.DateTime()
 
-        self.start_date: str = self.dandT.date_time_now()[0]
-        self.start_time: str = self.dandT.date_time_now()[1]
+        self.start_date: str = self.d_and_t.date_time_now()[0]
+        self.start_time: str = self.d_and_t.date_time_now()[1]
 
         self.info_filename = info_filename  
         self.error_filename = error_filename  
@@ -133,27 +131,45 @@ class Logger:
         self.archive_log_files =  archive_log_files    # True if you want to archive the log files.
         self.log_file_max_size =  log_file_max_size    # How long a file can be by # of lines
         
-        # set-up archive storage
+        self.__handle_file_setup() 
+        
+           
+    def __handle_file_setup(self) -> None:
+        '''
+           Handles the creation of any user defined logfiles, the Default 
+           log file, and the vreation of the archive directory to be used when archiving
+           excess lof files.
+        '''
         if self.archive_log_files:
             self.archive.set_archive_directory(self.LOG_ARCHIVE_DIRECTORY)
 
-        # setup any custom log filenames
-        if self.output_destination == self.FILE or self.output_destination == self.BOTH:
-            if self.output_destination == self.FILE or self.output_destination == self.BOTH:
-                filenames = [self.info_filename, self.error_filename, self.warning_filename, self.debug_filename]
-                for filename in filenames:
-                    if filename is not None:
-                        self.__set_log_filename(os_join(self.LOG_DIRECTORY, filename))
+        if (
+            self.output_destination == self.FILE or 
+            self.output_destination == self.BOTH
+        ):
+            file_names = [
+                self.info_filename, 
+                self.error_filename, 
+                self.warning_filename, 
+                self.debug_filename
+            ]
 
-                # setup default log for any that did not get created.
-                if all(filename is None for filename in filenames):
-                    self.__set_log_filename(self.DEFAULT_LOG_FILE)
+            for file_name in file_names:
+                if file_name is not None:
+                    self.__set_log_filename(
+                        os_join(
+                            self.LOG_DIRECTORY, 
+                            file_name
+                        )
+                    )
 
-           
+            if any(filename is None for filename in file_names):
+                self.__set_log_filename(self.DEFAULT_LOG_FILE)
+
 
     def __write_to_disk(
         self, 
-        msg: str, 
+        message: str, 
         level: int, 
         timestamp: bool
     ) -> None:                
@@ -171,20 +187,19 @@ class Logger:
                 file_name = os_join(self.LOG_DIRECTORY, file_name)
                 
             if timestamp:
-                date_time: str = f"{self.dandT.date_time_now()[0]} {self.dandT.date_time_now()[1]}"
+                date_time: str = f"{self.d_and_t.date_time_now()[0]} {self.d_and_t.date_time_now()[1]}"
                 message = f"{message} - [{date_time}]\n"
             else:
                 message += "\n"
 
             return (
-                file_name, 
-                message
+                file_name, message
             )
         
         def ready_message(message: str) -> tuple[str]:
             '''
-              add a prefix to the message string, and reference
-              the correct file to write to.
+            add a prefix to the message string, and reference
+            the correct file to write to.
             '''
             if level == self.INFO:
                 file_name = self.info_filename
@@ -208,40 +223,52 @@ class Logger:
 
 
         def commit_message(
-            msg: str, 
-            fname: str
+            message: str, 
+            file_name: str
         ) -> None:
-            
+            '''
+            Handles writing log entries to the corresponding file.
+            '''            
             try:
-                with open(fname, "a") as f:
-                    f.write(msg)
+                with open(file_name, "a") as f:
+                    f.write(message)
 
-            except FileNotFoundError as err:
-                print(f"Some how {fname} did not get created.\n{err}")
-            except:
+            except FileNotFoundError as e:
+                print(f"ERROR: Directory or file not found: {file_name}")
+                
+            except PermissionError as e:
+                print(f"ERROR: Permission denied: {file_name}")
+                
+            except IsADirectoryError as e:
+                print(f"ERROR: {file_name} is a directory, not a file")
+                
+            except OSError as e:
+                print(f"ERROR: OS error occurred: {str(e)}")
+                
+            except Exception as e:
                 print(
                     "ERROR: There was an error attempting a write action on:\n"
                    f"{fname}\n"
                     "Check path and spelling."
                 )
 
-
-        fname, msg = ready_message(message=msg)       
-        fname, msg = add_final_touches(
+        fname, message = ready_message(message=message)       
+        fname, message = add_final_touches(
             file_name=fname, 
-            message=msg
+            message=message
         )
-        commit_message(msg, fname)
-        
 
+        commit_message(message, fname)
+        
 
     def __print_screen(
         self, 
-        msg: str, 
+        message: str, 
         level: int
     ) -> None:
         """two guesses..."""
         msg_prefix: str
+
         if level == self.INFO:
             msg_prefix = self.INFO_PRE
 
@@ -254,63 +281,99 @@ class Logger:
         elif level == self.ERROR:
             msg_prefix = self.ERROR_PRE            
 
-        print(msg_prefix, msg)
+        print(msg_prefix, message)
 
 
     def __route_output(
         self, 
-        msg: str, 
+        message: str, 
         level: int, 
         timestamp: bool = False
     ) -> None:
-        """Whenever a log message is invoked, this method will route the output to the proper direction(s)"""
+        """
+        Whenever a log message is invoked, this method will route the output to the proper direction(s)
+        """
         if self.output_destination == self.FILE:
-            self.__write_to_disk(msg, level, timestamp)
+            self.__write_to_disk(message, level, timestamp)
 
         if self.output_destination == self.SCREEN:
-            self.__print_screen(msg)
+            self.__print_screen(message)
 
         if self.output_destination == self.BOTH:
-            self.__print_screen(msg, level)
-            self.__write_to_disk(msg, level, timestamp)
+            self.__print_screen(message, level)
+            self.__write_to_disk(message, level, timestamp)
 
 
-    def error(self, msg: str, timestamp: bool = False) -> None:
-        self.__route_output(msg, self.ERROR, timestamp)
+    def error(
+        self, 
+        message: str, 
+        timestamp: bool = False
+    ) -> None:
+        self.__route_output(message, self.ERROR, timestamp)
 
-    def info(self, msg: str, timestamp: bool = False) -> None:
-        self.__route_output(msg, self.INFO, timestamp)
+    def info(
+        self, 
+        message: str, 
+        timestamp: bool = False
+    ) -> None:
+        self.__route_output(message, self.INFO, timestamp)
 
-    def warning(self, msg: str, timestamp: bool = False) -> None:
-        self.__route_output(msg, self.WARN, timestamp)
+    def warning(
+        self, 
+        message: str, 
+        timestamp: bool = False
+    ) -> None:
+        self.__route_output(message, self.WARN, timestamp)
 
     # My logic is flawed here: Figure out how to implement the 'wipe' flag.
-    def debug(self, msg: str, wipe_before_log: bool = False, timestamp: bool = False) -> None:
-        self.__route_output(msg, self.DEBUG, timestamp)
-
+    def debug(
+        self, 
+        message: str, 
+        wipe_before_log: bool = False, 
+        timestamp: bool = False
+    ) -> None:
+        self.__route_output(message, self.DEBUG, timestamp)
 
 
     def __set_log_filename(
         self, 
-        filename: str
+        file_name: str
     ) -> None:
         """This method creates the initial file. If a file already exists, it does nada."""
-        msg: str = ""f" [ {filename} ] created on {self.start_date} @ {self.start_time}\n\n"
+        message: str = f" [ {file_name} ] created on {self.start_date} @ {self.start_time}\n\n"
 
-        if Path(filename).exists():
+        if Path(file_name).exists():
             return
 
         try:
-            with open(filename, "w") as f:
-                f.write(msg)
-        except:
-            print(f"ERROR: Error creating logfile: {filename}")
-                
+            with open(file_name, "w") as f:
+                f.write(message)
+
+
+        except FileNotFoundError as e:
+            print(f"ERROR: Directory or file not found: {file_name}")
+
+        except PermissionError as e:
+            print(f"ERROR: Permission denied: {file_name}")
+
+        except IsADirectoryError as e:
+            print(f"ERROR: {file_name} is a directory, not a file")
+            
+        except OSError as e:
+            print(f"ERROR: OS error occurred: {str(e)}")
+            
+        except Exception as e:
+            print(
+                "ERROR: There was an error attempting a write action on:\n"
+                f"{file_name}\n"
+                "Check path and spelling."
+            )
     
+
 
 logger = Logger(
     info_filename="INFO_log.log",
-    debug_filename=None,
+    debug_filename="DEbUG_log.log",
     error_filename=None,
     warning_filename=None,
     output_destination=Logger.FILE,
