@@ -12,15 +12,16 @@ from celery import Task
 celery = Celery(__name__)
 celery.conf.broker_url = settings.CELERY_BROKER_URL
 celery.conf.result_backend = settings.CELERY_RESULT_BACKEND
+celery.conf.timezone = 'US/Eastern'
 
 
 CELERYBEAT_SCHEDULE = {
-    'run-every-12-hours': {
-        'task': 'worker.check_logfiles_size',  # Replace with your task function
-        'schedule': timedelta(seconds=30),
+    'run-every-10-seconds': {
+        'task': 'worker.check_logfiles_size',  
+        'schedule': timedelta(seconds=10),
     },
 }
-#CELERY_TIMEZONE = 'US/Eastern'
+CELERY_TIMEZONE = 'US/Eastern'
 
 # Experimenting with This setup... it may be more troublethan its worth.. lol
 class EmailTask(Task):
@@ -56,6 +57,7 @@ def send_email_task(self, email_dict: dict[str, str]):
     self.request.on_timeout = on_timeout
 
 
-@celery.task(name="check_logfiles_size", bind=True,)    
+@celery.task(name="check_logfiles_size", bind=True)    
 def check_logfiles_size(self) -> None:
     logger.info("Checking Archives....")
+    print("Celery beat working....")

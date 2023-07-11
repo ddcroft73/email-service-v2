@@ -2,8 +2,6 @@ version: '3.8'
 
 services: 
 
-  redis:
-    image: redis:7
 
   web:
       build: ./app
@@ -18,6 +16,9 @@ services:
         - TZ=US/Eastern
       depends_on:
         - redis
+
+  redis:
+    image: redis:7
 
   worker:
     build: ./app
@@ -34,7 +35,7 @@ services:
       
   beat:
     build: ./app
-    command: celery -A worker.celery beat 
+    command: celery -A worker.celery beat --loglevel=info --logfile=logs/celery_beat.log
     volumes:
       - ./app:/usr/src/app
     environment:
@@ -44,6 +45,7 @@ services:
     depends_on:
       - web
       - redis  
+      #- worker
 
   dashboard:
     build: ./app
@@ -58,4 +60,3 @@ services:
       - web
       - redis
       - worker   
-
