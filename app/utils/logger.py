@@ -62,22 +62,23 @@ class Logger:
         def __init__(self ):
             print("Archive class... created")                    
         
-        def archive(
-            self, level: int
-        ) -> None:
+        def archive(self,file_name: str) -> None:
             """
               Will take all files from their log locales, and migrate them to the new dir
               specified.
             """
+        def get_line_cnt(self, file_name: str) -> int:
+            return 100
 
-        def migrate_archive(
-            self,
+        def migrate_archive(self, 
+            log_file_name: str, 
+            archive_location: str
         ) -> None:
-            pass
+            ''' Doc String Here'''
+            print(f'Moved: {log_file_name} to: {archive_location}')
 
-        def set_archive_directory(
-            self, directory: str, delete_old_archive_dir: bool = True
-        ) -> bool:
+
+        def set_archive_directory(self, directory: str) -> None:
             """
               Will create a directory for all logfiles to be archived to. If the user is using this command
               and an archive already exists, then migrate the logs into the new one and delete the old, or not
@@ -222,10 +223,7 @@ class Logger:
             )
 
 
-        def commit_message(
-            message: str, 
-            file_name: str
-        ) -> None:
+        def commit_message(message: str, file_name: str) -> None:
             '''
             Handles writing log entries to the corresponding file.
             '''            
@@ -251,13 +249,29 @@ class Logger:
                    f"{fname}\n"
                     "Check path and spelling."
                 )
-
+               
+              
+        # Finalize the logfile entry.
         fname, message = ready_message(message=message)       
         fname, message = add_final_touches(
             file_name=fname, 
             message=message
         )
-
+        #
+        # Before Writiing to the file, check its size to see if it's time to archive it.
+        #
+        print(f'\nfname: {fname}\n')        
+        if self.archive.get_line_cnt(fname) >= self.log_file_max_size:
+              # Take a second out to migrate, once done, continue as usual
+              self.archive.migrate_archive(
+                  log_file_name=fname, 
+                  archive_location=os_join(
+                          self.LOG_ARCHIVE_DIRECTORY, 
+                          fname.split('/')[-1]
+                  )
+              )        
+        print(f"\nfname: {os_join(self.LOG_ARCHIVE_DIRECTORY,fname.split('/')[-1])}")  
+        
         commit_message(message, fname)
         
 
