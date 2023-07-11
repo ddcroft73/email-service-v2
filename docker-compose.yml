@@ -2,7 +2,6 @@ version: '3.8'
 
 services: 
 
-
   web:
       build: ./app
       ports:
@@ -33,20 +32,6 @@ services:
       - web
       - redis  
       
-  beat:
-    build: ./app
-    command: celery -A worker.celery beat --loglevel=info --logfile=logs/celery_beat.log
-    volumes:
-      - ./app:/usr/src/app
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0   
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - TZ=US/Eastern
-    depends_on:
-      - web
-      - redis  
-      #- worker
-
   dashboard:
     build: ./app
     command: celery --broker=redis://redis:6379/0 flower --port=5555
