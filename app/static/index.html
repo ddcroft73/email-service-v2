@@ -195,6 +195,8 @@
               I developed it to run within a <Link linkText="Docker">https://www.docker.com/</Link> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose.
               <Space howMuch={20 - 5} />
               The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing, although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of <a href="https://fastapi.tiangolo.com/">FastAPI</a>, and I must acknowledge the brilliance of FastAPI's design, as well as ease of use.  
+              <Space howMuch={20 - 5} />
+              One of the final things I have added to this microservice is a custom logger to record and organize every action the application renders. I found myself spending too much time trying to get the Python logger to do exactly what I wanted, consistently. So I spent some more time, making my own that works. import  it, and send a log entry to INFO, DEBUG, ERROR, or WARNING. Thats literally it. Each level message will be kept together, or if you dont want to dedicate an entire file to one level, then it will default to a default log. WHenever a log is full it will automatically archive itself and create a new one to pick upon. Now once I do figure out that the py logger isnt really all that difficult, I will feel stupid. But in the meantime, this is a really useful substitute thats a no brainer. I had a ball writing it and I believ it strengthend my understanding of OOP. 
             </p>
             <Heading size={0} hr={1}></Heading>
 
@@ -208,7 +210,8 @@
                  https://docs.celeryq.dev/en/stable/getting-started/introduction.html| Celery
                  https://redis.io| Redis
                  https://docs.docker.com/compose/| Docker Compose
-                 https://flower.readthedocs.io/en/latest/index.html| Celery Flower`
+                 https://flower.readthedocs.io/en/latest/index.html| Celery Flower
+                 Custom Logger Software`
               }
             </List>
             <p>
@@ -278,8 +281,7 @@
             </Heading>
             <List>
               {
-                `Get the Celery portion, tasks finalized: It works fine forwhat it is, and what I need. Decide if the class is worth it or just keep the function.
-                 Make the tests hard core. I currently only have one that fires requests at the endpoint. `
+                ` Finish the testing. `
               }
             </List>
           </MainContainer>
