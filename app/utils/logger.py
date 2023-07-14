@@ -38,6 +38,12 @@ walkthrough:
    (From here all the necessary log files are created, if they do not already exist. )
 2. 
 '''
+class ScreenPrinter():
+    def to_screen(self, message: str, level: int) -> None:
+        print(message)
+
+    
+
 
 class Logger():
     
@@ -61,13 +67,27 @@ class Logger():
 
             The maximum size of a log file is set at 1000 lines. This may need to be adjusted. If the class is instantiated
             with 'archive_log_files = True, then whenever a file reaches the max it will be moved to thearchive and a new one
-            will be created. 
+            will be created in its place. 
+            1. a call is made to self.archive_logfile()
+            2. rename the current logfile according to any logs that are in the archive already.
+                - create a rename method eill take in the contents of the archive directory, and said logfile
+                - rename the log according to whats already in the archive. 
+                - 
+            3. Create a new empty log file in this files inage.
+            4. move the newly named file into the archive.
 
             There must be a way to check periodically the size of the logfiles. Add a new task to celery that will check every
             log, every 12 hours. Ifthe max is reached then themigration can commence.
+
+            Asolutely not. ^^ All I need to do is check before every write action to every logfile. If the size == the limit
+            then step away and make the migration. a few milliseconds every 1000 lines should not even be noticed at this point. 
+            Not for a good while anyway. 
         """
 
         def __init__(self ):
+            '''
+            Most of this class is justma skeleton for now.
+            '''
             print("Archive class... created")                    
         
         def archive(self,file_name: str) -> None:
@@ -76,9 +96,11 @@ class Logger():
               specified.
             """
         def get_line_cnt(self, file_name: str) -> int:
-            return 100
+            '''gets contents of the file, convert to list, return the total items in list'''
+            file_date: list[str] = file_system.get_contents(file_name).split('\n')
+            return len(file_date)
 
-        async def migrate_archive(self, 
+        def archive_logfile(self, 
             log_file_name: str, 
             archive_location: str
         ) -> None:
@@ -88,12 +110,8 @@ class Logger():
 
         def set_archive_directory(self, directory: str) -> None:
             """
-              Will create a directory for all logfiles to be archived to. If the user is using this command
-              and an archive already exists, then migrate the logs into the new one and delete the old, or not
-        
-                    Options, Options
+              Will create a directory for all logfiles to be archived to.
             """
-            #Path(directory).mkdir(parents=True, exist_ok=True)
             file_system.mkdir(directory)
 
 
@@ -130,13 +148,14 @@ class Logger():
         
         self.archive = self.Archive()
         self.d_and_t = self.DateTime()
+        self.pts = ScreenPrinter()
 
         self.start_date: str = self.d_and_t.date_time_now()[0]
         self.start_time: str = self.d_and_t.date_time_now()[1]
 
         self.info_filename = info_filename  
         self.error_filename = error_filename  
-        self.warning_filename = warning_filename       #  The locations(filename, loc will aleays be ./logs) of each log
+        self.warning_filename = warning_filename       
         self.debug_filename = debug_filename  
         self.output_destination = output_destination   # FILE, SCREEN, or BOTH
         self.archive_log_files =  archive_log_files    # True if you want to archive the log files.
@@ -179,7 +198,7 @@ class Logger():
                 self.__set_log_filename(self.DEFAULT_LOG_FILE)
 
 
-    def __write_to_disk(
+    def __save_log(
         self, 
         message: str, 
         level: int, 
@@ -200,7 +219,7 @@ class Logger():
                 
             if timestamp:
                 date_time: str = f"{self.d_and_t.date_time_now()[0]} {self.d_and_t.date_time_now()[1]}"
-                message = f"{message} - [{date_time}]\n"
+                message = f"{message} § [{date_time}]\n"
             else:
                 message += "\n"
 
@@ -271,10 +290,12 @@ class Logger():
         #
         # Before Writiing to the file, check its size to see if it's time to archive it.
         #
-        print(f'\nfname: {fname}\n')        
+        print(f'\nfname: {fname}')       
+        print(f'\nget_line_count: {self.archive.get_line_cnt(fname)}') 
         if self.archive.get_line_cnt(fname) >= self.log_file_max_size:
               # Take a second out to migrate, once done, continue as usual
-              self.archive.migrate_archive(
+              # Future Bottleneck? One could only wish for this type of Success!!!
+              self.archive.archive_logfile(
                   log_file_name=fname, 
                   archive_location=os_join(
                           self.LOG_ARCHIVE_DIRECTORY, 
@@ -282,7 +303,6 @@ class Logger():
                   )
               )        
         print(f"\nfname: {os_join(self.LOG_ARCHIVE_DIRECTORY,fname.split('/')[-1])}")  
-
         commit_message(message, fname)
         
 
@@ -306,7 +326,7 @@ class Logger():
         elif level == self.ERROR:
             msg_prefix = self.ERROR_PRE            
 
-        print(msg_prefix, message)
+        self.pts.to_screen(f'{msg_prefix}{message}')
 
 
     def __route_output(
@@ -319,14 +339,14 @@ class Logger():
         Whenever a log message is invoked, this method will route the output to the proper direction(s)
         """
         if self.output_destination == self.FILE:
-            self.__write_to_disk(message, level, timestamp)
+            self.__save_log(message, level, timestamp)
 
         if self.output_destination == self.SCREEN:
             self.__print_screen(message)
 
         if self.output_destination == self.BOTH:
             self.__print_screen(message, level)
-            self.__write_to_disk(message, level, timestamp)
+            self.__save_log(message, level, timestamp)
 
 
     def error(
@@ -350,21 +370,20 @@ class Logger():
     ) -> None:
         self.__route_output(message, self.WARN, timestamp)
 
-    # My logic is flawed here: Figure out how to implement the 'wipe' flag.
     def debug(
         self, 
         message: str, 
-        wipe_before_log: bool = False, 
         timestamp: bool = False
     ) -> None:
         self.__route_output(message, self.DEBUG, timestamp)
 
 
     def __set_log_filename(
-        self, 
-        file_name: str
+        self, file_name: str
     ) -> None:
-        """This method creates the initial file. If a file already exists, it does nada."""
+        """This method creates the initial file. If a file already exists, it does nada.
+           Sets up the logfile.
+        """
         message: str = f" [ {file_name} ] created on {self.start_date} @ {self.start_time}\n\n"
 
         if Path(file_name).exists():
