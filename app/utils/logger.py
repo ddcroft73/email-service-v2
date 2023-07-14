@@ -2,6 +2,7 @@ from pathlib import Path
 from datetime import datetime
 from datetime import time
 from os.path import join as os_join
+from .file_handler import file_system
 
 #
 # "simple" Custom Logger class.
@@ -30,8 +31,15 @@ archive the contents.
         
 """
 
+'''
+walkthrough:
 
-class Logger:
+1. Logger is instantiated with or wothout the locations for the four log types, and a logger object is created.
+   (From here all the necessary log files are created, if they do not already exist. )
+2. 
+'''
+
+class Logger():
     
     class DateTime():
         def __init__(self ):
@@ -70,7 +78,7 @@ class Logger:
         def get_line_cnt(self, file_name: str) -> int:
             return 100
 
-        def migrate_archive(self, 
+        async def migrate_archive(self, 
             log_file_name: str, 
             archive_location: str
         ) -> None:
@@ -82,9 +90,11 @@ class Logger:
             """
               Will create a directory for all logfiles to be archived to. If the user is using this command
               and an archive already exists, then migrate the logs into the new one and delete the old, or not
-              Options, Options
+        
+                    Options, Options
             """
-            Path(directory).mkdir(parents=True, exist_ok=True)
+            #Path(directory).mkdir(parents=True, exist_ok=True)
+            file_system.mkdir(directory)
 
 
     INFO_PRE: str = "INFO: "
@@ -157,6 +167,7 @@ class Logger:
 
             for file_name in file_names:
                 if file_name is not None:
+
                     self.__set_log_filename(
                         os_join(
                             self.LOG_DIRECTORY, 
@@ -226,10 +237,10 @@ class Logger:
         def commit_message(message: str, file_name: str) -> None:
             '''
             Handles writing log entries to the corresponding file.
+            With the helpof a class created just to deal with the file system
             '''            
             try:
-                with open(file_name, "a") as f:
-                    f.write(message)
+                file_system.write(file_name, message,'a')
 
             except FileNotFoundError as e:
                 print(f"ERROR: Directory or file not found: {file_name}")
@@ -271,7 +282,7 @@ class Logger:
                   )
               )        
         print(f"\nfname: {os_join(self.LOG_ARCHIVE_DIRECTORY,fname.split('/')[-1])}")  
-        
+
         commit_message(message, fname)
         
 
@@ -360,10 +371,8 @@ class Logger:
             return
 
         try:
-            with open(file_name, "w") as f:
-                f.write(message)
-
-
+            file_system.write(file_name, message, 'w')
+           
         except FileNotFoundError as e:
             print(f"ERROR: Directory or file not found: {file_name}")
 

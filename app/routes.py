@@ -16,9 +16,11 @@ async def index():
 
 @router.post('/send-email/', response_model=MailResponse, status_code=status.HTTP_201_CREATED)
 def send_email(email: Email,  payload: dict=Depends(verify_token)):  
-    task = send_email_task.delay(email.dict())     
+    task =  send_email_task.delay(email.dict())   
+      
      #response = await dispatch_email(email) #without Celery. it still works just add async \await down the chain. 
     response = {
+        
        "result": f'{task.id}, Task passed to Celery'
     }
     return JSONResponse(response)    
