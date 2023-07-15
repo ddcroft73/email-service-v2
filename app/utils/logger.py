@@ -26,7 +26,8 @@ archive the contents.
 
 # User will config the logger on instantiation, 
         # If none of these args are used, Then User will get a logger that sends all log entries
-        # to a default log file in the projects root directory under thedirectory 'logs'.
+        # to a default log file in the projects root directory under thedirectory 'logs'. and whenever
+        # the size reaches 1000lines it will be archived.
         # Any filename not specified will go into the default log file.
         
 """
@@ -41,8 +42,6 @@ walkthrough:
 class ScreenPrinter():
     def to_screen(self, message: str, level: int) -> None:
         print(message)
-
-    
 
 
 class Logger():
@@ -90,11 +89,6 @@ class Logger():
             '''
             print("Archive class... created")                    
         
-        def archive(self,file_name: str) -> None:
-            """
-              Will take all files from their log locales, and migrate them to the new dir
-              specified.
-            """
         def get_line_cnt(self, file_name: str) -> int:
             '''gets contents of the file, convert to list, return the total items in list'''
             file_date: list[str] = file_system.get_contents(file_name).split('\n')
@@ -109,8 +103,7 @@ class Logger():
 
 
         def set_archive_directory(self, directory: str) -> None:
-            """
-              Will create a directory for all logfiles to be archived to.
+            """ Will create a directory for all logfiles to be archived to.
             """
             file_system.mkdir(directory)
 
@@ -279,14 +272,16 @@ class Logger():
                    f"{fname}\n"
                     "Check path and spelling."
                 )
-               
-              
+                             
         # Finalize the logfile entry.
         fname, message = ready_message(message=message)       
         fname, message = add_final_touches(
             file_name=fname, 
             message=message
         )
+#
+# The archiving portion is only boiler plate.
+#         
         #
         # Before Writiing to the file, check its size to see if it's time to archive it.
         #
@@ -303,6 +298,7 @@ class Logger():
                   )
               )        
         print(f"\nfname: {os_join(self.LOG_ARCHIVE_DIRECTORY,fname.split('/')[-1])}")  
+ #       
         commit_message(message, fname)
         
 

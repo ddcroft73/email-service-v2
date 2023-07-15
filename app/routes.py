@@ -10,17 +10,22 @@ from fastapi.responses import RedirectResponse
 router = APIRouter()
 
 
-@router.get('/', response_class=RedirectResponse)  
-async def index():
+@router.get('/', 
+    response_class=RedirectResponse
+)  
+def index():
     return RedirectResponse(url='/static/index.html')
 
-@router.post('/send-email/', response_model=MailResponse, status_code=status.HTTP_201_CREATED)
-def send_email(email: Email,  payload: dict=Depends(verify_token)):  
-    task =  send_email_task.delay(email.dict())   
-      
+@router.post('/send-email/', 
+    response_model=MailResponse, 
+    status_code=status.HTTP_201_CREATED
+)
+def send_email(
+    email: Email,  payload: dict=Depends(verify_token)
+):  
+    task =  send_email_task.delay(email.dict())         
      #response = await dispatch_email(email) #without Celery. it still works just add async \await down the chain. 
-    response = {
-        
+    response = {        
        "result": f'{task.id}, Task passed to Celery'
     }
     return JSONResponse(response)    

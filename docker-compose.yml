@@ -6,7 +6,7 @@ services:
       build: ./app
       ports:
         - 8014:8000
-      command: uvicorn main:app --host 0.0.0.0 #--reload
+      command: uvicorn main:app --host 0.0.0.0 --reload
       volumes:
         - ./app:/usr/src/app
       environment:
