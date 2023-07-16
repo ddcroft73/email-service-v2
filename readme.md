@@ -1,7 +1,7 @@
 ## Email Micro Service V2
 
 <p>
-  This is a straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. It's the second iteration of the service.
+  This is a straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. Second iteration.
 </p>
 
 <p>
@@ -18,7 +18,15 @@
 [Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)<br>
 [Redis](https://redis.io) <br>
 [Docker Compose](https://docs.docker.com/compose/) <br>
-[Celery Flower](https://flower.readthedocs.io/en/latest/index.html)
+[Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
+Custom Logger. 
+  - Built a logger escpecially designed to work fluently with this application type.
+  - Easy to use with self archiving so logs can be kept as reference points for any scenario.
+    - INFO
+    - ERROR
+    - DEBUG
+    - WARNING
+    For me, this is a better logger than Pythons logger. But its not exactly the same. Built for a specific use case.
 
 SMTP Email functionality built using python email wrapped in a simple class.
 
@@ -69,5 +77,5 @@ Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](h
 - `$ docker-compose up`
 
 ### TODO:
-- Make the tests hard core. I currently only have one that fires requests at the endpoint.
+- Make the tests more hard core. I currently only have one that fires requests at the endpoint.
 - Testing.... and I'm done.
