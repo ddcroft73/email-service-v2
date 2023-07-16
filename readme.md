@@ -5,8 +5,7 @@
 </p>
 
 <p>
-  I developed it to run within a <a href="https://www.docker.com/">Docker</a> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose, and in the meantime have become a bit facsinated with it. {I believe I can create
-  separate apis, in the same root directory (Different directories for each app, ofcourse), add them as services in my docker-compose YAML and run an entire backend of microservices from one location. Sounds to good to be true and I'm likely wrong about this at least in some aspect of my understanding. So I sally forth! And continue to learn.}
+  I developed it to run within a <a href="https://www.docker.com/">Docker</a> container using <a href="https://docs.docker.com/compose/">Docker Compose</a>. In the initial <a href="https://github.com/ddcroft73/email-service">version</a>, the API was built within a virtual environment (venv) and required launching through two shell scripts. The second script was used to launch the <a href="http://www.celeryproject.org/">Celery</a> worker(s). However, I wasn't satisfied with this approach, so I took the initiative to learn how to use Docker Compose, and in the meantime have become a bit facsinated with it.
 </p>
 
 <p>
@@ -19,14 +18,15 @@
 [Redis](https://redis.io) <br>
 [Docker Compose](https://docs.docker.com/compose/) <br>
 [Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
-Custom Logger. 
+Custom Logger
   - Built a logger escpecially designed to work fluently with this application type.
   - Easy to use with self archiving so logs can be kept as reference points for any scenario.
     - INFO
     - ERROR
     - DEBUG
     - WARNING
-    For me, this is a better logger than Pythons logger. But its not exactly the same. Built for a specific use case.
+    
+    For me, this is a better logger than Pythons logger. But it's not exactly the same. Built for a specific use case.
 
 SMTP Email functionality built using python email wrapped in a simple class.
 
