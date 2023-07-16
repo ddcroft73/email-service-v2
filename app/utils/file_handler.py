@@ -1,24 +1,31 @@
 from pathlib import Path
 import shutil
 
+
 class CreateDirectoryError(Exception):
     pass
+
 class RemoveDirectoryError(Exception):
     pass
+
 class FileWriteError(Exception):
     pass
+
 class FileDeleteError(Exception):
     pass
+
 class FileReadError(Exception):
     pass
 
 class FileMoveError(Exception):
     pass
 
+class FileRenameError(Exception):
+    pass
+
+
 class FileHandler():
-    def __init__(self):
-        pass  # Notsure if I'll need it... just in case.
-    
+
     def get_contents(self, file_name: str) -> str:
         '''
         Will return the contents of a file in a string.
@@ -31,21 +38,30 @@ class FileHandler():
         except FileNotFoundError:
             raise FileExistsError(f'Cannot find: {file_name}')
         
-        except Exception as e:
-            raise FileReadError(f'An Error occured trying to read: {file_name}.\n {str(e)}')
+        except Exception as exc:
+            raise FileReadError(
+                f'An Error occured trying to read: {file_name}.\n {str(exc)}'
+            )
             
 
     def mkdir(self, directory: str) -> None:
         '''
         Will create a directory at the given Path. Will create any parent directories that do not exist.
         Will not raise an exception if the directory already exists. Just steps away.
+        
+        I've modified it to return exists or created to let the program know the status.
+        Its really just fluff. an excuse touse a nifty ternary operation.
         '''
         try:
+            if Path(directory).exists():
+                return 'exists'
+            
             Path(directory).mkdir(parents=True, exist_ok=True)
-
-        except Exception as e:
+            return 'created'
+        
+        except Exception as exc:
             raise CreateDirectoryError(
-                f"Error attempting to create the directory: {directory}\n{str(e)}"
+                f"An error occured attempting to create the directory: {directory}\n{str(exc)}"
             )
         
     def rmdir(self, directory: str) -> None:
@@ -59,8 +75,10 @@ class FileHandler():
         except FileNotFoundError:
             raise FileExistsError(f'The directory: {directory}\nDoes not Exist..')
         
-        except Exception as e:
-            raise RemoveDirectoryError(f'An error occured trying to remove a directory: {str(e)} ')
+        except Exception as exc:
+            raise RemoveDirectoryError(
+                f'The following error occured trying to remove a directory: {str(exc)} '
+            )
         
 
     def write(self, file_name: str, data: str, mode: str) -> None:
@@ -71,11 +89,21 @@ class FileHandler():
             with open(file_name, mode) as f:
                 f.write(data)
 
-        except Exception as e:
+        except Exception as exc:
             raise FileWriteError(
-                f"An error occured attempting to write to file: {file_name} in {mode} mode.\n{str(e)}"
+                f"The following error occured attempting to write to file: {file_name} in {mode} mode.\n{str(exc)}"
             )        
         
+    def rename(self, old_filename: str, new_filename: str) -> None:
+        try:
+            current_file_path = Path(old_filename)
+            new_file_path = Path(new_filename)
+            current_file_path.rename(new_file_path)
+
+        except Exception as exc:
+            raise FileRenameError(
+                f'The following error occured tryong to rename {old_filename} to {new_filename}\n{str(exc)}'
+            )
 
     def delete(self, file_name: str) -> None:
         '''
@@ -88,9 +116,9 @@ class FileHandler():
             except FileNotFoundError:
                raise FileDeleteError(f'The file {file_name} does not exist.')
             
-            except Exception as e:
+            except Exception as exc:
                 raise FileDeleteError(
-                    f'An error occured while attempting to delete a file: {str(e)}'
+                    f'The following error occured while attempting to delete a file: {str(exc)}'
                 )
             
     
@@ -109,7 +137,9 @@ class FileHandler():
         if self.exists(old_locale):
             shutil.copy(old_locale, new_locale)        
         else:
-            raise FileNotFoundError(f'THe file: {old_locale} could not be found.\nCopy process terminated.')    
+            raise FileNotFoundError(
+                f'The file: {old_locale} could not be found.\nCopy process terminated.'
+            )    
     
     def move(self, old_locale: str, new_locale: str)-> None:
         '''
@@ -120,9 +150,13 @@ class FileHandler():
                shutil.move(old_locale, new_locale)
                
             except Exception as e:
-                raise FileMoveError(f'An error occured in the process of moving: {old_locale}\n{str(e)}')   
+                raise FileMoveError(
+                    f'The following error occured in the process of moving: {old_locale}\n{str(e)}'
+                )   
         else:
-            raise FileNotFoundError(f'THe file: {old_locale} could not be found.\nCopy process terminated.')    
+            raise FileNotFoundError(
+                f'The file: {old_locale} could not be found.\nCopy process terminated.'
+            )    
     
 
-file_system = FileHandler()
+filesys = FileHandler()
