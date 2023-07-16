@@ -13,11 +13,12 @@
 </p>
 
 ### Tech Stack:
-[fastAPI](https://fastapi.tiangolo.com)<br>
+[FastAPI](https://fastapi.tiangolo.com)<br>
 [Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)<br>
 [Redis](https://redis.io) <br>
 [Docker Compose](https://docs.docker.com/compose/) <br>
 [Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
+
 Custom Logger
   - Built a logger escpecially designed to work fluently with this application type.
   - Easy to use with self archiving so logs can be kept as reference points for any scenario.
