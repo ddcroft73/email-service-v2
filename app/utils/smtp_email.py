@@ -70,6 +70,43 @@ class SmtpEmail():
 
 
         return True
+ 
+    async def send_async(self, email: Email) -> bool:
+        # print(f'USERNAME: {self.username}, PASSWORD: {self.password}')
+        html = email.message.html if email.message.html != "" else ""
+        text = email.message.text if email.message.text != "" else ""
+
+        _message = self.prepare_message(
+            email.email_from, email.email_to, email.subject, html, text
+        )
+        # simulate sending email.. so I dont wreck it.
+        # give them all differnet times of completion
+
+        # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
+        # Im not trying to get my account shutdown for spam. 
+        sleep(random.randint(5, 15))
+        """
+        try:
+           with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
+             email_.login(self.username, self.password)
+             email_.sendmail(self.username, email.email_to, _message)
+             
+        except SMTPException as smtp_err:
+            print('SMTP Error:', smtp_err)
+            print('Error occurred attempting to send mail')
+            return False    
+        
+        except Exception as er:
+           #print(er)
+           print('Error occurred attepmting to send mail')
+           return False               
+"""
+       
+        logger.info("Email sent via email your email 'Provider' ", timestamp=True)
+       # logger.debug("Sample Debug code.", timestamp=True)
+
+
+        return True
 
 
 smtp_email = SmtpEmail(

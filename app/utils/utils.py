@@ -6,17 +6,19 @@ from jwt.exceptions import PyJWTError
 from config.settings import settings
 from schema import Email
 from .smtp_email import smtp_email
+from .logger import logger 
 from datetime import datetime, timedelta
 
 
 async def dispatch_email(email: Email) -> dict:    
-    response = await smtp_email.send_mail(email)    
+    response = await smtp_email.send_async(email)    
     if response:
         print("sending mail...")
     else:
-        return {"inner result": "Yo! Error fool!"}
-    # back to client
-    return {"inner result": f"email sent @ {datetime.now()}"}
+        logger.error(" Function: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
+        return {"result": "Function: 'dispatch_email()' Error after 'smtp_email.send_async()' "}
+    # back to client    
+    return {"result": f"email sent @ {datetime.now()}"}
 
 
 def verify_token(

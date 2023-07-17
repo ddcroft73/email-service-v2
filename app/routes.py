@@ -31,3 +31,15 @@ def send_email(
     }
     return JSONResponse(response)    
  
+
+@router.post('/send-async/', 
+    response_model=MailResponse, 
+    status_code=status.HTTP_201_CREATED
+)
+async def send_async(email: Email, payload: dict=Depends(verify_token) ):
+
+    response: bool = await dispatch_email(email) 
+    return JSONResponse({"result": response})    
+
+
+

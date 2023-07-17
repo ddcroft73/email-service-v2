@@ -38,7 +38,9 @@ SMTP Email functionality built using python email wrapped in a simple class.
 Send Emails. Thats it. It will have one endpoint. I may need to add another/others when I totally figure out exactly what I am doing.  
 
 ### EndPoint:
-/send-email/
+/send-email/  - Send emails with Celery
+
+/send-async/  - Send emails asynchronusly
 
 
 ### Request Model:
