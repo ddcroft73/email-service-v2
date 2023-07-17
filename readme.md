@@ -32,7 +32,7 @@ Designed with four levels, but they are what the user says they are. Simply invo
 - DEBUG
 - WARNING
     
-    For me, this is an easier logger to use than Pythons logger. But it's not exactly the same. Built for a specific use case. I plan on making this a python package to make it easier to use in other projects.
+For me, this is an easier logger to use than Pythons logger. But it's not exactly the same. Built for a specific use case. I plan on making this a python package to make it easier to use in other projects.
 
 SMTP Email functionality built using python email wrapped in a simple class.
 
