@@ -1,6 +1,5 @@
 from pathlib import Path
-from datetime import datetime
-from datetime import time
+from datetime import datetime, time
 import re
 from os.path import join as os_join
 from .file_handler import filesys
@@ -34,16 +33,10 @@ archive the contents.
         
 """
 
-"""
-walkthrough:
-
-1. Logger is instantiated with or wothout the locations for the four log types, and a logger object is created.
-   (From here all the necessary log files are created, if they do not already exist. )
-2. 
-"""
-
-
 class ScreenPrinter:
+    def __init__(self):
+        print("ScreenPrinter class... created.")
+
     def to_screen(self, message: str, level: int) -> None:
         print(message)
 
@@ -67,22 +60,13 @@ class Logger:
         How the archiving will work:
 
         The maximum size of a log file is set at 1000 lines. This may need to be adjusted. If the class is instantiated
-        with 'archive_log_files = True, then whenever a file reaches the max it will be moved to thearchive and a new one
+        with 'archive_log_files = True, then whenever a file reaches the max it will be moved to the archive and a new one
         will be created in its place.
-        1. a call is made to self.archive_logfile()
-        2. rename the current logfile according to any logs that are in the archive already.
-            - create a rename method eill take in the contents of the archive directory, and said logfile
-            - rename the log according to whats already in the archive.
-            -
-        3. Create a new empty log file in this files inage.
-        4. move the newly named file into the archive.
 
-        There must be a way to check periodically the size of the logfiles. Add a new task to celery that will check every
-        log, every 12 hours. Ifthe max is reached then themigration can commence.
-
-        Asolutely not. ^^ All I need to do is check before every write action to every logfile. If the size == the limit
-        then step away and make the migration. a few milliseconds every 1000 lines should not even be noticed at this point.
-        Not for a good while anyway.
+        1. a call is made to Archive.archive_logfile()
+        2. rename the current logfile using the info in the first line.
+        3. move the newly named file into the archive.
+        
         """
 
         class ArchiveSubDirectories:
@@ -93,9 +77,11 @@ class Logger:
 
             @classmethod
             def to_list(cls) -> list:
-                # Get a dictionary of the class attributes
+                '''
+                Levearages vars() to extract the values of each attribute into 
+                an iterable.
+                '''
                 attributes = vars(cls)
-                # Filter the dictionary to only include the str attributes (the directories)
                 directories = [
                     value
                     for name, value in attributes.items()
@@ -110,6 +96,7 @@ class Logger:
             self.archive_directory = archive_directory
             self.Level = Level
             self.__create_archive_sub_directories()
+
             print("Archive class... created")
 
         def __create_archive_sub_directories(self) -> None:
@@ -117,11 +104,12 @@ class Logger:
             Creates the sub directories to house the archived logs.
             If they already exist, nothing is done but a flag is returned to specify
             It exists. If it does not exist, it is created and a flag is returned saying it
-            was just created.
+            was just created... (This was really only done so I could use this nifty ternary
+            operation I came up with.lol)
             """
             for sub in self.ArchiveSubDirectories.to_list():
                 state: str = filesys.mkdir(f"{self.archive_directory}{sub}")
-                msg: str = "was " if state == "created" else "already"
+                msg: str = ("was " if state == "created" else "already")
                 print(f"Sub directory '{sub}' {msg} {state}.")
 
         def get_line_cnt(self, file_name: str) -> int:
@@ -134,6 +122,9 @@ class Logger:
             return len(file_date)
 
         def get_sub_directory(self, level: int) -> str:
+            '''
+            Returns the Sub directory associated to the level. 
+            '''
             sub_dir: str = ""
             if level == self.Level.INFO:
                 sub_dir = self.ArchiveSubDirectories.INFO_DIR
@@ -148,17 +139,22 @@ class Logger:
                 sub_dir = self.ArchiveSubDirectories.DEBUG_DIR
 
             return sub_dir
-
+        #
+        # Think about error handling in this method??
+        #
         def archive_logfile(self, logfile: str, level: int) -> None:
             """
                 Moves the logfile from its old location to a new location after renaming .
                 Creates a new logfile in its place and image.
                 1. rename the current logfile. 
-                2. Move the file to the appropriate archive directory. 
-            """
+                2. Move the file to the appropriate archive directory.             """
 
             def get_new_filename(filename: str) -> str:
-
+                '''
+                Using the string of text prepended at the top of each log, Pull out the time
+                and date (via extract_date_time_from_string())to be used in naming the log 
+                file in the archive. 
+                '''
                 def extract_date_time_from_string(input_string: str) -> tuple[str] | str:
                     datetime_pattern = r"\b(\d{4}-\d{2}-\d{2}) @ (\d{2}:\d{2}:\d{2})\b"
                     match = re.search(datetime_pattern, input_string)
@@ -180,17 +176,17 @@ class Logger:
                 )
 
             # Rename the current logfile.
-            new_filename_full, new_filename_only = get_new_filename(logfile)
+            new_logfile_full, new_logfile_only = get_new_filename(logfile)
 #           filesys.rename(logfile, new_filename_full)
 
             sub_dir: str = self.get_sub_directory(level)
-            current_location: str = new_filename_full
-            archive_location: str = f'{self.archive_directory}{sub_dir}{new_filename_only}'
+            current_location: str = new_logfile_full
+            archive_location: str = f'{self.archive_directory}{sub_dir}{new_logfile_only}'
 
             # Move it to its appropriate sub directory.
 #           filesys.move(current_location, archive_location)
 
-            print(f"\nRenamed: {logfile} to: {new_filename_full}")
+            print(f"\nRenamed: {logfile} to: {new_logfile_full}")
             print(f"\nMoved: {current_location} TO: {archive_location}"            )
 
         def set_archive_directory(self, directory: str) -> None:
@@ -218,12 +214,6 @@ class Logger:
     LOG_DIRECTORY: str = settings.LOG_DIRECTORY    
     LOG_ARCHIVE_DIRECTORY: str = settings.LOG_ARCHIVE_DIRECTORY
     DEFAULT_LOG_FILE: str = settings.DEFAULT_LOG_FILE
-    '''   
-    LOG_DIRECTORY: str = "./logs"  # When the user specifies a file name for their logs, This will be prepended into the logs
-    # path by default. Therfore you dont have to think about paths, just give it a file name .
-    LOG_ARCHIVE_DIRECTORY: str = f"{LOG_DIRECTORY}/log-archives/"
-    DEFAULT_LOG_FILE: str = f"{LOG_DIRECTORY}/app-logs.log"
-    '''
 
     def __init__(
         self,
@@ -251,7 +241,7 @@ class Logger:
         self.debug_filename = debug_filename
         self.output_destination = output_destination  # FILE, SCREEN, or BOTH
         self.archive_log_files = archive_log_files 
-        self.log_file_max_size = 5 #log_file_max_size    # How long a file can be by # of lines        
+        self.log_file_max_size = 5 #log_file_max_size    # DEBUGING        
 
         self.__handle_file_setup()
 
@@ -366,7 +356,7 @@ class Logger:
         commit_message(message, fname)
 
 
-    def __print_screen(self, message: str, level: int) -> None:
+    def __print_screen(self, message: str, level: int, timestamp: bool) -> None:
         """two guesses..."""
         msg_prefix: str
 
@@ -381,8 +371,12 @@ class Logger:
 
         elif level == self.Level.ERROR:
             msg_prefix = self.ERROR_PRE
+        
+        if timestamp:
+           message = message + f' § [{timestamp}]'
 
         self.prnt.to_screen(f"{msg_prefix}{message}")
+
 
     def __route_output(self, message: str, level: int, timestamp: bool = False) -> None:
         """
@@ -392,13 +386,15 @@ class Logger:
             self.__save_log(message, level, timestamp)
 
         if self.output_destination == self.SCREEN:
-            self.__print_screen(message)
+            self.__print_screen(message, timestamp)
 
         if self.output_destination == self.BOTH:
-            self.__print_screen(message, level)
+            self.__print_screen(message, level, timestamp)
             self.__save_log(message, level, timestamp)
 
-
+    #
+    # Log Message Interfaces
+    #
     def error(self, message: str, timestamp: bool = False) -> None:
         self.__route_output(message, self.Level.ERROR, timestamp)
 
@@ -415,7 +411,7 @@ class Logger:
         """This method creates the initial file. If a file already exists, it does nada.
         Sets up the logfile.
         """
-        message: str = (
+        header: str = (
             f" [ {file_name} ] created on {self.start_date} @ {self.start_time}\n\n"
         )
 
@@ -423,7 +419,7 @@ class Logger:
             return
 
         try:
-            filesys.write(file_name, message, "w")
+            filesys.write(file_name, header, "w")
 
         except FileNotFoundError as e:
             print(f"ERROR: Directory or file not found: {file_name}")

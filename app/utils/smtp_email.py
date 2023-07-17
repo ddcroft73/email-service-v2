@@ -45,7 +45,8 @@ class SmtpEmail():
         # simulate sending email.. so I dont wreck it.
         # give them all differnet times of completion
 
-        # TESTING
+        # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
+        # Im not trying to get my account shutdown for spam. 
         sleep(random.randint(5, 15))
         """
         try:

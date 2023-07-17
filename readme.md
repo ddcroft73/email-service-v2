@@ -1,7 +1,7 @@
 ## Email Micro Service V2
 
 <p>
-  This is a straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently. Second iteration.
+  A straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently as the second iteration.
 </p>
 
 <p>
@@ -12,6 +12,7 @@
   The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing, although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of <a href="https://fastapi.tiangolo.com/">FastAPI</a>, and I must acknowledge the brilliance of FastAPI's design, not my own.
 </p>
 
+
 ### Tech Stack:
 [FastAPI](https://fastapi.tiangolo.com)<br>
 [Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)<br>
@@ -20,14 +21,16 @@
 [Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
 
 Custom Logger
-  - Built a logger escpecially designed to work fluently with this application type.
-  - Easy to use with self archiving so logs can be kept as reference points for any scenario.
-    - INFO
-    - ERROR
-    - DEBUG
-    - WARNING
+  - Built my own logger escpecially designed to work fluently with this application type.
+  - Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered.
+ 
+  Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
+  - INFO
+  - ERROR
+  - DEBUG
+  - WARNING
     
-    For me, this is a better logger than Pythons logger. But it's not exactly the same. Built for a specific use case.
+    For me, this is an easier logger to use than Pythons logger. But it's not exactly the same. Built for a specific use case. I plan on making this a python package to make it easier to use in other projects.
 
 SMTP Email functionality built using python email wrapped in a simple class.
 
@@ -49,6 +52,11 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
   message: {
     text: "string",
     html: "string
+  },
+  userdata:{
+    userid: "string",
+    user_uuid: "string",
+    account_type: "string"
   }
 }
 ```
