@@ -22,15 +22,12 @@
 
 Custom Logger
 
-- Built my own logger escpecially designed to work fluently with this application type.
-- Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered.
+Built a logger escpecially designed to work fluently with this application type. Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered. Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
 
-Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
-
-- INFO
-- ERROR
-- DEBUG
-- WARNING
+INFO<br>
+ERROR<br>
+DEBUG<br>
+WARNING<br>
     
 For me, this is an easier logger to use than Pythons logger. But it's not exactly the same. Built for a specific use case. I plan on making this a python package to make it easier to use in other projects.
 
