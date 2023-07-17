@@ -20,7 +20,7 @@
 [Docker Compose](https://docs.docker.com/compose/) <br>
 [Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
 
-Custom Logger
+### Custom Logger:
 
 Built a logger escpecially designed to work fluently with this application type. Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered. Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
 
