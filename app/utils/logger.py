@@ -6,7 +6,7 @@ from .file_handler import filesys
 from config.settings import settings
 
 #
-# "simple" Custom Logger class.
+# "EZ Logger class.
 #
 #  It's like Python Logger(not as robust), but it works without having to be perfect. If I ask it to log something it does it
 #  and I don't have to dig through docs to figure out why my INFO logger is working.. somewhat, but my ERROR
@@ -41,7 +41,7 @@ class ScreenPrinter:
         print(message)
 
 
-class Logger:
+class EZLogger:
     class DateTime:
         def __init__(self):
             print("DateTime class... created")
@@ -88,6 +88,7 @@ class Logger:
                     if isinstance(value, str) and name != "__module__"
                 ]
                 return directories
+
 
         def __init__(self, archive_directory: str, Level):
             """
@@ -177,14 +178,14 @@ class Logger:
 
             # Rename the current logfile.
             new_logfile_full, new_logfile_only = get_new_filename(logfile)
-#           filesys.rename(logfile, new_filename_full)
+# SAFETY    filesys.rename(logfile, new_filename_full)
 
             sub_dir: str = self.get_sub_directory(level)
             current_location: str = new_logfile_full
             archive_location: str = f'{self.archive_directory}{sub_dir}{new_logfile_only}'
 
             # Move it to its appropriate sub directory.
-#           filesys.move(current_location, archive_location)
+# SAFETY    filesys.move(current_location, archive_location)
 
             print(f"\nRenamed: {logfile} to: {new_logfile_full}")
             print(f"\nMoved: {current_location} TO: {archive_location}"            )
@@ -241,7 +242,7 @@ class Logger:
         self.debug_filename = debug_filename
         self.output_destination = output_destination  # FILE, SCREEN, or BOTH
         self.archive_log_files = archive_log_files 
-        self.log_file_max_size = 5 #log_file_max_size    # DEBUGING        
+        self.log_file_max_size = log_file_max_size    # DEBUGING=5      
 
         self.__handle_file_setup()
 
@@ -321,23 +322,11 @@ class Logger:
             try:
                 filesys.write(file_name, message, "a")
 
-            except FileNotFoundError as e:
-                print(f"ERROR: Directory or file not found: {file_name}")
-
-            except PermissionError as e:
-                print(f"ERROR: Permission denied: {file_name}")
-
-            except IsADirectoryError as e:
-                print(f"ERROR: {file_name} is a directory, not a file")
-
-            except OSError as e:
-                print(f"ERROR: OS error occurred: {str(e)}")
-
-            except Exception as e:
+            except Exception as exc:
                 print(
                     "ERROR: There was an error attempting a write action on:\n"
                     f"{fname}\n"
-                    "Check path and spelling."
+                    f"Check path and spelling. \nHere go yo Exception: {str(exc)}"
                 )
 
         # Finalize the logfile entry.
@@ -407,6 +396,8 @@ class Logger:
     def debug(self, message: str, timestamp: bool = False) -> None:
         self.__route_output(message, self.Level.DEBUG, timestamp)
 
+
+
     def __set_log_filename(self, file_name: str) -> None:
         """This method creates the initial file. If a file already exists, it does nada.
         Sets up the logfile.
@@ -414,24 +405,11 @@ class Logger:
         header: str = (
             f" [ {file_name} ] created on {self.start_date} @ {self.start_time}\n\n"
         )
-
         if Path(file_name).exists():
             return
 
         try:
             filesys.write(file_name, header, "w")
-
-        except FileNotFoundError as e:
-            print(f"ERROR: Directory or file not found: {file_name}")
-
-        except PermissionError as e:
-            print(f"ERROR: Permission denied: {file_name}")
-
-        except IsADirectoryError as e:
-            print(f"ERROR: {file_name} is a directory, not a file")
-
-        except OSError as e:
-            print(f"ERROR: OS error occurred: {str(e)}")
 
         except Exception as e:
             print(
@@ -441,12 +419,12 @@ class Logger:
             )
 
 
-logger = Logger(
+logzz = EZLogger(
     info_filename="INFO_log.log",
     debug_filename="DEbUG_log.log",
-    error_filename=None,
+    error_filename="ERROR_logzz.log",
     warning_filename=None,
-    output_destination=Logger.FILE,
+    output_destination=EZLogger.FILE,
     archive_log_files=True,
     log_file_max_size=1000,
 )

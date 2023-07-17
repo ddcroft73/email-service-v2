@@ -8,7 +8,7 @@ from datetime import datetime
 from time import sleep
 import random, os
 
-from .logger import logger
+from .logger import logzz
 
 class SmtpEmail():
     def __init__(self, smtp_host: str, smtp_port: int, username: str, password: str):
@@ -65,7 +65,7 @@ class SmtpEmail():
            return False               
 """
        
-        logger.info("Email sent via email your email 'Provider' ", timestamp=True)
+        logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
        # logger.debug("Sample Debug code.", timestamp=True)
 
 
@@ -84,7 +84,7 @@ class SmtpEmail():
 
         # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
         # Im not trying to get my account shutdown for spam. 
-        sleep(random.randint(5, 15))
+        #sleep(random.randint(5, 15))
         """
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
@@ -92,20 +92,28 @@ class SmtpEmail():
              email_.sendmail(self.username, email.email_to, _message)
              
         except SMTPException as smtp_err:
+            logzz.error(f" SMTP ERROR: {smtp_err}")
             print('SMTP Error:', smtp_err)
             print('Error occurred attempting to send mail')
             return False    
         
         except Exception as er:
            #print(er)
+           logzz.error(f" SMTP ERROR: Error occurred attepmting to send mail. ")
            print('Error occurred attepmting to send mail')
            return False               
-"""
+
        
-        logger.info("Email sent via email your email 'Provider' ", timestamp=True)
+        logzz.info(
+            f"Email sent via your email 'Provider' Sent To: {email.email_to} ", 
+            timestamp=True
+        )
        # logger.debug("Sample Debug code.", timestamp=True)
-
-
+"""
+        logzz.info(
+            f" TESTING Email sent via your email 'Provider' Sent To: {email.email_to} ", 
+            timestamp=True
+        )
         return True
 
 

@@ -2,7 +2,7 @@ from pathlib import Path
 import shutil
 
 '''
-An extra layer used for all actions assoscisated with the file system. 
+An extra layer used for all actions associated with the file system. 
 '''
 
 class CreateDirectoryError(Exception):

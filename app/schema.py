@@ -3,7 +3,6 @@ from typing import Optional
 
 class UserInfo(BaseModel):
     userid: str
-    passwrd: str
     user_uuid: str
 
 class Message(BaseModel):

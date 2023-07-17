@@ -1,7 +1,7 @@
 from schema import Email
 from utils.smtp_email import smtp_email
 from config.settings import settings
-from utils.logger import logger
+from utils.logger import logzz
 
 from celery import Task
 from celery import Celery
@@ -15,10 +15,10 @@ celery.conf.timezone = 'US/Eastern'
 # Experimenting with This setup... it may be more troublethan its worth.. lol
 class EmailTask(Task):
     def on_success(self, retval, task_id, args, kwargs):
-        logger.info("Email 'Task' has succeded.", timestamp=True)
+        logzz.info("Email 'Task' succeded.", timestamp=True)
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
-        logger.info(f"Email 'Task' failed.", timestamp=True)
+        logzz.error(f"Email 'Task' failed.", timestamp=True)
 
 @celery.task(
     name="send_email_task",
@@ -30,8 +30,8 @@ class EmailTask(Task):
 def send_email_task(self, email_dict: dict[str, str]):
 
     def on_retry(exc):
-        logger.info(
-            f"Retrying email to: {email_dict.get('email_to', 'Unknown email')}\nDue to Exception: {str(exc)}", 
+        logzz.error(
+            f"\nResending email to: {email_dict.get('email_to', 'Unknown email')}\nDue to Exception: {str(exc)}", 
             timestamp=True
         )
         
@@ -43,3 +43,4 @@ def send_email_task(self, email_dict: dict[str, str]):
     except Exception as exc:
         on_retry(exc)
         raise self.retry(exc=exc)
+    

@@ -6,7 +6,7 @@ from jwt.exceptions import PyJWTError
 from config.settings import settings
 from schema import Email
 from .smtp_email import smtp_email
-from .logger import logger 
+from .logger import logzz 
 from datetime import datetime, timedelta
 
 
@@ -15,7 +15,7 @@ async def dispatch_email(email: Email) -> dict:
     if response:
         print("sending mail...")
     else:
-        logger.error(" Function: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
+        logzz.error(" Function: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
         return {"result": "Function: 'dispatch_email()' Error after 'smtp_email.send_async()' "}
     # back to client    
     return {"result": f"email sent @ {datetime.now()}"}
