@@ -37,7 +37,7 @@ SMTP Email functionality built using python email wrapped in a simple class.
 ### Purpose:
 Send Emails. Thats it. It will have one endpoint. I may need to add another/others when I totally figure out exactly what I am doing.  
 
-### EndPoint:
+### EndPoints:
 `/ ` - Root or index. Loads index.html. A React page (I use the CDN files not an actual React App, all components are in index.html) built to emulate this readme file.
 
 `/send-email/ ` - Send emails with Celery

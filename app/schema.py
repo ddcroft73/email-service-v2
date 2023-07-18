@@ -4,6 +4,7 @@ from typing import Optional
 class UserInfo(BaseModel):
     userid: str
     user_uuid: str
+    account_type: str
 
 class Message(BaseModel):
     text: str 
