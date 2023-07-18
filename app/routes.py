@@ -22,8 +22,7 @@ def index():
 )
 def send_email(
     email: Email,  payload: dict=Depends(verify_token)
-):  
-    
+):      
     task =  send_email_task.delay(email.dict())         
      #response = await dispatch_email(email) #without Celery. it still works just add async \await down the chain. 
     response = {        
@@ -36,8 +35,9 @@ def send_email(
     response_model=MailResponse, 
     status_code=status.HTTP_201_CREATED
 )
-async def send_async(email: Email, payload: dict=Depends(verify_token) ):
-
+async def send_async(
+    email: Email, payload: dict=Depends(verify_token) 
+):
     response: bool = await dispatch_email(email) 
     return JSONResponse({"result": response})    
 

@@ -28,13 +28,11 @@ class EmailTask(Task):
     default_retry_delay=10,
 )
 def send_email_task(self, email_dict: dict[str, str]):
-
     def on_retry(exc):
         logzz.error(
             f"\nResending email to: {email_dict.get('email_to', 'Unknown email')}\nDue to Exception: {str(exc)}", 
             timestamp=True
-        )
-        
+        )        
     try:
         email = Email(**email_dict)
         response = smtp_email.send_mail(email)

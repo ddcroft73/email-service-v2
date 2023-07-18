@@ -17,7 +17,5 @@ class Settings(BaseSettings):
     LOG_DIRECTORY: str = "./logs"
     LOG_ARCHIVE_DIRECTORY: str = f"{LOG_DIRECTORY}/log-archives/"
     DEFAULT_LOG_FILE: str = f"{LOG_DIRECTORY}/app-logs.log"  # This where all log entries go If a destnation is not specified.
-
-
     
 settings = Settings()
