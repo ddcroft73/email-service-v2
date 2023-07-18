@@ -12,10 +12,9 @@ celery.conf.result_backend = settings.CELERY_RESULT_BACKEND
 celery.conf.timezone = 'US/Eastern'
 
 
-# Experimenting with This setup... it may be more troublethan its worth.. lol
 class EmailTask(Task):
     def on_success(self, retval, task_id, args, kwargs):
-        logzz.info("Email 'Task' succeded.", timestamp=True)
+        logzz.info(f"Email 'Task' [ Succeeded ] with a return value of: '{retval}' task.id: ({task_id})", timestamp=True)
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         logzz.error(f"Email 'Task' failed.", timestamp=True)
