@@ -20,3 +20,6 @@ class Email(BaseModel):
 
 class MailResponse(BaseModel):
     result: str
+
+class BasicResponse(BaseModel):
+    result: str    

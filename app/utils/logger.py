@@ -1,5 +1,5 @@
 from pathlib import Path
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 import re
 from os.path import join as os_join
 from .file_handler import filesys
@@ -29,7 +29,7 @@ class ScreenPrinter:
     def __init__(self):
         print("ScreenPrinter class... created.")
 
-    def to_screen(self, message: str, level: int) -> None:
+    def to_screen(self, message: str) -> None:
         print(message)
 
 
@@ -46,7 +46,11 @@ class EZLogger:
             _date: str = formatted_time.split()[0]
             _time: str = formatted_time.split()[1]
             return (_date, _time)
-
+        
+        @staticmethod
+        def timedelta() -> timedelta:
+            return timedelta
+        
     class Archive:
         """
         How the archiving will work:
@@ -98,12 +102,14 @@ class EZLogger:
             If they already exist, nothing is done but a flag is returned to specify
             It exists. If it does not exist, it is created and a flag is returned saying it
             was just created... (This was really only done so I could use this nifty ternary
-            operation I came up with.lol)
+            operation I came up with.)
             """
             for sub in self.ArchiveSubDirectories.to_list():
                 state: str = filesys.mkdir(f"{self.archive_directory}{sub}")
-                msg: str = ("was " if state == "created" else "already")
-                print(f"Sub directory '{sub}' {msg} {state}.")
+                msg: str = (
+                    "was " if state == "created" else "already"
+                )
+                print(f"Sub directory: '{sub}' {msg} {state}.")
 
         def get_line_cnt(self, file_name: str) -> int:
             """
@@ -111,8 +117,8 @@ class EZLogger:
                2. convert to list. 
                3. return the total items in list.
             """
-            file_date: list[str] = filesys.get_contents(file_name).split("\n")
-            return len(file_date)
+            file_lines: list[str] = filesys.get_contents(file_name).split("\n")
+            return len(file_lines)
 
         def get_sub_directory(self, level: int) -> str:
             '''
@@ -122,13 +128,13 @@ class EZLogger:
             if level == self.Level.INFO:
                 sub_dir = self.ArchiveSubDirectories.INFO_DIR
 
-            if level == self.Level.ERROR:
+            elif level == self.Level.ERROR:
                 sub_dir = self.ArchiveSubDirectories.ERROR_DIR
 
-            if level == self.Level.WARN:
+            elif level == self.Level.WARN:
                 sub_dir = self.ArchiveSubDirectories.WARN_DIR
 
-            if level == self.Level.DEBUG:
+            elif level == self.Level.DEBUG:
                 sub_dir = self.ArchiveSubDirectories.DEBUG_DIR
 
             return sub_dir
@@ -170,7 +176,7 @@ class EZLogger:
 
             # Rename the current logfile.
             new_logfile_full, new_logfile_only = get_new_filename(logfile)
-# SAFETY    filesys.rename(logfile, new_filename_full)
+# SAFETY    filesys.rename(logfile, new_logfile_full)
 
             sub_dir: str = self.get_sub_directory(level)
             current_location: str = new_logfile_full
@@ -187,7 +193,8 @@ class EZLogger:
             try:
                 filesys.mkdir(directory)
             except Exception as exc:
-                print(f"{str(exc)}")
+                print(f"func: Archive.set_archive_directory() \n{str(exc)}")
+
 
     INFO_PRE: str = "INFO: "
     DEBUG_PRE: str = "DEBUG: "
@@ -225,8 +232,9 @@ class EZLogger:
         self.d_and_t = self.DateTime()
         self.prnt = ScreenPrinter()
 
-        self.start_date: str = self.d_and_t.date_time_now()[0]
-        self.start_time: str = self.d_and_t.date_time_now()[1]
+        time_date: tuple[str] = self.d_and_t.date_time_now()        
+        self.start_date: str = time_date[0] 
+        self.start_time: str = time_date[1] 
 
         self.info_filename = info_filename
         self.error_filename = error_filename
@@ -261,6 +269,7 @@ class EZLogger:
 
             if any(filename is None for filename in file_names):
                 self.__set_log_filename(self.DEFAULT_LOG_FILE)
+
 
     def __save_log(self, message: str, level: int, timestamp: bool) -> None:
         fname: str | None = None
@@ -316,7 +325,7 @@ class EZLogger:
 
             except Exception as exc:
                 print(
-                    "ERROR: There was an error attempting a write action on:\n"
+                    "ERROR: func: commit_message() There was an error attempting a write action on:\n"
                     f"{fname}\n"
                     f"Check path and spelling. \nHere go yo Exception: {str(exc)}"
                 )
@@ -363,23 +372,32 @@ class EZLogger:
         """
         Whenever a log message is invoked, this method will route the output to the proper direction(s)
         """
+
         if self.output_destination == self.FILE:
             self.__save_log(message, level, timestamp)
 
-        if self.output_destination == self.SCREEN:
+        elif self.output_destination == self.SCREEN:
             self.__print_screen(message, timestamp)
 
-        if self.output_destination == self.BOTH:
+        elif self.output_destination == self.BOTH:
             self.__print_screen(message, level, timestamp)
             self.__save_log(message, level, timestamp)
 
     #
     # Log Message Interfaces
     #
+    '''
+    Before a write or any action that requires accessing the file system, I need to know if the ./log 
+    directory integrity is still in tact. This could change if maintenece is carried out on one of the 
+    directories or files. as simple as one letter in the name can cause havoc. 
+
+    Before any file op takes place, just heck existence? if its not there, then create it to keep it from crashing?
+    '''
     def error(self, message: str, timestamp: bool = False) -> None:
         self.__route_output(message, self.Level.ERROR, timestamp)
 
     def info(self, message: str, timestamp: bool = False) -> None:
+
         self.__route_output(message, self.Level.INFO, timestamp)
 
     def warning(self, message: str, timestamp: bool = False) -> None:
@@ -405,7 +423,7 @@ class EZLogger:
 
         except Exception as e:
             print(
-                "ERROR: There was an error attempting a write action on:\n"
+                "ERROR: func:  __set_log_filename() There was an error attempting a write action on:\n"
                 f"{file_name}\n"
                 "Check path and spelling."
             )

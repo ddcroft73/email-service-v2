@@ -44,6 +44,11 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
 
 `/send-async/`  - Send emails asynchronusly
 
+`/manage-archive-directories/{command}`  - Clear one or more of the archive directories. {WIP}
+
+`/extract-logs/` - Zips all the logfiles into a file, and returns the download location.
+
+
 
 ### Request Model:
 
