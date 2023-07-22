@@ -66,10 +66,10 @@ class EZLogger:
         """
 
         class ArchiveSubDirectories:
-            DEBUG_DIR: str = "debug/"
-            INFO_DIR: str = "info/"
-            WARN_DIR: str = "warn/"
-            ERROR_DIR: str = "error/"
+            DEBUG_DIR: str = "debug"
+            INFO_DIR: str = "info"
+            WARN_DIR: str = "warn"
+            ERROR_DIR: str = "error"
 
             @classmethod
             def to_list(cls) -> list:
@@ -92,11 +92,24 @@ class EZLogger:
             """
             self.archive_directory = archive_directory
             self.Level = Level
-            self.__create_archive_sub_directories()
+            self.create_archive_sub_directories()
 
             print("Archive class... created")
 
-        def __create_archive_sub_directories(self) -> None:
+        def clear_subs(self, subs: list[str]) -> None:
+            '''
+            Will delete one or more of the archive sub directories. once done it recreates whatever isnt there
+            This sub is meant to clear the directories not delete and leave it. 
+            '''
+            for sub in subs:
+                filesys.rmdir(os_join(self.archive_directory, sub))
+                print(f"Deleted: {os_join(self.archive_directory, sub)}")
+
+            # Rebuild the archive directories... we are just clearing not deleting.
+            self.create_archive_sub_directories()
+            print(f'func: clear_subs() Recreated Sub Directories')
+            
+        def create_archive_sub_directories(self) -> None:
             """
             Creates the sub directories to house the archived logs.
             If they already exist, nothing is done but a flag is returned to specify
@@ -105,12 +118,12 @@ class EZLogger:
             operation I came up with.)
             """
             for sub in self.ArchiveSubDirectories.to_list():
-                state: str = filesys.mkdir(f"{self.archive_directory}{sub}")
+                state: str = filesys.mkdir(os_join(self.archive_directory, sub))
                 msg: str = (
                     "was " if state == "created" else "already"
                 )
                 print(f"Sub directory: '{sub}' {msg} {state}.")
-
+            
         def get_line_cnt(self, file_name: str) -> int:
             """
                1. get contents of the file. 

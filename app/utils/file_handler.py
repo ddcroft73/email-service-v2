@@ -76,7 +76,8 @@ class FileHandler():
             shutil.rmtree(directory)
 
         except FileNotFoundError:
-            raise FileExistsError(f'The directory: {directory}\nDoes not Exist..')
+            # If the directory does not exist, just persist, salright! 
+            pass
         
         except Exception as exc:
             raise RemoveDirectoryError(

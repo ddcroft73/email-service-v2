@@ -7,6 +7,7 @@ from config.settings import settings
 from schema import Email
 from .smtp_email import smtp_email
 from .logger import logzz 
+from .file_handler import filesys
 
 
 async def dispatch_email(email: Email) -> dict:    
@@ -34,3 +35,5 @@ def verify_token(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
         )
+
+
