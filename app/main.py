@@ -6,6 +6,7 @@ from utils.logger import logzz
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
-app.include_router(router)
+
+app.include_router(router, prefix="/api", tags=["main"])
 
 #logzz.error("Aint no error. I just want to see it log.", timestamp=True)
