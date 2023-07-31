@@ -4,12 +4,12 @@ LABEL maintainer="DDCroft <ddc.dev.python@gmail.com>"
 LABEL version="1.0"
 LABEL description="Email-Service v2"
 
-WORKDIR /usr/src/app
+WORKDIR /email-service/
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app"
+ENV PYTHONPATH .:/email-service/
 
 # install dependencies
 RUN pip install --upgrade pip

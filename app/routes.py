@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
-from schema import Email, MailResponse, BasicResponse
-from utils.utils import (
+from app.schema import Email, MailResponse, BasicResponse
+from app.utils.utils import (
     verify_token,
     dispatch_email
 )    
-from utils.smtp_email import smtp_email
-from utils.logger import logzz
-from utils.file_handler import filesys
-from config.settings import settings
-from worker import send_email_task
+from app.utils.smtp_email import smtp_email
+from app.utils.logger import logzz
+from app.utils.file_handler import filesys
+from app.config.settings import settings
+from app.worker import send_email_task
 from fastapi.responses import RedirectResponse
 import os
 
@@ -20,7 +20,7 @@ router = APIRouter()
     response_class=RedirectResponse
 )  
 def index():
-    return RedirectResponse(url='/static/index.html')
+    return RedirectResponse(url='./app/static/index.html')
 
 @router.post('/send-email/', 
     response_model=MailResponse, 

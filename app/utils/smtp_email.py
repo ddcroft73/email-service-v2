@@ -2,8 +2,8 @@ from smtplib import SMTP_SSL, SMTPException
 from ssl import create_default_context
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from config.settings import settings
-from schema import Email
+from app.config.settings import settings
+from app.schema import Email
 from datetime import datetime
 from time import sleep
 import random, os

@@ -1,6 +1,6 @@
 __pycache__
 .env
 snippets.txt
-app/logs/*.log
+logs/*.log
 .vscode
 tests/code_test.py

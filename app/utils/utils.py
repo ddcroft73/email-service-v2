@@ -3,8 +3,8 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import JSONResponse
 import jwt, os
 from jwt.exceptions import PyJWTError
-from config.settings import settings
-from schema import Email
+from app.config.settings import settings
+from app.schema import Email
 from .smtp_email import smtp_email
 from .logger import logzz 
 from .file_handler import filesys

@@ -1,7 +1,7 @@
-from schema import Email
-from utils.smtp_email import smtp_email
-from config.settings import settings
-from utils.logger import logzz
+from app.schema import Email
+from app.utils.smtp_email import smtp_email
+from app.config.settings import settings
+from app.utils.logger import logzz
 
 from celery import Task
 from celery import Celery
