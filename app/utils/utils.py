@@ -1,13 +1,11 @@
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import JSONResponse
-import jwt, os
+import jwt
 from jwt.exceptions import PyJWTError
 from app.config.settings import settings
 from app.api.schema.schema import Email
 from .smtp_email import smtp_email
 from .logger import logzz 
-from .file_handler import filesys
 
 
 async def dispatch_email(email: Email) -> dict:    
@@ -17,8 +15,8 @@ async def dispatch_email(email: Email) -> dict:
     else:
         logzz.error(" func: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
         return {"result": "func: 'dispatch_email()' Error after 'smtp_email.send_async()' "}
-    # back to client    
     
+    # back to client        
     return {"result": f"email sent @ {logzz.d_and_t.date_time_now()}"}
 
 

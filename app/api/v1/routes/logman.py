@@ -6,20 +6,13 @@ export_all_archives/
 '''
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
-from app.api.schema.schema import Email, MailResponse, BasicResponse
-from app.utils.utils import (
-    verify_token,
-   # dispatch_email
-)    
-from app.utils.smtp_email import smtp_email
+from app.api.schema.schema import BasicResponse
+from app.utils.utils import verify_token    
 from app.utils.logger import logzz
 from app.utils.file_handler import filesys
 from app.config.settings import settings
-#from app.worker import send_email_task
-import os
 
 router = APIRouter()
-
 
 
 @router.post('/manage-archive/{command}', 
@@ -38,6 +31,7 @@ def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
     If <command> == --all, then they will all be cleared. but remain intact
     If <command> == --wipe, All logs are wiped and not rebuilt
      
+    This is still using an older version of APILogger
     '''
     
     subs: list[str] = 'info,error,debug,warn'.split(',')
@@ -66,6 +60,8 @@ def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
                 f"{logzz.INFO_PRE}The command was: {command}"
             ) 
        elif cleared == 'wiped':
+           # Need to respawn the directories so logs will work
+           logzz.handle_file_setup()           
            logzz.info(
                 f"Totally wiped: {settings.LOG_DIRECTORY}\n"
                 f"{logzz.INFO_PRE}The command was: {command}"

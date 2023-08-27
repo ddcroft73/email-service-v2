@@ -15,8 +15,9 @@ No need to upgrade at this time.
 
 class ScreenPrinter:
     def __init__(self):
+        '''
         print("ScreenPrinter class... created.")
-
+'''
     def to_screen(self, message: str) -> None:
         print(message)
 
@@ -24,8 +25,8 @@ class ScreenPrinter:
 class APILogger_v1:
     class DateTime:
         def __init__(self):
-            print("DateTime class... created")
-
+            #print("DateTime class... created")
+            ''''''    
         @staticmethod
         def date_time_now() -> tuple[str]:
             """returns the formatted date and time in a tuple"""
@@ -82,7 +83,7 @@ class APILogger_v1:
             self.Level = Level
             self.create_archive_sub_directories()
 
-            print("Archive class... created")
+           # print("Archive class... created")
 
         def clear_subs(self, subs: list[str]) -> None:
             '''
@@ -110,7 +111,7 @@ class APILogger_v1:
                 msg: str = (
                     "was " if state == "created" else "already"
                 )
-                print(f"Sub directory: '{sub}' {msg} {state}.")
+                #print(f"Sub directory: '{sub}' {msg} {state}.")
             
         def get_line_cnt(self, file_name: str) -> int:
             """
@@ -177,14 +178,14 @@ class APILogger_v1:
 
             # Rename the current logfile.
             new_logfile_full, new_logfile_only = get_new_filename(logfile)
-# SAFETY    filesys.rename(logfile, new_logfile_full)
+            filesys.rename(logfile, new_logfile_full)
 
             sub_dir: str = self.get_sub_directory(level)
             current_location: str = new_logfile_full
-            archive_location: str = f'{self.archive_directory}{sub_dir}{new_logfile_only}'
+            archive_location: str = f'{self.archive_directory}/{sub_dir}/{new_logfile_only}'
 
             # Move it to its appropriate sub directory.
-# SAFETY    filesys.move(current_location, archive_location)
+            filesys.move(current_location, archive_location)
 
             print(f"\nRenamed: {logfile} to: {new_logfile_full}")
             print(f"\nMoved: {current_location} TO: {archive_location}"            )
@@ -232,10 +233,10 @@ class APILogger_v1:
         )
         self.d_and_t = self.DateTime()
         self.prnt = ScreenPrinter()
-
+        '''
         time_date: tuple[str] = self.d_and_t.date_time_now()        
         self.start_date: str = time_date[0] 
-        self.start_time: str = time_date[1] 
+        self.start_time: str = time_date[1] '''
 
         self.info_filename = info_filename
         self.error_filename = error_filename
@@ -245,9 +246,9 @@ class APILogger_v1:
         self.archive_log_files = archive_log_files 
         self.log_file_max_size = log_file_max_size    # DEBUGING=5      
 
-        self.__handle_file_setup()
+        self.handle_file_setup()
 
-    def __handle_file_setup(self) -> None:
+    def handle_file_setup(self) -> None:
         """
         Handles the creation of any user defined logfiles, the Default
         log file, and the vreation of the archive directory to be used when archiving
@@ -414,7 +415,7 @@ class APILogger_v1:
         Sets up the logfile.
         """
         header: str = (
-            f" [ {file_name} ] created on {self.start_date} @ {self.start_time}\n\n"
+            f" [ {file_name} ] created on {self.d_and_t.date_time_now()[0]} @ {self.d_and_t.date_time_now()[1]}\n\n"
         )
         if Path(file_name).exists():
             return

@@ -43,8 +43,8 @@ class SmtpEmail():
 
         # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
         # Im not trying to get my account shutdown for spam. 
-        #sleep(random.randint(5, 15))
-        
+        sleep(random.randint(5, 15))
+        '''
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
@@ -60,11 +60,8 @@ class SmtpEmail():
            print('Error occurred attepmting to send mail')
            return False               
 
-       
+       '''
         logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
-       # logger.debug("Sample Debug code.", timestamp=True)
-
-
         return True
  
     async def send_async(self, email: Email) -> bool:

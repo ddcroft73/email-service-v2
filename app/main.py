@@ -3,8 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 from starlette.status import HTTP_302_FOUND
 from app.api.v1.api import api_router
-#from app.routes import router
 from app.utils.logger import logzz
+from app.config.settings import settings
 
 app = FastAPI()
 
@@ -14,12 +14,8 @@ app.mount(
     name="static"
 )
 
-app.include_router(api_router)
+app.include_router(api_router, prefix=settings.API_V1)
 
 @app.get("/")
 def main():
-    #return FileResponse('./app/static/index.html')
      return RedirectResponse(url="/app/static/index.html", status_code=HTTP_302_FOUND)
-
-
-#logzz.error("Aint no error. I just want to see it log.", timestamp=True)/
