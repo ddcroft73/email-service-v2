@@ -1,6 +1,7 @@
 __pycache__
 .env
 snippets.txt
-logs/*.log
+logs
 .vscode
 tests/code_test.py
+tests/test_routes_auth_gateway.py

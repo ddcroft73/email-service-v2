@@ -8,7 +8,7 @@ services:
         - 8014:8000
       command: uvicorn app.main:app --host 0.0.0.0 --reload
       volumes:
-        - .:/email-service/
+        - .:/notif-service/
       environment:
         - CELERY_BROKER_URL=redis://redis:6379/0
         - CELERY_RESULT_BACKEND=redis://redis:6379/0
@@ -23,7 +23,7 @@ services:
     build: .
     command: celery -A app.worker.celery worker --loglevel=info --logfile=logs/celery.log
     volumes:
-      - .:/email-service/
+      - .:/notif-service/
     environment:
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0

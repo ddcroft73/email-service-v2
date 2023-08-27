@@ -1,0 +1,3 @@
+1. Add an API Interface to take place of the single routes.py
+2. Revisit the schema for the email Object. Simplify. DONE
+3. Finish zip endpoint??

@@ -18,7 +18,7 @@ class SmtpEmail():
         self.password = password
 
     def prepare_message(
-        self, em_from: str, em_to: str, sub: str, html: str, text: str
+        self, em_from: str, em_to: str, sub: str, html: str, text: str=None
     ) -> str:
         message = MIMEMultipart("alternative")
         message["Subject"] = sub
@@ -35,12 +35,8 @@ class SmtpEmail():
         return message.as_string()
 
     def send_mail(self, email: Email) -> bool:
-        # print(f'USERNAME: {self.username}, PASSWORD: {self.password}')
-        html = email.message.html if email.message.html != "" else ""
-        text = email.message.text if email.message.text != "" else ""
-
         _message = self.prepare_message(
-            email.email_from, email.email_to, email.subject, html, text
+            email.email_from, email.email_to, email.subject, email.message, ''
         )
         # simulate sending email.. so I dont wreck it.
         # give them all differnet times of completion
@@ -48,7 +44,7 @@ class SmtpEmail():
         # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
         # Im not trying to get my account shutdown for spam. 
         sleep(random.randint(5, 15))
-        """
+        '''
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
@@ -63,21 +59,18 @@ class SmtpEmail():
            #print(er)
            print('Error occurred attepmting to send mail')
            return False               
-"""
+
        
         logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
        # logger.debug("Sample Debug code.", timestamp=True)
-
+'''
 
         return True
  
     async def send_async(self, email: Email) -> bool:
-        # print(f'USERNAME: {self.username}, PASSWORD: {self.password}')
-        html = email.message.html if email.message.html != "" else ""
-        text = email.message.text if email.message.text != "" else ""
-
+        
         _message = self.prepare_message(
-            email.email_from, email.email_to, email.subject, html, text
+            email.email_from, email.email_to, email.subject, email.message, ''
         )
         # simulate sending email.. so I dont wreck it.
         # give them all differnet times of completion

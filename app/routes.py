@@ -10,17 +10,9 @@ from app.utils.logger import logzz
 from app.utils.file_handler import filesys
 from app.config.settings import settings
 from app.worker import send_email_task
-from fastapi.responses import RedirectResponse
 import os
 
 router = APIRouter()
-
-
-@router.get('/', 
-    response_class=RedirectResponse
-)  
-def index():
-    return RedirectResponse(url='./app/static/index.html')
 
 @router.post('/send-email/', 
     response_model=MailResponse, 
@@ -64,8 +56,6 @@ def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
     If <command> == --all, then they will all be cleared. but remain intact
     If <command> == --wipe, All logs are wiped and not rebuilt
      
-    Lawd have mercy.... this is NOT my finest code... But it do be working, so theres that. 
-    will refactor... 
     '''
     
     subs: list[str] = 'info,error,debug,warn'.split(',')

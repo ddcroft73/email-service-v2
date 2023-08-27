@@ -29,7 +29,8 @@ class EmailTask(Task):
 def send_email_task(self, email_dict: dict[str, str]):
     def on_retry(exc):
         logzz.error(
-            f"\nResending email to: {email_dict.get('email_to', 'Unknown email')}\nDue to Exception: {str(exc)}", 
+            f"Resending email to: {email_dict.get('email_to', 'Unknown email')}\n"
+            f"Due to Exception: {str(exc)}", 
             timestamp=True
         )        
     try:
