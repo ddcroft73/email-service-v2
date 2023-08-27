@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 import jwt, os
 from jwt.exceptions import PyJWTError
 from app.config.settings import settings
-from app.schema import Email
+from app.api.schema.schema import Email
 from .smtp_email import smtp_email
 from .logger import logzz 
 from .file_handler import filesys

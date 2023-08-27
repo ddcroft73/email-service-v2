@@ -3,7 +3,7 @@ from ssl import create_default_context
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.config.settings import settings
-from app.schema import Email
+from app.api.schema.schema import Email
 from datetime import datetime
 from time import sleep
 import random, os
@@ -43,8 +43,8 @@ class SmtpEmail():
 
         # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
         # Im not trying to get my account shutdown for spam. 
-        sleep(random.randint(5, 15))
-        '''
+        #sleep(random.randint(5, 15))
+        
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
@@ -63,7 +63,7 @@ class SmtpEmail():
        
         logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
        # logger.debug("Sample Debug code.", timestamp=True)
-'''
+
 
         return True
  

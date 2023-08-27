@@ -1,3 +1,5 @@
-1. Add an API Interface to take place of the single routes.py
+1. Add an API Interface to take place of the single routes.py  DONE
 2. Revisit the schema for the email Object. Simplify. DONE
 3. Finish zip endpoint??
+4. Upgrade logger... Im gonna wait, and go retro asec. DONE
+5. Work on the SMS sevice

@@ -2,7 +2,8 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, RedirectResponse
 from starlette.status import HTTP_302_FOUND
-from app.routes import router
+from app.api.v1.api import api_router
+#from app.routes import router
 from app.utils.logger import logzz
 
 app = FastAPI()
@@ -13,7 +14,7 @@ app.mount(
     name="static"
 )
 
-app.include_router(router, prefix="/api", tags=['main'])
+app.include_router(api_router)
 
 @app.get("/")
 def main():

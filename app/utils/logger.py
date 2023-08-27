@@ -6,23 +6,11 @@ from .file_handler import filesys
 from app.config.settings import settings
 """
 #
-# "EZ Logger class.
+# "API Logger class v1
 # 
-This is not like the Python logger. It Allows me to save messsages defined by a certain level, but it doesnt have to
-have a level set to log anything. Its just a way to give the backend an inerface and allows me to log everything that
-happens, that i want to log. The logs are kept in a folde you choose and they will auto archive when a certainsize is realized
-THis way i can go back if there is a problem and look throigh all the back logs that are kept neat and in managable
-"piles'
 
-it lets me log 
-ERRORS
-DEBUG
-INFO
-WARNNG
-
-All you have to do is call the type log you weant to save. logger.info("Message") and it goes with all the info logs
-Same with the other types. You dont have to worry about much configuring. If you dont select names for the log files
-It will add them all to a defalt log file.  
+An older version of APILogger. there is no LOGIN or INTERNAL support.  
+No need to upgrade at this time. 
 """
 
 class ScreenPrinter:
@@ -33,7 +21,7 @@ class ScreenPrinter:
         print(message)
 
 
-class EZLogger:
+class APILogger_v1:
     class DateTime:
         def __init__(self):
             print("DateTime class... created")
@@ -442,12 +430,12 @@ class EZLogger:
             )
 
 
-logzz = EZLogger(
+logzz = APILogger_v1(
     info_filename="INFO_log.log",
     debug_filename="DEbUG_log.log",
     error_filename="ERROR_logzz.log",
     warning_filename=None,
-    output_destination=EZLogger.FILE,
+    output_destination=APILogger_v1.FILE,
     archive_log_files=True,
     log_file_max_size=1000,
 )

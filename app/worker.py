@@ -1,4 +1,4 @@
-from app.schema import Email
+from app.api.schema.schema import Email
 from app.utils.smtp_email import smtp_email
 from app.config.settings import settings
 from app.utils.logger import logzz
@@ -30,7 +30,7 @@ def send_email_task(self, email_dict: dict[str, str]):
     def on_retry(exc):
         logzz.error(
             f"Resending email to: {email_dict.get('email_to', 'Unknown email')}\n"
-            f"Due to Exception: {str(exc)}", 
+            f"{str(exc)}", 
             timestamp=True
         )        
     try:
