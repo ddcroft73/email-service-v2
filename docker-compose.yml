@@ -2,7 +2,7 @@ version: '3.8'
 
 services: 
 
-  web:
+  email_web:
       build: .
       ports:
         - 8014:8000
@@ -29,7 +29,7 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - TZ=US/Eastern
     depends_on:
-      - web
+      - email_web
       - redis  
       
   dashboard:
@@ -42,6 +42,6 @@ services:
       - CELERY_RESULT_BACKEND=redis://redis:6379/0
       - TZ=US/Eastern
     depends_on:
-      - web
+      - email_web
       - redis
       - worker   
