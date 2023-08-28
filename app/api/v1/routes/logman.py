@@ -11,7 +11,7 @@ from app.utils.utils import verify_token
 from app.utils.logger import logzz
 from app.utils.file_handler import filesys
 from app.config.settings import settings
-
+import os, time
 router = APIRouter()
 
 
@@ -20,23 +20,25 @@ router = APIRouter()
     status_code=status.HTTP_200_OK
 )
 def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
-    '''
-    command = either the command to delete, --all for all, or --wipe to start at ./logs and obliterate
+    '''    
+    command:
+      This can be a single log file name, or multiple seperated by a comma.
+      a single archived directory or string of directories.
+      --all for all directories
+      --wipe for the entire log directory. 
+    The files will be recreated and archive dirs as well.  
 
-    looking for:
-      1. The name of an archive directory. 
-      2. The flag: --all, --wipe
-    
-    If a directory with the name <command> exists, it will be cleared.
-    If <command> == --all, then they will all be cleared. but remain intact
-    If <command> == --wipe, All logs are wiped and not rebuilt
-     
     This is still using an older version of APILogger
     '''
     
     subs: list[str] = 'info,error,debug,warn'.split(',')
     status: str = f'{settings.LOG_ARCHIVE_DIRECTORY}/{command+"/" if command in subs else ""}  clear success. command: {command}'
     cleared: str = 'done'
+    
+    # if the user entered a comma delimted list then they want to dispose of more than 
+    # one file, or srchive directory
+    if command.find(',') != -1:
+        command = command.split(',')
 
     try:
        if command == '--all':                          # All the sub directories
@@ -47,8 +49,29 @@ def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
           status = f'Totally wiped: {settings.LOG_DIRECTORY}'
           cleared = 'wiped'     
 
-       elif command in subs:
+       elif command in subs and isinstance(command, str):
            logzz.archive.clear_subs([command])
+
+       elif isinstance(command, list) :
+           # loop over list and see if each item is a file or directory
+           # if its a file, delete it, if its a directory, remove it.
+           status = f'Removed multiple items: {command}'
+           for item in command:
+               if item in subs:
+                   #dir
+                   path = os.path.join(settings.LOG_ARCHIVE_DIRECTORY, item)
+                   filesys.rmdir(path)
+                   logzz.info( f"Remove Directory: {path}")
+                   filesys.mkdir(path)
+                   logzz.info( f"Remake Directory: {path}")
+               else:
+                   #file 
+                   path = os.path.join(settings.LOG_DIRECTORY, item)
+                   filesys.delete(path)              
+                   logzz.create_logfile(path)           
+                   logzz.info( f"Delete File: {path}")        
+                   logzz.info(f"File remade: {path}")
+
        else:
            cleared = 'nope'                            # Do nada cause some stupid nonsensical command got through. 
            status = f'{settings.LOG_ARCHIVE_DIRECTORY} remains untouched.'
@@ -61,7 +84,7 @@ def manage_archive(command: str, payload: dict=Depends(verify_token)) -> None:
             ) 
        elif cleared == 'wiped':
            # Need to respawn the directories so logs will work
-           logzz.handle_file_setup()           
+           logzz.setup()           
            logzz.info(
                 f"Totally wiped: {settings.LOG_DIRECTORY}\n"
                 f"{logzz.INFO_PRE}The command was: {command}"

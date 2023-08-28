@@ -246,9 +246,12 @@ class APILogger_v1:
         self.archive_log_files = archive_log_files 
         self.log_file_max_size = log_file_max_size    # DEBUGING=5      
 
-        self.handle_file_setup()
-
-    def handle_file_setup(self) -> None:
+        self.__handle_file_setup()
+    
+    def setup(self) -> None:
+        self.__handle_file_setup()
+        
+    def __handle_file_setup(self) -> None:
         """
         Handles the creation of any user defined logfiles, the Default
         log file, and the vreation of the archive directory to be used when archiving
@@ -408,7 +411,8 @@ class APILogger_v1:
     def debug(self, message: str, timestamp: bool = False) -> None:
         self.__route_output(message, self.Level.DEBUG, timestamp)
 
-
+    def create_logfile(self, filename: str) -> None:
+        self.__set_log_filename(filename)
 
     def __set_log_filename(self, file_name: str) -> None:
         """This method creates the initial file. If a file already exists, it does nada.
@@ -425,7 +429,7 @@ class APILogger_v1:
 
         except Exception as e:
             print(
-                "ERROR: func:  __set_log_filename() There was an error attempting a write action on:\n"
+                "func:  __set_log_filename() There was an error attempting a write action on:\n"
                 f"{file_name}\n"
                 "Check path and spelling."
             )

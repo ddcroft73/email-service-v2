@@ -1,9 +1,10 @@
 from pydantic import BaseModel
+from pydantic.networks import EmailStr
 from typing import Optional
    
 class Email(BaseModel):
-    email_to: str
-    email_from: str
+    email_to: EmailStr
+    email_from: EmailStr
     subject: str
     message: str     
     user_id: Optional[str] = None
