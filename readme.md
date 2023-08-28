@@ -57,16 +57,10 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
   email_to: "string",
   email_from: "string",
   subject: "string",
-  message: {
-    text: "string",
-    html: "string
-  },
-  userdata:{
-    userid: "string",
-    user_uuid: "string",
-    account_type: "string"
-  }
+  message: "string,
+  user_id: "string"
 }
+
 ```
 ### Response Model:
 

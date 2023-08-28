@@ -5,3 +5,5 @@
 5. Adding SMS support
    Divide off the routes as need to define access to SMS services:
    send SMS... Anything alse nedded? 
+
+6. Need to add code to determine if the token bearer is a superuser when trying to delete logs.

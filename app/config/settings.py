@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    API_V1: str = '/api/v1'
+    API_V1_STR: str = '/api/v1'
     API_KEY: str = os.getenv("API_KEY")
     PROJECT_NAME: str = 'notification-service-v2'
 
