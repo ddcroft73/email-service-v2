@@ -13,7 +13,7 @@ from app.utils.utils import (
     dispatch_email
 )    
 from app.worker import send_email_task
-
+from app.utils.logger import logzz
 router = APIRouter()
 
 @router.post('/send-email/', 
@@ -27,6 +27,7 @@ def send_email(
     response = {        
        "result": f'{task.id}, Task passed to Celery'
     }
+    logzz.info(f"Email Sent to: {email.email_to}", timestamp=1)
     return JSONResponse(response)    
  
 

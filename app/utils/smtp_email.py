@@ -61,7 +61,7 @@ class SmtpEmail():
            return False               
 
        
-        logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
+        #logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
         return True
  
     async def send_async(self, email: Email) -> bool:
