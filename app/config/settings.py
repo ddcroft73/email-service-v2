@@ -1,6 +1,9 @@
 import os
 from pydantic import BaseSettings
 
+from typing import Any, Dict, List, Optional, Union
+from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
+
 
 class Settings(BaseSettings):
     API_V1_STR: str = '/api/v1'
@@ -19,5 +22,16 @@ class Settings(BaseSettings):
     LOG_DIRECTORY: str = "./logs" # Always put the log directory in the CWD.
     LOG_ARCHIVE_DIRECTORY: str = f"{LOG_DIRECTORY}/log-archives"
     DEFAULT_LOG_FILE: str = f"{LOG_DIRECTORY}/DEFAULT-app-logs.log"  # This where all log entries go If a destnation is not specified.
+    
+    # Only let the Auth API connect for now.
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ['http://localhost:8015'] # development
+
+    @validator("BACKEND_CORS_ORIGINS", pre=True)
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
     
 settings = Settings()
