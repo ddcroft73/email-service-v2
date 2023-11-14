@@ -14,10 +14,10 @@ async def dispatch_email(email: Email) -> dict:
         print("sending mail...")
     else:
         logzz.error(" func: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
-        return {"result": "func: 'dispatch_email()' Error after 'smtp_email.send_async()' "}
+        raise HTTPException(status_code=400, detail="SMTP Error")
     
     # back to client        
-    return {"result": f"email sent @ {logzz.d_and_t.date_time_now()}"}
+    return f"email sent @ {logzz.d_and_t.date_time_now()}"
 
 
 def verify_token(
@@ -33,5 +33,4 @@ def verify_token(
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
         )
-
 

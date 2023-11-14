@@ -4,7 +4,6 @@ from pydantic import BaseSettings
 from typing import Any, Dict, List, Optional, Union
 from pydantic import AnyHttpUrl, BaseSettings, EmailStr, HttpUrl, PostgresDsn, validator
 
-
 class Settings(BaseSettings):
     API_V1_STR: str = '/api/v1'
     API_KEY: str = os.getenv("API_KEY")
@@ -22,6 +21,7 @@ class Settings(BaseSettings):
     LOG_DIRECTORY: str = "./logs" # Always put the log directory in the CWD.
     LOG_ARCHIVE_DIRECTORY: str = f"{LOG_DIRECTORY}/log-archives"
     DEFAULT_LOG_FILE: str = f"{LOG_DIRECTORY}/DEFAULT-app-logs.log"  # This where all log entries go If a destnation is not specified.
+    ALGORITHM: str = "HS256"
     
     # Only let the Auth API connect for now.
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ['http://localhost:8015'] # development

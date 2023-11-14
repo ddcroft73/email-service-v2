@@ -9,15 +9,13 @@ from app.config.settings import settings
 # "API Logger class v1
 # 
 
-An older version of APILogger. there is no LOGIN or INTERNAL support.  
-No need to upgrade at this time. 
+An older version of APILogger. This logger is for development and debugging only.
+Not meant to be used in production. I had thought maybe I'd keep developing it, but there
+really is no need with all the better ones available. But it has been indespensible for 
+dev use. 
 """
 
 class ScreenPrinter:
-    def __init__(self):
-        '''
-        print("ScreenPrinter class... created.")
-'''
     def to_screen(self, message: str) -> None:
         print(message)
 
@@ -29,7 +27,7 @@ class APILogger_v1:
             ''''''    
         @staticmethod
         def date_time_now() -> tuple[str]:
-            """returns the formatted date and time in a tuple"""
+            """returns the formatted date and time """
             current_time: time = datetime.now()
             formatted_time: str = current_time.strftime("%Y-%m-%d %H:%M:%S")
             _date: str = formatted_time.split()[0]

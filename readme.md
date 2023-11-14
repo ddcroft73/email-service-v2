@@ -1,7 +1,8 @@
-## Email Micro Service V2
+## Notification Micro Service V2
 
 <p>
-  A straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently as the second iteration.
+  A straightforward no-frills email service built to facilitate email communication for all of my web applications. Currently, as I am still in the process of building the application(s), this service operates independently as the second iteration. I am going to incorporate an sms service into this service as well.
+  Instead of Email, it's now Notifications.
 </p>
 
 <p>
@@ -20,22 +21,10 @@
 [Docker Compose](https://docs.docker.com/compose/) <br>
 [Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
 
-### Custom Logger:
-
-I built a logger especially designed to work fluently with this application type. Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered. Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
-
-INFO<br>
-ERROR<br>
-DEBUG<br>
-WARNING<br>
-    
-For me, this is an easier logger to use than Pythons logger. But it's not exactly the same. Built for a specific use case. I plan on making this a python package to make it easier to use in other projects.
-
-SMTP Email functionality built using python email wrapped in a simple class.
-
 
 ### Purpose:
-Send Emails. Thats it. It will have one endpoint. I may need to add another/others when I totally figure out exactly what I am doing.  
+Send Emails and sendind SMS text messages. I plan to use this with my email gateway to send text messages to users and on the behalf of users. I have decided
+to incorporate both to be used with the Life Package SaaS.
 
 ### EndPoints:
 `/ ` - Root or index. Loads index.html. A React page (I use the CDN files not an actual React App, all components are in index.html) built to emulate this readme file.
@@ -44,10 +33,7 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
 
 `/send-async/`  - Send emails asynchronusly
 
-`/manage-archive-directories/{command}`  - Clear one or more of the archive directories. {WIP}
-
-`/extract-logs/` - Zips all the logfiles into a file, and returns the download location.
-
+`/send-sms/`  - Coming soon...
 
 
 ### Request Model:
@@ -62,6 +48,7 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
 }
 
 ```
+I am still working on the SMS portion. Not 100 on the Request and response models as of yet.
 ### Response Model:
 
 ```
@@ -69,13 +56,47 @@ Send Emails. Thats it. It will have one endpoint. I may need to add another/othe
   "result": "string"
 }
 ```
-### Workflow
 
-1. A request is sent to the server along with an dictionary carrying all the nedded info.
-2. The server verifies the clients credentials via dependencies; the data within will have been validated before it ever leaves the client as to limit the amount of work this service has to do.
-3. The email dictionary is seralized into an object, and passed to the Celery task predefined to handle sending emails.
-4. A response is sent back to the client with the task ID confirming that the email is being processed.
-5. The email is then dispatched on a FIFO basis.
+### API DEV Logger:
+
+I built a simple logging class to help me debug and log certain details. Its more simple and not as robust as the Python logger but it is easier to use.
+It lets you designate a file to send the log entry to and gives the API am interface so to speak. I use a singelton pattern and where needed import the object
+and call the desired method. The output goes to a predefined location. It's great for logging errors and debugging. 
+
+This Logger will remain, but for production I plan to implement a better solution with asynchronous support. I don't want to miss log entries because
+requests come in to fast, and without a better logger, it's inevitable.
+
+```
+from app.utils.api_logger import logzz
+logzz.info("info message here.")
+```
+### Logger "streams"
+
+INFO<br>
+ERROR<br>
+DEBUG<br>
+WARNING<br>
+
+### Email Support
+
+SMTP Email functionality built using python email wrapped in a simple class. Thats all I needed. It performs well under testing. I can fire 1000 emails at it. many concurrently and it never misses a beat. A lot of this may in part to the way celery deals with the tasks. I have not done much testing on the `send-async` function. I just haven't had time. I included it because, why not? 
+
+### SMS Support
+
+SMS support will be realized through the email gateway. I will setup a dedicated address once I get my domain, and email hostinf setup. The only difference
+anyone from the outside will see is the From: section. Instead of a phone number it will simply read `sms@lifepackage.app` or something similar. The Texts
+will be free for me and users of the system. In the event that a user employs this method of contact in their package, it will simply one-way. However
+if someone is so inclined, they can send an email to the address. It will probably go unanswered.
+
+### Workflow:
+1. **Initiation of Request**: A client initiates a service request by transmitting data in JSON format to the email API endpoint.
+2. **Request Processing**: Upon receipt, the API validates and forwards the request to a designated Celery task queue for asynchronous processing.
+3. **Acknowledgment Response**: Concurrently, the client is issued an immediate acknowledgment response, confirming the initiation of the email sending process.
+4. **Task Allocation**: This task enters the Celery queue and awaits allocation to the next available worker node, adhering to a First-In-First-Out (FIFO) scheduling protocol.
+5. **Execution and Email Dispatch**: Once allocated, the Celery worker executes the task, culminating in the dispatch of the email as per the queued instruction.
+
+THis system can handle many tasks concurrently and with the use of Celery it fires them like clockwork.
+<br><br>
 
 Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). <br>
 This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
@@ -86,7 +107,3 @@ Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](h
 - `$ git clone https://github.com/ddcroft73/email-service-v2.git`
 - `$ cd intoDirectoryClonedInto`
 - `$ docker-compose up`
-
-### TODO:
-- Make the tests more hard core. I currently only have one that fires requests at the endpoint.
-- Testing.... and I'm done.

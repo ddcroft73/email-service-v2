@@ -4,9 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.config.settings import settings
 from app.api.schema.schema import Email
-from datetime import datetime
-from time import sleep
-import random, os
+
 
 from .logger import logzz
 
@@ -38,11 +36,6 @@ class SmtpEmail():
         _message = self.prepare_message(
             email.email_from, email.email_to, email.subject, email.message, ''
         )
-        # simulate sending email.. so I dont wreck it.
-        # give them all differnet times of completion
-
-        # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
-        # Im not trying to get my account shutdown for spam. 
         #sleep(random.randint(5, 15))
         
         try:
@@ -51,13 +44,11 @@ class SmtpEmail():
              email_.sendmail(self.username, email.email_to, _message)
              
         except SMTPException as smtp_err:
-            print('SMTP Error:', smtp_err)
-            print('Error occurred attempting to send mail')
+            logzz.error('SMTP Error:', smtp_err)
             return False    
         
         except Exception as er:
-           #print(er)
-           print('Error occurred attepmting to send mail')
+           logzz.error('Exception occured sending mail:', smtp_err)
            return False               
 
        
@@ -69,13 +60,8 @@ class SmtpEmail():
         _message = self.prepare_message(
             email.email_from, email.email_to, email.subject, email.message, ''
         )
-        # simulate sending email.. so I dont wreck it.
-        # give them all differnet times of completion
-
-        # TESTING  THIS CODE DOES NOT WORK UNTIL UNCOMMENTED
-        # Im not trying to get my account shutdown for spam. 
         #sleep(random.randint(5, 15))
-        """
+        
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
@@ -83,23 +69,17 @@ class SmtpEmail():
              
         except SMTPException as smtp_err:
             logzz.error(f" SMTP ERROR: {smtp_err}")
-            print('SMTP Error:', smtp_err)
-            print('Error occurred attempting to send mail')
             return False    
         
         except Exception as er:
-           #print(er)
-           logzz.error(f" SMTP ERROR: Error occurred attepmting to send mail. ")
-           print('Error occurred attepmting to send mail')
+           logzz.error(f"Exception occurred attepmting to send mail. \n{str(er)}")
            return False               
-
-       
+        
+        #Need to change this to use a better logger. 
         logzz.info(
             f"Email sent via your email 'Provider' Sent To: {email.email_to} ", 
             timestamp=True
         )
-       # logger.debug("Sample Debug code.", timestamp=True)
-"""
         logzz.info(
             f" TESTING Email sent via your email 'Provider' Sent To: {email.email_to} ", 
             timestamp=True

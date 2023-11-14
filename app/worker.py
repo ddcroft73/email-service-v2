@@ -11,7 +11,12 @@ celery.conf.broker_url = settings.CELERY_BROKER_URL
 celery.conf.result_backend = settings.CELERY_RESULT_BACKEND
 celery.conf.timezone = 'US/Eastern'
 
-
+'''
+  Bug check: 
+  I want to put this file in its own directory under "app.worker". but when i do it cant be found for some reason
+  so im going to leave it in app. I belive this hasd to do with the cpntainer not updating
+  
+'''
 class EmailTask(Task):
     def on_success(self, retval, task_id, args, kwargs):
         logzz.info(f"Email 'Task' [ Succeeded ] with a return value of: '{retval}' task.id: ({task_id})", timestamp=True)

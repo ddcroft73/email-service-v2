@@ -93,15 +93,8 @@
     email_to: "string",
     email_from: "string",
     subject: "string",
-    message: {
-      text: "string",
-      html: "string"
-    },
-    user_data: {
-      userid: "string",
-      user_uuid: "string",
-      account_type: "string"
-    }
+    message: "string"
+    userid: "string",
   }
   `;
 
@@ -219,10 +212,16 @@
               }
             </List>
             <Heading size={21} hr={0}>
-              EZ Logger 
+              API Logger 
             </Heading>
             <p>
-              I built a custom logger escpecially designed to work fluently with this application type. Easy to use with self archiving so logs can be kept as reference points for any scenario, dated and ordered. Designed with four levels, but they are what the user says they are. Simply invoke the type message you want to convey and it logs it to the appropriate lebel. On screen, to a custom named or default file. Or both. Yeh, why not? 
+              I built a custom logger escpecially designed to work fluently with this application type. It's not like the Python Logger which is superior
+              but its a lot easier to use and as far as debugging an API, It's saved me from much frustration. When it cones to production I will then 
+              implement an asynchronous logger I can feel confient about. This logger was just a way to give me a fast look inside without having to 
+              worry about levels. 
+
+              THere are endpoints dedicated to the output of this logger. I am leaving them for now and may use them for another logger in production.
+              Not sure how all that will play out yet.
             </p>  
             <p>
               SMTP Email functionality built using the built in Python <Hl>email</Hl> module I wrapped in a simple class. In the future, 
@@ -234,13 +233,14 @@
               Purpose:
             </Heading>
             <p>
-              Send Emails. That's it. It will have one endpoint. I may need to add another/others when I totally figure out exactly what I am doing.
+              Send Emails. That's it. It will have two endpoints. I may need to add another/others when I totally figure out exactly what I am doing.
             </p>
             <Space howMuch={25} />
             <Heading size={21} hr={0}>
               End Points:
             </Heading>
-            <p><i><Hl>/</Hl></i>  -  Root or index. Loads index.html. A React page (I use the CDN files not an actual React App, all components are in index.html) built to emulate this readme file.
+            <p><i><Hl>/</Hl></i>  -  Root or index. Loads index.html. A React page (I use the CDN files not an actual React App, all components are in index.html) 
+              built to emulate this readme file. *This File* 
             </p>
             <p><i><Hl>/send-email/</Hl></i> - Send emails with Celery.</p>
 

@@ -1,9 +1,5 @@
 FROM python:3.11.2-slim-buster
 
-LABEL maintainer="DDCroft <ddc.dev.python@gmail.com>"
-LABEL version="1.0"
-LABEL description="Notification-Services"
-
 WORKDIR /notif-service/
 
 # set environment variables
