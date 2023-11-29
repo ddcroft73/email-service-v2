@@ -5,10 +5,14 @@ from jose import jwt
 from pydantic import BaseModel, EmailStr, ValidationError
 from datetime import datetime
 from typing import Optional, Union, Any
+from time import sleep
+from tabulate import tabulate
+
 
 #BASE_URL: str = 'http://web:8000/api/v1/' # Must use this address from within containers.
 
-BASE_URL: str = 'http://localhost:8015/api/v1/'
+#BASE_URL: str = 'http://localhost:8015/api/v1/'
+BASE_URL: str = 'http://192.168.12.189:8015/api/v1/' #server on desktop
 
 current_time: str = datetime.now().strftime('%m/%d/%Y %H:%M:%S')
 
@@ -91,10 +95,11 @@ def login(user_id: str, password: str, verbose: bool=True):
             access_token = token_info['access_token']
             if verbose: 
                 print("Access token:", access_token)
-            return access_token
+
+            return {"Access token": access_token}
     else:
        if verbose: print("Failed to authenticate:", response.text)
-    
+
 def create_user():
     url = f"{BASE_URL}users/registration"
 
@@ -113,30 +118,6 @@ def create_user():
         print(response.text)
 
 
-def update_user(user_id: int, superuser_token: str):
-    '''
-     SuperUser function to update a user.
-    '''
-    url = f"{BASE_URL}users/update/{user_id}"
-    headers = {
-        'Authorization': f'Bearer {superuser_token}',  # SuperUser Bearer Token
-        'Content-Type': 'application/json'
-    }
-
-    update_data_dict = {
-        "user_in": {
-            "phone_number": "800-556-1212",
-            "cell_provider": "AT&T"
-        },
-        "account_in": {
-            "user_id": user_id,
-            "cell_provider_2FA" : "REdundant, delete this field",
-            "contact_method_2FA": "cell",
-            "use_2FA": False
-        },
-        "admin_token": "admin_token"
-    }
-
 
     response = requests.put(url, headers=headers, json=update_data_dict)
 
@@ -154,23 +135,9 @@ def get_user(user_id: int, superuser_token):
     response = requests.get(url, headers=headers)
     return response.json()
 
-def delete_user(user_id: int, superuser_token):
-    '''
-     Delete a user by id. Must be a superuser to do this.
-    '''
-    url = f"{BASE_URL}users/delete/{user_id}"
-    headers = {
-        'Authorization': f'Bearer {superuser_token}',  # SuperUser Bearer Token
-        'Content-Type': 'application/json'
-    }
+         
 
-    admin_token = {
-        "admin_token": "Token"
-    }
-
-    response = requests.delete(url, headers=headers, json=admin_token)
-
-    return response.json()
+    
 
 def logout_user(user_id: int): 
     url = f"{BASE_URL}auth/logout/{user_id}"
@@ -199,10 +166,11 @@ def get_all_users(superuser_token: str):
         'Authorization': f'Bearer {superuser_token}',
         'Content-Type': 'application/json'
     }
+
+
     response = requests.get(url, headers=headers)
-
+    
     return response.json()
-
 
 
 def get_me(username: str="ddc.dev.python@gmail.com", password: str="password"):
@@ -224,7 +192,7 @@ def update_me(my_token: str) -> dict:
         "phone_number": "843-926-0677",
         "cell_provider": "AT&T",
         "cell_provider_2FA": "AT&T",
-        "use_2FA": False
+        "use_2FA": True
     }
 
     headers = {
@@ -236,20 +204,63 @@ def update_me(my_token: str) -> dict:
 
 
 
-def get_2FA_code():
-    '''
-       hits the endpoint that ges the code, retiurns code. 
-    '''
-    url = f"{BASE_URL}auth/2FA/get-2FA-code/" 
-    payload = {
-        "email_account": "email@account.com"
+def get_by_email(email: str, token: str, superuser_token) -> UserAccount:
+    
+    url = f"{BASE_URL}users/user-by/{email}"
+    
+    headers = {
+        'Authorization': f'Bearer {superuser_token}',
+        'Content-Type': 'application/json'
     }
-    response = requests.get(url+payload["email_account"])
+    payload = {
+        "admin_token" : token
+    }
+    
+    response = requests.get(url, headers=headers,json=payload)
+
+    if 'detail' in response.json():
+        msg = f"HTTPException raised: {response.json()['detail']}"
+        return msg
+    
     return response.json()
 
-def is_superuser(email: EmailStr):
 
-    pass
+def delete_user(email: str, admin_token: str, superuser_token):
+    '''
+     Delete a user by email addy. Must be a superuser to do this.
+    '''
+    def remove_user(user_id: int) -> str:
+        url = f"{BASE_URL}users/delete/{user_id}"
+        headers = {
+            'Authorization': f'Bearer {superuser_token}',  # SuperUser Bearer Token
+            'Content-Type': 'application/json'
+        }
+
+        ad_token = {
+            "admin_token": admin_token
+        }
+
+        response = requests.delete(url, headers=headers, json=ad_token)
+
+        return response.json()
+    
+
+    data = get_by_email(email=email, token="", superuser_token=superuser_token)
+    
+    try:
+        if (data["user"]):
+            response = remove_user(data["account"]["user_id"])    
+    except (TypeError):
+        response = f"User: {email} was already deleted."
+
+    return response
+
+
+def is_superuser(email: EmailStr, admin_token: str, su_token: str):
+    # get the users data
+    user = get_by_email(email=email, token=admin_token, superuser_token=su_token)
+    
+    
 
 def verify_2FA(user_input_code: str, code_2FA: str, email: EmailStr, timed_token: str):
 
@@ -264,47 +275,134 @@ def verify_2FA(user_input_code: str, code_2FA: str, email: EmailStr, timed_token
     # response will be a token if all is good!
     return response.json()
     
-def get_by_email(email: str, token: str, superuser_token) -> UserAccount:
+
+def get_all_emails(admin_token: str, superuser_token: str, is_list: bool=False) -> list[str]:
+    data = get_all_users(superuser_token=superuser_token)     
     
-    url = f"{BASE_URL}users/user-by/{email}"
     
+    if data:
+        if is_list:
+            res = [user["user"]["email"] for user in data]
+        else:
+            res = "\n".join([user["user"]["email"] for user in data])    
+    return res 
+
+
+def update_user(user_id: int, superuser_token: str):
+    '''
+     SuperUser function to update a user.
+    '''
+    url = f"{BASE_URL}users/update/{user_id}"
     headers = {
-        'Authorization': f'Bearer {superuser_token}',
+        'Authorization': f'Bearer {superuser_token}',  # SuperUser Bearer Token
         'Content-Type': 'application/json'
     }
-    payload = {
-        "admin_token" : token
-    }
+
+    update_data_dict = {
+        "user_in": {
+            "phone_number": "800-556-1212",
+            "cell_provider": "AT&T"
+        },
+        "account_in": {
+            "user_id": user_id,
+            "cell_provider_2FA" : "REdundant, delete this field",
+            "contact_method_2FA": "email",
+            "use_2FA": True
+        },
+        "admin_token": "admin_token"
+    } 
     
-    response = requests.get(url, headers=headers,json=payload)
-    if 'detail' in response.json():
-        msg = f"HTTPException raised: {response.json()['detail']}"
-        return msg
-    
+    response = requests.put(url, headers=headers, json=update_data_dict)  
     return response.json()
 
+
+def delete_ALL(admin_token: str, superuser_token: str) -> str:
+    '''
+        Get a list of all the users email addresses, delete all users by email
+
+    '''
+    warn: str = "This will delete all the records in the database. \nContinue [y/n] "
+    cont = input(warn)
+    if cont in ['y', 'Y']:
+        emails: list = get_all_emails(admin_token=admin_token, superuser_token=superuser_token, is_list=True)
+        
+        if emails:
+            for email in emails:
+                msg = delete_user(email, admin_token=admin_token, superuser_token=superuser_token) 
+                print(msg)
+                sleep(2)
+        else:
+            print("No records found")        
+    else:
+        print("Action aborted by user.")   
+
+
+def get_user_test_data(su_token: str):
+    """organize the reletive parts I need for testing of each user."""
+    data: list[str] = get_all_users(su_token)     
+    users_data_list: list[dict] = []
+    #print(data)
+    for user in data:        
+        stuff: dict[str,Union[bool,str]] = {
+            "email": user['user']['email'],
+            "id": user["account"]["user_id"],
+            "enable_2fa": user["account"]["use_2FA"],
+            "is_verified": user["user"]["is_verified"],
+            "logged in": user['user']["is_loggedin"]
+        }
+        users_data_list.append(stuff)  
+        
+    users_tab_data: list[int][Union[str, bool, int]]  = [  
+      [ 'User/Email:', 'User ID:', '2FA Enabled:', 'Verified:','Logged in:'],                        
+    ]
+    # make a list of the key names to get each users data
+    keys: list[str] = 'email id enable_2fa is_verified logged_in'.split(" ")
+
+    for pos, user in enumerate(users_data_list):
+        inner_list = []        
+        for i in range(0,4):        
+            inner_list.append(users_data_list[pos][keys[i]])      
+       # print(inner_list)
+        #users_tab_data.append([])       
+        users_tab_data[pos].append(inner_list)   # pos+1 start at index 1to skip the headers.
+   
+    print(users_tab_data)
+
+
+
+# add the user create data to the instance of the Object
 user_instance = UserCreate()
 account_instance = AccountCreate()
 user_account_instance = UserAccount(user_in=user_instance, account_in=account_instance).dict()
-
 #print(user_account_instance)
-token_super: str = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAzNDgzOTEsInN1YiI6IjEwIiwidXNlcl9yb2xlIjoiYWRtaW4iLCJjcmVhdGlvbl9kYXRlIjoiMTEvMTEvMjAyMyJ9.rD9MMA7lIIYtKrnTJRA9LmBopSgdsnbt6vdAxGmyC9g'
-token_DANNY_super: str = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDAzNDg0ODgsInN1YiI6IjIiLCJ1c2VyX3JvbGUiOiJhZG1pbiIsImNyZWF0aW9uX2RhdGUiOiIxMS8xMS8yMDIzIn0.N5Cv4htSk_9YgXl2wkM0h0R4f6zzC2R5iR5-QHzJSZI'
-timed_DAVID_10minutes: str = ''
+
+
+token_super: str = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDE0ODk5OTgsInN1YiI6IjI5IiwidXNlcl9yb2xlIjoiYWRtaW4iLCJjcmVhdGlvbl9kYXRlIjoiMTEvMjQvMjAyMyAyMzowNjozOCJ9.hsprKtT1j9iIaRIkDYYOCpW5zrFSFWbadpoaY097avI'
+token_DANNY_super: str = ''
+timed_Danny_reggae: str = ''
+# alias login
+get_token: callable = login
 
 '''Write a request to get a timed token for a particular person.'''
-#print(get_by_email(email="croftdavid73@gmail.com", token="eat a dick", superuser_token=token_DANNY_super))
-#print(update_me(token_DANNY_super))
+
+#print(get_by_email(email="croftdanny1973@gmail.com", token="eat a dick", superuser_token=token_super))
+#print(update_me(timed_Danny_reggae))
 
 #create_user()
 
+#
+#print(get_all_users(token_super))
 #print(len(get_all_users(token_super)))
-#print(update_user(8, token_DANNY_super))
-#print(get_me("user_number_06@email.com", "password"))
-#print(get_user(4, token_DANNY_super))
-print(login(user_id="life.package.web@gmail.com", password="password.testing", verbose=True))
-#print(delete_user(4, token_super))
+#print(json.dumps(get_all_users(token_super)))
+#print(update_user(31, token_super))
+#print(get_me())
+#print(get_user(10, token_super))
+#print(get_token(user_id="croftdanny1973@gmail.com", password="pasta", verbose=False))
+#print(delete_user(email="skippydo@mail.net", admin_token="", superuser_token=token_super))
 #print(logout_user(4))
 
-#print(is_superuser())
-#print(verify_2FA("VZM-IZJ"))  
+#print('\n'+ get_all_emails(admin_token="", superuser_token=token_super))
+
+#delete_ALL(admin_token="", superuser_token=token_super)
+
+get_user_test_data(su_token=token_super)
