@@ -18,9 +18,9 @@ def create_token() -> str:
     return jwt.encode({"test": "data"}, settings.API_KEY, algorithm=settings.ALGORITHM)
 
 
-
+# To delete the archives on the server, I have since deleted the endpoints but may add them again.
 def test_obliterate_archive_directories(token: str, dir: str):
-    url = f'http://0.0.0.0:8014/api/v1/logsmanage-archive/{dir}'
+    url = f'http://0.0.0.0:8014/api/v1/logs/manage-archive/{dir}'
 
     headers = {
         'Authorization': f'Bearer {token}',
@@ -47,10 +47,12 @@ def test_email(token: str, endpoint: str):
         'Authorization': f'Bearer {token}',
         'Content-Type': 'application/json'
     }
-
+    
+    # WHen testing make sure you have access to an SMTP service. 
+    # devnoted by email_from
     email = Email(
-        email_to="croftdanny1973@gmail.com",
-        email_from="ddc.dev.python@mail.com",
+        email_to="youremail@email.com",
+        email_from="SMTP_service@mail.com",
         subject="EMAIL TESTING",
         message=html,
         user_id= None
@@ -74,7 +76,7 @@ def test_email(token: str, endpoint: str):
 
 
 token:  str = create_token()
-print(token)
+
 endpoint: str = 'send-email'
 test_email(token, endpoint)
 #test_obliterate_archive_directories(token, dir="debug")
