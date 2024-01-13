@@ -75,15 +75,12 @@ class SmtpEmail():
            logzz.error(f"Exception occurred attepmting to send mail. \n{str(er)}")
            return False               
         
-        #Need to change this to use a better logger. 
+
         logzz.info(
-            f"Email sent via your email 'Provider' Sent To: {email.email_to} ", 
+            f"Email sent via your email 'Provider' to: {email.email_to} ", 
             timestamp=True
         )
-        logzz.info(
-            f" TESTING Email sent via your email 'Provider' Sent To: {email.email_to} ", 
-            timestamp=True
-        )
+        
         return True
 
 

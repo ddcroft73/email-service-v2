@@ -38,5 +38,6 @@ async def send_async(
     payload: dict=Depends(verify_token) 
 ):
     response: bool = await dispatch_email(email) 
+    logzz.info(f"Email Sent to: {email.email_to}\nEmail sent using async not celery.", timestamp=1)
     return {"result": response}   
 
