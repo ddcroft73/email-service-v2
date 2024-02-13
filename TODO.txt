@@ -8,9 +8,9 @@
 6. Add a worker directory and put app.worker.py inside it. 
     ** I cannot figure this out. It keeps looking for app.worker and will not go any deeeper
     
-7. write a create_token function to use in testing
+7. write a create_token function to use in testing, DONE
 8. Write some tests.
-9. Fix the Logger situation. Update with APILogger.
+9. Fix the Logger situation. Update with APILogger.  WHY? its working fine as is...
 10. Go through the code and make sure all errors and other important info is being utilized
     with apiLogger
 
@@ -18,9 +18,8 @@
    Divide off the routes as need to define access to SMS services:
    send SMS... Anything alse nedded? 
 
+   This. Add SMS support and I am going to do it using an Email gateway. For now I'm going to use gmail
+   THe main downfall to the email gateway is I have to know the useres SMS provider to send them SMS texts.
 
-Create some Admin endpoints to poke around on the system. They can update, delete, logout any user. should make an admin 
-mesaging system to send messgaes to users. Or implement an Admin to user websocket chat. but this feature is hidden. Only I can 
-initiate the chat, but the user and administartor can chat back and forth. WOuld be cool is someone broke in. I could message the fucker.
+   But until I get seriuos about a Project that I want to put some $ into, This is good enpugh.
 
-I should be able to block or lockout a user.

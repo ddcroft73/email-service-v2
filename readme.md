@@ -10,23 +10,29 @@
 </p>
 
 <p>
-  The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing, although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of <a href="https://fastapi.tiangolo.com/">FastAPI</a>, and I must acknowledge the brilliance of FastAPI's design, not my own.
+  The service employs Celery to handle email delivery, essentially receiving a request, forwarding it, and awaiting the next request. I have conducted thorough testing (locust load testing), although I am still in the process of mastering proper testing methodologies such as Test-Driven Development (TDD). Currently, my testing involves a script that repeatedly sends requests to the endpoint, including scenarios designed to cause failures. Remarkably, even without Celery, the application handles these situations gracefully. I attribute this success to the robustness of , and I must acknowledge the brilliance of FastAPI's design, not my own.
 </p>
 
+<p>
+  This is a solid email delivery system. I have been using it for a while (several months, very minor issues that have been resolved.) and it can handle 100s to 1000s of concurrent tasks. Between the soild infra structure
+  of <a href="https://fastapi.tiangolo.com/">FastAPI</a> and <a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html">Celery</a>, it just sits in the ether and throws them out.  I still need to add simple SMS functions to it to make it complete.   
+</p>
 
 ### Tech Stack:
-[FastAPI](https://fastapi.tiangolo.com)<br>
-[Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)<br>
-[Redis](https://redis.io) <br>
-[Docker Compose](https://docs.docker.com/compose/) <br>
-[Celery Flower](https://flower.readthedocs.io/en/latest/index.html)<br>
 
+[FastAPI](https://fastapi.tiangolo.com)`<br>`
+[Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html)`<br>`
+[Redis](https://redis.io) `<br>`
+[Docker Compose](https://docs.docker.com/compose/) `<br>`
+[Celery Flower](https://flower.readthedocs.io/en/latest/index.html)`<br>`
 
 ### Purpose:
+
 Send Emails and sendind SMS text messages. I plan to use this with my email gateway to send text messages to users and on the behalf of users. I have decided
 to incorporate both to be used with the Life Package SaaS.
 
 ### EndPoints:
+
 `/ ` - Root or index. Loads index.html. A React page (I use the CDN files not an actual React App, all components are in index.html) built to emulate this readme file.
 
 `/send-email/ ` - Send emails with Celery
@@ -34,7 +40,6 @@ to incorporate both to be used with the Life Package SaaS.
 `/send-async/`  - Send emails asynchronusly
 
 `/send-sms/`  - Coming soon...
-
 
 ### Request Model:
 
@@ -48,7 +53,9 @@ to incorporate both to be used with the Life Package SaaS.
 }
 
 ```
+
 I am still working on the SMS portion. Not 100 on the Request and response models as of yet.
+
 ### Response Model:
 
 ```
@@ -61,7 +68,7 @@ I am still working on the SMS portion. Not 100 on the Request and response model
 
 I built a simple logging class to help me debug and log certain details. Its more simple and not as robust as the Python logger but it is easier to use.
 It lets you designate a file to send the log entry to and gives the API am interface so to speak. I use a singelton pattern and where needed import the object
-and call the desired method. The output goes to a predefined location. It's great for logging errors and debugging. 
+and call the desired method. The output goes to a predefined location. It's great for logging errors and debugging.
 
 This Logger will remain, but for production I plan to implement a better solution with asynchronous support. I don't want to miss log entries because
 requests come in to fast, and without a better logger, it's inevitable.
@@ -70,16 +77,17 @@ requests come in to fast, and without a better logger, it's inevitable.
 from app.utils.api_logger import logzz
 logzz.info("info message here.")
 ```
+
 ### Logger "streams"
 
-INFO<br>
-ERROR<br>
-DEBUG<br>
-WARNING<br>
+INFO`<br>`
+ERROR`<br>`
+DEBUG`<br>`
+WARNING`<br>`
 
 ### Email Support
 
-SMTP Email functionality built using python email wrapped in a simple class. Thats all I needed. It performs well under testing. I can fire 1000 emails at it. many concurrently and it never misses a beat. A lot of this may in part to the way celery deals with the tasks. I have not done much testing on the `send-async` function. I just haven't had time. I included it because, why not? 
+SMTP Email functionality built using python email wrapped in a simple class. Thats all I needed. It performs well under testing. I can fire 1000 emails at it. many concurrently and it never misses a beat. A lot of this may in part to the way celery deals with the tasks. I have not done much testing on the `send-async` function. I just haven't had time. I included it because, why not?
 
 ### SMS Support
 
@@ -89,6 +97,7 @@ will be free for me and users of the system. In the event that a user employs th
 if someone is so inclined, they can send an email to the address. It will probably go unanswered.
 
 ### Workflow:
+
 1. **Initiation of Request**: A client initiates a service request by transmitting data in JSON format to the email API endpoint.
 2. **Request Processing**: Upon receipt, the API validates and forwards the request to a designated Celery task queue for asynchronous processing.
 3. **Acknowledgment Response**: Concurrently, the client is issued an immediate acknowledgment response, confirming the initiation of the email sending process.
@@ -96,13 +105,13 @@ if someone is so inclined, they can send an email to the address. It will probab
 5. **Execution and Email Dispatch**: Once allocated, the Celery worker executes the task, culminating in the dispatch of the email as per the queued instruction.
 
 THis system can handle many tasks concurrently and with the use of Celery it fires them like clockwork.
-<br><br>
+`<br><br>`
 
-Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). <br>
-This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
-Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). <br>
+Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). `<br>`
+This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). `<br>`
+Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). `<br>`
 
-### Run Service: 
+### Run Service:
 
 - `$ git clone https://github.com/ddcroft73/email-service-v2.git`
 - `$ cd intoDirectoryClonedInto`

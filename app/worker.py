@@ -14,7 +14,9 @@ celery.conf.timezone = 'US/Eastern'
 '''
   Bug check: 
   I want to put this file in its own directory under "app.worker". but when i do it cant be found for some reason
-  so im going to leave it in app. I belive this hasd to do with the cpntainer not updating
+  so im going to leave it in app. I belive this hasd to do with the cpntainer not updating, or it could have something to do
+  with that weird ass Docker directory "issue" I always seem to have. The issue that I have with not being able to get all the 
+  files to be visible in the container. THe COPY command is off by a directory. (Does this make sense weeks,months later? )
   
 '''
 class EmailTask(Task):

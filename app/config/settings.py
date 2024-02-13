@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     
     # Only let the Auth API connect for now.
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ['http://localhost:8015'] # development
+    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ['http://localhost:8015'] # THis is the server PORT
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
     def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
