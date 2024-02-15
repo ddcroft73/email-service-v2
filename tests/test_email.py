@@ -51,8 +51,8 @@ def test_email(token: str, endpoint: str):
     # WHen testing make sure you have access to an SMTP service. 
     # denoted by email_from
     email = Email(
-        email_to="skedtxt.app@gmail.com",
-        email_from="SMTP_service@lifepackage.net",
+        email_to='8439260677@mms.cricketwireless.net',#"skedtxt.app@gmail.com",
+        email_from="SMTP_service@lyourAPP.net",
         subject="EMAIL TESTING",
         message=html,
         user_id=None

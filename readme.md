@@ -80,10 +80,10 @@ logzz.info("info message here.")
 
 ### Logger "streams"
 
-INFO`<br>`
-ERROR`<br>`
-DEBUG`<br>`
-WARNING`<br>`
+INFO<br/>
+ERROR<br/>
+DEBUG<br/>
+WARNING<br/>
 
 ### Email Support
 
@@ -91,10 +91,20 @@ SMTP Email functionality built using python email wrapped in a simple class. Tha
 
 ### SMS Support
 
-SMS support will be realized through the email gateway. I will setup a dedicated address once I get my domain, and email hostinf setup. The only difference
-anyone from the outside will see is the From: section. Instead of a phone number it will simply read `sms@lifepackage.app` or something similar. The Texts
-will be free for me and users of the system. In the event that a user employs this method of contact in their package, it will simply one-way. However
-if someone is so inclined, they can send an email to the address. It will probably go unanswered.
+**SMS Through Email**<br/>
+It's as simple as sending an email to the users phone number @ their provider. Ex. `5557896325@verizon.net` This simple `free` trick will result in a text
+message being sen to the users phone. 
+
+The main visual difference with this approach isinstead of the return phone number being on the text, they get an email address. I will create one especially
+for text messages something like `sms@appname.net` or something similar. The Texts are free for the system, and you can configure if you want to send them a users
+behalf for free as well. <br/>
+
+**SMS Through 3rd Paryty**<br/>
+I will also creae an endpoint that uses a third parties resources. I just need to find one I like.
+
+THe workflow of this is the same as sending an email, becasue thats all it's doing. the difference being I will create a `Text` Object not totally unlike the 
+`Email` onject and the app will manipulate that then send it just like anyother email utiliizng [Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html).
+
 
 ### Workflow:
 
@@ -105,11 +115,12 @@ if someone is so inclined, they can send an email to the address. It will probab
 5. **Execution and Email Dispatch**: Once allocated, the Celery worker executes the task, culminating in the dispatch of the email as per the queued instruction.
 
 THis system can handle many tasks concurrently and with the use of Celery it fires them like clockwork.
-`<br><br>`
+<br/>
+<br/>
 
-Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). `<br>`
-This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). `<br>`
-Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). `<br>`
+Celery can be monitired at:[`http://0.0.0.0/5556/`](http://0.0.0.0/5556/). <br>
+This file can be viewd at: [`http://0.0.0.0/8014/`](http://0.0.0.0/8014/). <br>
+Documentation on the API Schema can be found at: [`http://0.0.0.0/8014/Docs/`](http://0.0.0.0/8014/Docs/). <br>
 
 ### Run Service:
 

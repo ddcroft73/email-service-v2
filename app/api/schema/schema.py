@@ -1,7 +1,9 @@
+
 from pydantic import BaseModel
 from pydantic.networks import EmailStr
-from typing import Optional
-   
+from typing import Optional, Union
+from app.config.settings import settings 
+
 class Email(BaseModel):
     email_to: EmailStr
     email_from: EmailStr
@@ -15,3 +17,10 @@ class MailResponse(BaseModel):
 
 class BasicResponse(BaseModel):
     result: str    
+
+class TextMessage(BaseModel):
+    text_to: str  # THe actual address to send to will be built later
+    text_from: str = settings.EMAIL_FOR_SENDING
+    text_message: str
+    user_id: Union[str, int, None] = None
+    

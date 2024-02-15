@@ -1,1 +1,1 @@
-from .schema import MailResponse, BasicResponse, Email
+from .schema import MailResponse, BasicResponse, Email, TextMessage

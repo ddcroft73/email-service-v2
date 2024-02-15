@@ -3,10 +3,17 @@ from ssl import create_default_context
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.config.settings import settings
-from app.api.schema.schema import Email
-
+from app.api.schema.schema import Email, TextMessage
+from typing import Any
 
 from .logger import logzz
+
+# Simple Class for sending smtp emails. THe class is instantioed after definiton with all the 
+# necessary data to connect to an email account and send mail.
+
+#  Send mail async, send mail using celery (There is a lot more to that than n the class)
+#  send text message through email. THis requires the provider of the cell service being sent to;
+
 
 class SmtpEmail():
     def __init__(self, smtp_host: str, smtp_port: int, username: str, password: str):
@@ -82,8 +89,16 @@ class SmtpEmail():
         )
         
         return True
+    
+
+    async def send_mms_text(self, text: TextMessage) -> Any:
+       '''
+       '''
+       return
+    
 
 
+# Instantiate as Singleton... technically
 smtp_email = SmtpEmail(
     settings.SMTP_SERVER,
     settings.SMTP_PORT,
