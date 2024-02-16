@@ -1,31 +1,43 @@
 
 from fastapi import APIRouter, Depends, status
 from app.api import schema 
-from app.utils.utils import verify_token, send_text_message_via_email
-from typing import Any
+from app.utils.utils import verify_token, send_text_message_via_email, PROVIDERS
+
+from typing import Any, Union
 
 from app.utils.logger import logzz
 
 
 router = APIRouter()
 
-@router.post('/send-email-sms/', 
-    response_model=schema.MailResponse, 
-    status_code=status.HTTP_201_CREATED
-)
+
+@router.post('/send-email-sms/',  response_model=schema.BasicResponse,  status_code=status.HTTP_201_CREATED)
 async def send_email_sms(
-    text_message: str,
-    provider: str,
-    payload: dict=Depends(verify_token)
+    _message: str,
+    _phone_number: str,
+    _provider: str,
+    _user_id: Union[str, int],
+    payload: dict=Depends(verify_token),
 ) -> Any:
     '''
-      Leverages The email sednng code to dens a text message va the EMail gateway.
-      Al you need is the users provider and cell number. Formatted like so:
-      5551234567@provider.com And you have 100% free text messages sent to your users.
+      Leverages your smtp email service to send a text message. Need the phone #, and service provider.
+    '''    
+    message_gateway: str = "mms"
 
-      SHould crreate a dedicated email address for this... SMS.Delvery@yourapp.net
-    '''
-    response: bool = await send_text_message_via_email(text_message, provider) 
-    logzz.info(f"SMS Text Sent to: {text_message.text_to}.", timestamp=1)
+    if (not PROVIDERS.get(_provider).get('mms_support')):
+        message_gateway = "sms" 
+           
+    #If the mms gateway and sms are the same, default to the mms gateway.
+    receiver_email: str = f'{_phone_number}@{PROVIDERS.get(_provider).get(message_gateway, PROVIDERS.get(_provider).get("mms"))}'
+    
+    text_message = schema.TextMessage(
+         text_to=receiver_email,
+         message=_message,
+         user_id=_user_id
+    )
+    
+    response: str = await send_text_message_via_email(text_message) 
+
+    logzz.info(f"MMS Text Sent to: {text_message.text_to}.", timestamp=1)
 
     return {"result": response} 

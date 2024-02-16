@@ -39,6 +39,10 @@ def test_obliterate_archive_directories(token: str, dir: str):
     print(response.json())
 
 
+def test_text_message():
+    '''
+    '''
+
 
 def test_email(token: str, endpoint: str):
     url = f'http://0.0.0.0:8014/api/v1/mail/{endpoint}/'
@@ -51,10 +55,10 @@ def test_email(token: str, endpoint: str):
     # WHen testing make sure you have access to an SMTP service. 
     # denoted by email_from
     email = Email(
-        email_to='8439260677@mms.cricketwireless.net',#"skedtxt.app@gmail.com",
+        email_to="skedtxt.app@gmail.com",
         email_from="SMTP_service@lyourAPP.net",
         subject="EMAIL TESTING",
-        message=html,
+        message=html,   # a message in HTML format.
         user_id=None
     )    
     

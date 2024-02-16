@@ -91,10 +91,29 @@ class SmtpEmail():
         return True
     
 
-    async def send_mms_text(self, text: TextMessage) -> Any:
-       '''
-       '''
-       return
+    async def send_mms_text(self, text_message: TextMessage) -> Any:
+        '''
+        '''
+        try:
+           with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email:
+             email.login(self.username, self.password)
+             email.sendmail(self.username, text_message.text_to, text_message.message)
+             
+        except SMTPException as smtp_err:
+            logzz.error(f" SMTP ERROR: {smtp_err}")
+            return False    
+        
+        except Exception as er:
+           logzz.error(f"Exception occurred attepmting to send a TEXT. \n{str(er)}")
+           return False               
+        
+
+        logzz.info(
+            f"SMS Text Message sent via your email 'Provider' to: {text_message.text_to} ", 
+            timestamp=True
+        )
+        
+        return True
     
 
 

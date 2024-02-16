@@ -10,24 +10,43 @@ from .logger import logzz
 
 
 async def dispatch_email(email: Email) -> dict:    
-    response = await smtp_email.send_async(email)    
+    response: bool = await smtp_email.send_async(email)    
     if response:
         print("sending mail...")
     else:
         logzz.error(" func: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
-        raise HTTPException(status_code=400, detail="SMTP Error")
+        raise HTTPException(
+            status_code=400, 
+            detail="SMTP Error"
+        )
     
     # back to client        
     return f"email sent @ {logzz.d_and_t.date_time_now()}"
 
 
 
-async def send_text_message_via_email(text_message: str, provider: str) -> dict:
+async def send_text_message_via_email(tm: TextMessage) -> dict:
 
     '''
       calls the async method in smtp_email to send the text through email. 
-      Need to set up the TextMessage Object and pass it in
+      Call the smtp_email method for texting
+
     '''
+    response: bool = await smtp_email.send_mms_text(tm)    
+    if response:
+        print("Sending email to send text...")
+        logzz.info(f"Text Messsage dispatched to: {tm.text_to} ", timestamp=True)
+    else:
+        logzz.error(" func: 'send_text_message_via_email()' Error after 'smtp_email.send_mms_text(tm)' ")
+        raise HTTPException(
+            status_code=400, 
+            detail="SMTP Error Sending Email for Text mesage"
+        )
+    
+    # back to client        
+    return f"email sent @ {logzz.d_and_t.date_time_now()}"
+
+
 
 
 
