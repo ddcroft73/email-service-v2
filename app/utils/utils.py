@@ -21,8 +21,9 @@ async def dispatch_email(email: Email) -> str:
         return f"Email sent @ {logzz.d_and_t.date_time_now()}"
     
     else:
-        logzz.error(f" func: 'dispatch_email()' Error after 'smtp_email.send_async()\n{response}' ")
-       
+        logzz.error(
+            f" func: 'dispatch_email()' Error after 'smtp_email.send_async()\n{response}' "
+        )       
         return response
     
     
@@ -38,8 +39,8 @@ async def send_text_message_via_email(tm: TextMessage) -> str:
             f"Text Messsage dispatched to: {tm.text_to} ", 
             timestamp=True
         )
-
         return f"Text sent @ {logzz.d_and_t.date_time_now()}"
+    
     else:
         logzz.error(
             f" func: 'send_text_message_via_email()' {response}' "

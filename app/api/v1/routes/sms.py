@@ -38,9 +38,6 @@ async def send_email_sms(
 
     response: str = await send_text_message_via_email(text_message) 
     if not response:
-        raise HTTPException(
-            status_code=400, 
-            detail="SMTP Error sending email for text mesage"
-        )
+        raise HTTPException(status_code=400, detail=response)
     
     return {"result": response} 
