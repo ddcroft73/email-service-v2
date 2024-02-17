@@ -5,7 +5,7 @@ from fastapi.responses import RedirectResponse
 from starlette.status import HTTP_302_FOUND
 from app.api.v1.api import api_router
 from app.utils.logger import logzz
-from app.config.settings import settings
+from app.core.settings import settings
 
 app = FastAPI()
 

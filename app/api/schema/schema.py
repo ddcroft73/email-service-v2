@@ -2,7 +2,7 @@
 from pydantic import BaseModel
 from pydantic.networks import EmailStr
 from typing import Optional, Union
-from app.config.settings import settings 
+from app.core.settings import settings 
 
 class Email(BaseModel):
     email_to: EmailStr

@@ -1,6 +1,6 @@
 from app.api.schema.schema import Email
 from app.utils.smtp_email import smtp_email
-from app.config.settings import settings
+from app.core.settings import settings
 from app.utils.logger import logzz
 
 from celery import Task

@@ -7,7 +7,7 @@ sys.path.append(cwd)
 
 from app.api.schema.schema import Email
 from test_html_template import html 
-from app.config.settings import settings 
+from app.core.settings import settings 
 from datetime import datetime, timedelta
 from jose import jwt
 from dotenv import load_dotenv

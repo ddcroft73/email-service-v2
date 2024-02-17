@@ -3,7 +3,7 @@ from datetime import datetime, time, timedelta
 import re
 from os.path import join as os_join
 from .file_handler import filesys
-from app.config.settings import settings
+from app.core.settings import settings
 """
 #
 # "API Logger class v1

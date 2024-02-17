@@ -2,7 +2,7 @@ from smtplib import SMTP_SSL, SMTPException
 from ssl import create_default_context
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from app.config.settings import settings
+from app.core.settings import settings
 from app.api.schema.schema import Email, TextMessage
 from typing import Any
 
