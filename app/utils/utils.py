@@ -9,10 +9,13 @@ from .smtp_email import smtp_email
 from .logger import logzz 
 
 
-async def dispatch_email(email: Email) -> dict:    
+async def dispatch_email(email: Email) -> str:    
     response: bool = await smtp_email.send_async(email)    
     if response:
-        print("sending mail...")
+        logzz.info(
+            f"Email  dispatched to: {email.email_to} ", 
+            timestamp=True
+        )
     else:
         logzz.error(" func: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
         raise HTTPException(
@@ -20,22 +23,18 @@ async def dispatch_email(email: Email) -> dict:
             detail="SMTP Error"
         )
     
-    # back to client        
+    # message back to client success
     return f"email sent @ {logzz.d_and_t.date_time_now()}"
 
 
 
-async def send_text_message_via_email(tm: TextMessage) -> dict:
-
-    '''
-      calls the async method in smtp_email to send the text through email. 
-      Call the smtp_email method for texting
-
-    '''
-    response: bool = await smtp_email.send_mms_text(tm)    
+async def send_text_message_via_email(tm: TextMessage) -> str:
+    response: bool = await smtp_email.send_text_message(tm)    
     if response:
-        print("Sending email to send text...")
-        logzz.info(f"Text Messsage dispatched to: {tm.text_to} ", timestamp=True)
+        logzz.info(
+            f"Text Messsage dispatched to: {tm.text_to} ", 
+            timestamp=True
+        )
     else:
         logzz.error(" func: 'send_text_message_via_email()' Error after 'smtp_email.send_mms_text(tm)' ")
         raise HTTPException(
@@ -43,11 +42,8 @@ async def send_text_message_via_email(tm: TextMessage) -> dict:
             detail="SMTP Error Sending Email for Text mesage"
         )
     
-    # back to client        
-    return f"email sent @ {logzz.d_and_t.date_time_now()}"
-
-
-
+    # message back to client        
+    return f"Text sent @ {logzz.d_and_t.date_time_now()}"
 
 
 def verify_token(

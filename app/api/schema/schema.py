@@ -16,11 +16,11 @@ class MailResponse(BaseModel):
     result: str
 
 class BasicResponse(BaseModel):
-    result: str    
+    result: Union[str, int, dict]    
 
 class TextMessage(BaseModel):
     text_to: str  # THe actual address to send to will be built later
     text_from: str = settings.EMAIL_FOR_SENDING
-    text_message: str
+    message: str
     user_id: Union[str, int, None] = None
     

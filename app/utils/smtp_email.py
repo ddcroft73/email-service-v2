@@ -40,15 +40,18 @@ class SmtpEmail():
         return message.as_string()
 
     def send_mail(self, email: Email) -> bool:
+
         _message = self.prepare_message(
             email.email_from, email.email_to, email.subject, email.message, ''
         )
-        #sleep(random.randint(5, 15))
-        
+                
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
              email_.sendmail(self.username, email.email_to, _message)
+             
+             logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
+             return True 
              
         except SMTPException as smtp_err:
             logzz.error('SMTP Error:', smtp_err)
@@ -59,9 +62,7 @@ class SmtpEmail():
            return False               
 
        
-        #logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
-        return True
- 
+        
     async def send_async(self, email: Email) -> bool:
         
         _message = self.prepare_message(
@@ -73,6 +74,12 @@ class SmtpEmail():
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email_:
              email_.login(self.username, self.password)
              email_.sendmail(self.username, email.email_to, _message)
+
+             logzz.info(
+                f"Email sent via your email 'Provider' to: {email.email_to} ", 
+                timestamp=True
+             )
+             return True
              
         except SMTPException as smtp_err:
             logzz.error(f" SMTP ERROR: {smtp_err}")
@@ -80,24 +87,20 @@ class SmtpEmail():
         
         except Exception as er:
            logzz.error(f"Exception occurred attepmting to send mail. \n{str(er)}")
-           return False               
+           return False                  
         
-
-        logzz.info(
-            f"Email sent via your email 'Provider' to: {email.email_to} ", 
-            timestamp=True
-        )
-        
-        return True
     
 
-    async def send_mms_text(self, text_message: TextMessage) -> Any:
+    async def send_text_message(self, text_message: TextMessage) -> bool:
         '''
+           Sends a text message to cell number using email
         '''
         try:
            with SMTP_SSL(self.smtp_host, self.smtp_port, context=create_default_context()) as email:
              email.login(self.username, self.password)
              email.sendmail(self.username, text_message.text_to, text_message.message)
+
+             return True
              
         except SMTPException as smtp_err:
             logzz.error(f" SMTP ERROR: {smtp_err}")
@@ -108,12 +111,7 @@ class SmtpEmail():
            return False               
         
 
-        logzz.info(
-            f"SMS Text Message sent via your email 'Provider' to: {text_message.text_to} ", 
-            timestamp=True
-        )
         
-        return True
     
 
 

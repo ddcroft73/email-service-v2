@@ -6,6 +6,16 @@ PROVIDERS = {
         "mms": "mms.att.net", 
         "mms_support": True
     },
+    "AT&T": {
+        "sms": "txt.att.net", 
+        "mms": "mms.att.net", 
+        "mms_support": True
+    },
+    "ATT": {
+        "sms": "txt.att.net", 
+        "mms": "mms.att.net", 
+        "mms_support": True
+    },
     "Boost Mobile": {
         "sms": "sms.myboostmobile.com",
         "mms": "myboostmobile.com",
