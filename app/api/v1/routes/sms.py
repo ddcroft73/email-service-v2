@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter, Depends, status, Body
+from fastapi import APIRouter, Depends, status, Body,HTTPException
 from app.api import schema 
 from app.utils.utils import verify_token, send_text_message_via_email, PROVIDERS
 from typing import Any, Union
@@ -28,13 +28,19 @@ async def send_email_sms(
     # If the mms gateway and sms are the same, default to the mms gateway.
     # MMS just seems to be more trust worthy. SMS likes to split messages into pieces, and thats
     # not 
-    receiver_email: str = f'{phone_number}@{PROVIDERS.get(provider).get(message_gateway, PROVIDERS.get(provider).get("mms"))}'
+    receiver_text_address: str = f'{phone_number}@{PROVIDERS.get(provider).get(message_gateway, PROVIDERS.get(provider).get("mms"))}'
     
     text_message = schema.TextMessage(
-         text_to=receiver_email,
+         text_to=receiver_text_address,
          message=message,
          user_id=user_id
     )    
+
     response: str = await send_text_message_via_email(text_message) 
+    if not response:
+        raise HTTPException(
+            status_code=400, 
+            detail="SMTP Error sending email for text mesage"
+        )
     
     return {"result": response} 

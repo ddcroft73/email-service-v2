@@ -7,43 +7,46 @@ from app.api.schema.schema import Email, TextMessage
 from .providers import PROVIDERS
 from .smtp_email import smtp_email
 from .logger import logzz 
+from typing import Union, Any
 
 
 async def dispatch_email(email: Email) -> str:    
-    response: bool = await smtp_email.send_async(email)    
-    if response:
+    response:  Union[bool, str] = await smtp_email.send_async(email)    
+
+    if response == True:
         logzz.info(
             f"Email  dispatched to: {email.email_to} ", 
             timestamp=True
-        )
-    else:
-        logzz.error(" func: 'dispatch_email()' Error after 'smtp_email.send_async()' ")
-        raise HTTPException(
-            status_code=400, 
-            detail="SMTP Error"
-        )
+        )        
+        return f"Email sent @ {logzz.d_and_t.date_time_now()}"
     
-    # message back to client success
-    return f"email sent @ {logzz.d_and_t.date_time_now()}"
+    else:
+        logzz.error(f" func: 'dispatch_email()' Error after 'smtp_email.send_async()\n{response}' ")
+       
+        return response
+    
+    
 
 
 
 async def send_text_message_via_email(tm: TextMessage) -> str:
-    response: bool = await smtp_email.send_text_message(tm)    
-    if response:
+    response: Union[bool, str] = await smtp_email.send_text_message(tm)    
+
+    if response == True: # Must be explict, since response can be boolean or str. str would also be truthy, and cause a false positive.
+
         logzz.info(
             f"Text Messsage dispatched to: {tm.text_to} ", 
             timestamp=True
         )
+
+        return f"Text sent @ {logzz.d_and_t.date_time_now()}"
     else:
-        logzz.error(" func: 'send_text_message_via_email()' Error after 'smtp_email.send_mms_text(tm)' ")
-        raise HTTPException(
-            status_code=400, 
-            detail="SMTP Error Sending Email for Text mesage"
+        logzz.error(
+            f" func: 'send_text_message_via_email()' {response}' "
         )
+        return response
     
-    # message back to client        
-    return f"Text sent @ {logzz.d_and_t.date_time_now()}"
+    
 
 
 def verify_token(

@@ -5,7 +5,7 @@ The main routes:
  send_mail/
  send_async/
 '''
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status,HTTPException
 from fastapi.responses import JSONResponse
 from app.api import schema
 from app.utils.utils import (
@@ -38,6 +38,9 @@ async def send_async(
     payload: dict=Depends(verify_token) 
 ):
     response: bool = await dispatch_email(email) 
+    if not response: 
+        raise HTTPException( status_code=400, detail=response)
+    
     logzz.info(f"Email Sent to: {email.email_to}\nEmail sent using async not celery.", timestamp=1)
     return {"result": response}   
 

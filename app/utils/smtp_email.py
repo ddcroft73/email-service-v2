@@ -4,7 +4,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.core.settings import settings
 from app.api.schema.schema import Email, TextMessage
-from typing import Any
+from typing import Any, Union
 
 from .logger import logzz
 
@@ -50,7 +50,6 @@ class SmtpEmail():
              email_.login(self.username, self.password)
              email_.sendmail(self.username, email.email_to, _message)
              
-             logzz.info("Email sent via email your email 'Provider' ", timestamp=True)
              return True 
              
         except SMTPException as smtp_err:
@@ -63,7 +62,7 @@ class SmtpEmail():
 
        
         
-    async def send_async(self, email: Email) -> bool:
+    async def send_async(self, email: Email) -> Union[bool, str]:
         
         _message = self.prepare_message(
             email.email_from, email.email_to, email.subject, email.message, ''
@@ -75,23 +74,19 @@ class SmtpEmail():
              email_.login(self.username, self.password)
              email_.sendmail(self.username, email.email_to, _message)
 
-             logzz.info(
-                f"Email sent via your email 'Provider' to: {email.email_to} ", 
-                timestamp=True
-             )
              return True
              
         except SMTPException as smtp_err:
-            logzz.error(f" SMTP ERROR: {smtp_err}")
-            return False    
+            logzz.error(f" SMTP ERROR: {str(smtp_err)}")
+            return str(smtp_err)    
         
         except Exception as er:
-           logzz.error(f"Exception occurred attepmting to send mail. \n{str(er)}")
-           return False                  
+            logzz.error(f"Exception occurred attepmting to send mail. \n{str(er)}")
+            return str(er)                  
         
     
 
-    async def send_text_message(self, text_message: TextMessage) -> bool:
+    async def send_text_message(self, text_message: TextMessage) -> Union[bool, str]:
         '''
            Sends a text message to cell number using email
         '''
@@ -103,12 +98,12 @@ class SmtpEmail():
              return True
              
         except SMTPException as smtp_err:
-            logzz.error(f" SMTP ERROR: {smtp_err}")
-            return False    
+            logzz.error(f" SMTP ERROR: {str(smtp_err)}")
+            return str(smtp_err)    
         
         except Exception as er:
            logzz.error(f"Exception occurred attepmting to send a TEXT. \n{str(er)}")
-           return False               
+           return str(er)               
         
 
         

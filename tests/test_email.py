@@ -106,9 +106,9 @@ token: str = create_token()    # This service expects a JWT that would have been
 
 # There are 2 email sending routes. 'send-email' and 'send-async'. Technically the are both asynchronous. THis
 # route just uses async through FastAPI and not Celery. Not really sure why I added it, but here it is.
-endpoint: str = 'send-email' 
+#endpoint: str = 'send-email' 
 endpoint: str = 'send-async' 
-#test_email(token, endpoint)    
+test_email(token, endpoint)    
 #test_obliterate_archive_directories(token, dir="debug")
 # Sends a 
-test_text_message(token, "5551234557", "At&T", message="Sent to you by my Notification Micro service... Now it sends Text messages!")
+#test_text_message(token, "8439260677", "At&T", message="Sent to you by my Notification Micro service... Now it sends Text messages!")
